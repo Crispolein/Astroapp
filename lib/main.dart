@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'login.dart'; // Importa el archivo de tu login
+import 'login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,69 +10,71 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'AstroApp',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text('Flutter Demo'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Login()),
+              );
+            },
+            icon: Icon(Icons.login),
+          ),
+        ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      body: Placeholder(),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.article),
+              tooltip: 'Noticias',
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline6,
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.sports_esports),
+              tooltip: 'Juegos',
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Navegar a la pantalla de login
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          Login()), // Reemplaza 'Login()' con tu widget de login
-                );
-              },
-              child: const Text('Go to Login'),
+            CircleAvatar(
+              backgroundColor: Colors.deepPurple,
+              child: Text(
+                '?',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.today),
+              tooltip: '¿Que acontece hoy?',
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.image),
+              tooltip: 'Imagen del día',
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
