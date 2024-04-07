@@ -1,81 +1,29 @@
+import 'package:astro_app/pagina/login_page.dart';
+import 'package:astro_app/router/router_config.dart';
 import 'package:flutter/material.dart';
-import 'login.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'AstroApp',
+    return MaterialApp.router(
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text('Flutter Demo'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Login()),
-              );
-            },
-            icon: Icon(Icons.login),
-          ),
-        ],
-      ),
-      body: Placeholder(),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.article),
-              tooltip: 'Noticias',
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.sports_esports),
-              tooltip: 'Juegos',
-            ),
-            CircleAvatar(
-              backgroundColor: Colors.deepPurple,
-              child: Text(
-                '?',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.today),
-              tooltip: '¿Que acontece hoy?',
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.image),
-              tooltip: 'Imagen del día',
-            ),
-          ],
-        ),
-      ),
+          brightness: Brightness.light,
+          useMaterial3: true,
+          primaryColor: Color(0xFF35C2C1),
+          textTheme: Typography.blackCupertino),
+      themeMode: ThemeMode.system,
+      darkTheme: ThemeData.dark(useMaterial3: true),
+      debugShowCheckedModeBanner: false,
+      routeInformationParser: router.routeInformationParser,
+      routeInformationProvider: router.routeInformationProvider,
+      routerDelegate: router.routerDelegate,
     );
   }
 }
