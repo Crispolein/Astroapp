@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1074500372330",
+    "project_id": "astroapp-9386d",
+    "storage_bucket": "astroapp-9386d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1074500372330:android:a550c1ad3b5646ced1c713",
+        "android_client_info": {
+          "package_name": "com.example.astroapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0XKsN3cVE8g8rH9ctU4ovBc7fBSbczDA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
