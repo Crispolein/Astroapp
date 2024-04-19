@@ -4,7 +4,7 @@ import 'package:astro_app/pagina/otp_verification.dart';
 import 'package:astro_app/pagina/password_changed.dart';
 import 'package:astro_app/router/router.dart';
 import 'package:astro_app/pagina/astroApp.dart';
-import 'package:astro_app/pagina/login_page.dart';
+import 'package:astro_app/login_page.dart';
 import 'package:astro_app/pagina/signup_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';

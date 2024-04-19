@@ -9,11 +9,13 @@ class CustomTextFormField extends StatefulWidget {
   final String hinttext;
   final bool obsecuretext;
   final TextEditingController? controller;
+  final String? Function(String?)? validator;
   const CustomTextFormField({
     Key? key,
     required this.hinttext,
     required this.obsecuretext,
     this.controller,
+    this.validator,
   }) : super(key: key);
 
   @override
@@ -34,6 +36,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
               borderRadius: BorderRadius.circular(12)),
           hintText: widget.hinttext,
           hintStyle: Common().hinttext),
+      validator: widget.validator,
     );
   }
 }

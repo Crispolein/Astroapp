@@ -1,4 +1,4 @@
-import 'package:astro_app/pagina/login_page.dart';
+import 'package:astro_app/login_page.dart';
 import 'package:astro_app/router/router_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
