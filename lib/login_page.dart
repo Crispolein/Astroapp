@@ -68,9 +68,15 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       FadeInAnimation(
                         delay: 1.9,
-                        child: const CustomTextFormField(
+                        child: CustomTextFormField(
                           hinttext: 'Ingresa tu correo',
                           obsecuretext: false,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Rellena el campo 'correo'";
+                            }
+                            return null;
+                          },
                         ),
                       ),
                       const SizedBox(
@@ -92,9 +98,15 @@ class _LoginPageState extends State<LoginPage> {
                                   onPressed: () {},
                                   icon: const Icon(
                                       Icons.remove_red_eye_outlined))),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Rellena el campo 'contraseña'";
+                            }
+                            return null;
+                          },
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       FadeInAnimation(
@@ -106,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                                   GoRouter.of(context)
                                       .pushNamed(Routers.forgetpassword.name);
                                 },
-                                child: Text(
+                                child: const Text(
                                   "¿Olvidaste la contraseña?",
                                   style: TextStyle(
                                     fontSize: 15,
@@ -115,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ))),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       FadeInAnimation(
@@ -162,10 +174,10 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(
                         height: 20,
                       ),
-                      FadeInAnimation(
+                      const FadeInAnimation(
                         delay: 2.4,
                         child: Padding(
-                          padding: const EdgeInsets.only(
+                          padding: EdgeInsets.only(
                               top: 10, bottom: 10, right: 30, left: 30),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
