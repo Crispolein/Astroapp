@@ -1,5 +1,5 @@
 import 'package:astro_app/login_page.dart';
-import 'package:astro_app/pagina/signup_page.dart';
+import 'package:astro_app/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:astro_app/common/common.dart';
 import 'package:astro_app/router/router.dart';

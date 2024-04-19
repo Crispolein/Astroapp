@@ -10,6 +10,7 @@ class CustomTextFormField extends StatefulWidget {
   final bool obsecuretext;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+
   const CustomTextFormField({
     Key? key,
     required this.hinttext,
