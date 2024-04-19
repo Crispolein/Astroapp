@@ -1,0 +1,10 @@
+[
+ {"country": "¿primer planeta del sistema solar?",  "respuesta": "Mercurio"},
+ {"country": "segundo planeta del sistema solar?",  "respuesta": "Venus"},
+ {"country": "¿tercer planeta del sistema solar?",  "respuesta": "Tierra"},
+ {"country": "¿cuarto planeta del sistema solar?",  "respuesta": "Marte"},
+ {"country": "¿quinto planeta del sistema solar?",  "respuesta": "Jupiter"},
+ {"country": "¿sexto planeta del sistema solar?",  "respuesta": "Saturno"},
+ {"country": "¿septino planeta del sistema solar?",  "respuesta": "Urano"},
+ {"country": "¿octavo planeta del sistema solar?",  "respuesta": "Neptuno"}
+]

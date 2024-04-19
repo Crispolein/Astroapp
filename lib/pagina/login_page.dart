@@ -132,6 +132,8 @@ class _LoginPageState extends State<LoginPage> {
                                 flag = true;
                               });
                             }
+                            GoRouter.of(context)
+                                .pushNamed(Routers.quizpage.name);
                           },
                           color: Colors.black,
                         ),

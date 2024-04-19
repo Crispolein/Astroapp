@@ -1,7 +1,11 @@
+import 'package:astro_app/pagina/review_quiz_page.dart';
 import 'package:astro_app/pagina/forget_password.dart';
+import 'package:astro_app/pagina/home.dart';
 import 'package:astro_app/pagina/new_password.dart';
 import 'package:astro_app/pagina/otp_verification.dart';
 import 'package:astro_app/pagina/password_changed.dart';
+import 'package:astro_app/pagina/quiz_page.dart';
+import 'package:astro_app/pagina/results_page.dart';
 import 'package:astro_app/router/router.dart';
 import 'package:astro_app/pagina/astroApp.dart';
 import 'package:astro_app/pagina/login_page.dart';
@@ -58,5 +62,26 @@ final router = GoRouter(routes: [
     pageBuilder: (context, state) {
       return const CupertinoPage(child: PasswordChangesPage());
     },
-  )
+  ),
+  GoRoute(
+    path: Routers.quizpage.path,
+    name: Routers.quizpage.name,
+    pageBuilder: (context, state) {
+      return const CupertinoPage(child: QuizPage());
+    },
+  ),
+  GoRoute(
+    path: Routers.homepage.path,
+    name: Routers.homepage.name,
+    pageBuilder: (context, state) {
+      return const CupertinoPage(child: HomePage());
+    },
+  ),
+  GoRoute(
+    path: Routers.reviewquizpage.path,
+    name: Routers.reviewquizpage.name,
+    pageBuilder: (context, state) {
+      return const CupertinoPage(child: ReviewQuizPage());
+    },
+  ),
 ]);

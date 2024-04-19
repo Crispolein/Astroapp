@@ -19,4 +19,8 @@ class Routers {
       AppRouter(name: "/otpverification", path: "/otpverification");
   static AppRouter passwordchanges =
       AppRouter(name: "/passwordchanges", path: "/passwordchanges");
+  static AppRouter quizpage = AppRouter(name: "/quizpage", path: "/quizpage");
+  static AppRouter homepage = AppRouter(name: "/homepage", path: "/homepage");
+  static AppRouter reviewquizpage =
+      AppRouter(name: "/reviewquizpage", path: "/reviewquizpage");
 }
