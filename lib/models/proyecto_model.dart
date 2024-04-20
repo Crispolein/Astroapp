@@ -5,6 +5,7 @@ class Usuarios {
   final dynamic username;
   final String? correo;
   final String? password;
+  final int? permisos;
 
   Usuarios({
     required this.id,
@@ -13,6 +14,7 @@ class Usuarios {
     required this.username,
     required this.correo,
     required this.password,
+    this.permisos,
   });
 
   Map<String, dynamic> toMap() {
@@ -23,6 +25,7 @@ class Usuarios {
       'username': username,
       'correo': correo,
       'password': password,
+      'permisos': permisos,
     };
   }
 
@@ -33,6 +36,55 @@ class Usuarios {
         apellido: 'apellido',
         username: map['username'],
         password: map['password'],
-        correo: map['correo']);
+        correo: map['correo'],
+        permisos: map['permisos']);
+  }
+}
+
+class Quiz {
+  final String id;
+  final String pregunta;
+  final String respuesta;
+  final String respuesta2;
+  final String respuesta3;
+  final String respuesta4;
+  final String respuestaCorrecta;
+  final String? imagenURL;
+
+  Quiz({
+    required this.id,
+    required this.pregunta,
+    required this.respuesta,
+    required this.respuesta2,
+    required this.respuesta3,
+    required this.respuesta4,
+    required this.respuestaCorrecta,
+    this.imagenURL,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'pregunta': pregunta,
+      'respuesta': respuesta,
+      'respuesta2': respuesta2,
+      'respuesta3': respuesta3,
+      'respuesta4': respuesta4,
+      'respuestaCorrecta': respuestaCorrecta,
+      'imagenURL': imagenURL,
+    };
+  }
+
+  factory Quiz.fromMap(Map<String, dynamic> map) {
+    return Quiz(
+      id: map['id'],
+      pregunta: map['pregunta'],
+      respuesta: map['respuesta'],
+      respuesta2: map['respuesta2'],
+      respuesta3: map['respuesta3'],
+      respuesta4: map['respuesta4'],
+      respuestaCorrecta: map['respuestaCorrecta'],
+      imagenURL: map['imagenURL'],
+    );
   }
 }

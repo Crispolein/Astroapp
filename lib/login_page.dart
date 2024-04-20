@@ -296,9 +296,8 @@ class _LoginPageState extends State<LoginPage> {
           if (userInfo['permisos'] == 1) {
             GoRouter.of(context).pushNamed(Routers.quizpage.name);
           } else if (userInfo['permisos'] == 0) {
-            GoRouter.of(context).pushNamed(Routers.homepage.name);
+            GoRouter.of(context).pushNamed(Routers.addquestionpageadmin.name);
           } else {
-            // Si el rol no está definido o es otro valor, mostrar un error
             _showErrorDialog('No se encontró el rol del usuario.');
           }
         } else {

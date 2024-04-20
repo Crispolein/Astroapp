@@ -261,6 +261,7 @@ class _SignupPageState extends State<SignupPage> {
                                     username: _usernameController.text,
                                     correo: _correoController.text,
                                     password: _passwordController.text,
+                                    permisos: 0,
                                   );
                                   await _usuariosCollection
                                       .add(nuevoUsuario.toMap());
