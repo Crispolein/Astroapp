@@ -40,6 +40,7 @@ dependencies:
   lottie: ^2.7.0
   pinput: ^3.0.1
   fluttertoast: ^8.2.4
+  curved_navigation_bar: ^1.0.3
   firebase_core: ^2.30.0
   cloud_firestore:
   firebase_auth:
@@ -69,6 +70,14 @@ flutter:
   uses-material-design: true
   assets:
     - assets/space_background.jpg
+    - assets/imagen1.jpg
+    - assets/imagen2.jpg
+    - assets/imagen3.jpg
+    - assets/imagen4.jpg
+    - assets/imagen5.jpg
+    - assets/imagen6.jpg
+    - assets/imagen7.jpg
+    - assets/perfil.jpg
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

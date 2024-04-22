@@ -23,6 +23,8 @@ class Routers {
   static AppRouter homepage = AppRouter(name: "/homepage", path: "/homepage");
   static AppRouter reviewquizpage =
       AppRouter(name: "/reviewquizpage", path: "/reviewquizpage");
+  static AppRouter homeadminpage =
+      AppRouter(name: "/homeadminpage", path: "/homeadminpage");
   static AppRouter addquestionpageadmin =
       AppRouter(name: "/addquestionpageadmin", path: "/addquestionpageadmin");
 }
