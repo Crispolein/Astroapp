@@ -3,8 +3,8 @@ import 'package:astro_app/pagina/quiz_page.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomeAdminPage extends StatelessWidget {
+  const HomeAdminPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SizedBox(height: 40),
             Text(
-              'Nombre de Usuario',
+              'Nombre del admin',
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
