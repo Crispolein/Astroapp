@@ -44,7 +44,10 @@ dependencies:
   firebase_core: ^2.30.0
   cloud_firestore:
   firebase_auth:
-  curved_navigation_bar: ^1.0.3
+  moon_phase: ^1.0.1+8
+  date_field: ^5.0.1
+  image_picker: ^0.8.4+3
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:

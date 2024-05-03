@@ -1,7 +1,13 @@
-import 'package:astro_app/pagina/review_quiz_page.dart';
+import 'package:astro_app/login_page.dart';
+import 'package:astro_app/pagina/usuario/ajustes.dart';
+import 'package:astro_app/pagina/usuario/editar_perfil.dart';
 import 'package:astro_app/pagina/quiz_page.dart';
+import 'package:astro_app/pagina/review_quiz_page.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+
+// Importa la biblioteca donde se encuentra fase_lunar.dart
+import 'fase_lunar.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,6 +22,20 @@ class HomePage extends StatelessWidget {
       ),
       home: HomeScreen(),
       debugShowCheckedModeBanner: false,
+    );
+  }
+}
+
+class ProfileView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Perfil'),
+      ),
+      body: Center(
+        child: Text('Contenido del perfil aquí'),
+      ),
     );
   }
 }
@@ -39,8 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          _buildBackgroundImage(), // Muestra la imagen de fondo según la sección seleccionada
-          _buildContentView(),
+          _buildBackgroundImage(),
           _buildContentView(),
         ],
       ),
@@ -81,8 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(_backgroundImages[
-              _selectedIndex]), // Accede a la imagen según el índice seleccionado
+          image: AssetImage(_backgroundImages[_selectedIndex]),
           fit: BoxFit.cover,
         ),
       ),
@@ -91,42 +109,102 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildContentView() {
     if (_selectedIndex == 0) {
-      // Mostrar el widget de perfil en la primera sección
-      return Center(
+      return Padding(
+        padding: const EdgeInsets.only(left: 20.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CircleAvatar(
-              radius: 50,
-              backgroundImage: AssetImage('assets/perfil.jpg'),
-            ),
-            SizedBox(height: 40),
-            Text(
-              'Nombre de Usuario',
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-            ),
-            SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: () {
-                // Agregar aquí la lógica para editar el perfil
-              },
-              child: Text('Editar Perfil'),
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(10),
+              child: CircleAvatar(
+                radius: 50,
+                backgroundImage: AssetImage('assets/perfil.jpg'),
+              ),
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Agregar aquí la lógica para ver el perfil
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EditarPerfil()),
+                );
+              },
+              child: Text('Editar perfil'),
+              style: ElevatedButton.styleFrom(
+                fixedSize: Size(200, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10), // Menos redondez
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EditarPerfil()),
+                );
               },
               child: Text('Ver Perfil'),
+              style: ElevatedButton.styleFrom(
+                fixedSize: Size(200, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10), // Menos redondez
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AjustesPage()),
+                );
+              },
+              child: Text('Ajustes'),
+              style: ElevatedButton.styleFrom(
+                fixedSize: Size(200, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10), // Menos redondez
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+              },
+              child: Text('Cerrar Sesión'),
+              style: ElevatedButton.styleFrom(
+                fixedSize: Size(200, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10), // Menos redondez
+                ),
+              ),
             ),
           ],
         ),
       );
+    } else if (_selectedIndex == 1) {
+      return Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FaseLunar(),
+              ),
+            );
+          },
+          child: Text('Ir a Fase Lunar'),
+        ),
+      );
     } else if (_selectedIndex == 2) {
-      // Mostrar los botones en la sección de "Juegos"
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -146,9 +224,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             builder: (context) => const QuizPage()));
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red, // Cambia el color del botón
-                    padding: EdgeInsets.all(
-                        20), // Ajusta el espacio dentro del botón
+                    backgroundColor: Colors.red,
+                    padding: EdgeInsets.all(20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -166,9 +243,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             builder: (context) => const ReviewQuizPage()));
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green, // Cambia el color del botón
-                    padding: EdgeInsets.all(
-                        20), // Ajusta el espacio dentro del botón
+                    backgroundColor: Colors.green,
+                    padding: EdgeInsets.all(20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -186,9 +262,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             builder: (context) => const ReviewQuizPage()));
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue, // Cambia el color del botón
-                    padding: EdgeInsets.all(
-                        20), // Ajusta el espacio dentro del botón
+                    backgroundColor: Colors.blue,
+                    padding: EdgeInsets.all(20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -206,9 +281,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             builder: (context) => const ReviewQuizPage()));
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.yellow, // Cambia el color del botón
-                    padding: EdgeInsets.all(
-                        20), // Ajusta el espacio dentro del botón
+                    backgroundColor: Colors.yellow,
+                    padding: EdgeInsets.all(20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -226,10 +300,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             builder: (context) => const ReviewQuizPage()));
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(
-                        255, 32, 241, 227), // Cambia el color del botón
-                    padding: EdgeInsets.all(
-                        20), // Ajusta el espacio dentro del botón
+                    backgroundColor: Color.fromARGB(255, 32, 241, 227),
+                    padding: EdgeInsets.all(20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -247,10 +319,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             builder: (context) => const ReviewQuizPage()));
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(
-                        255, 255, 49, 231), // Cambia el color del botón
-                    padding: EdgeInsets.all(
-                        20), // Ajusta el espacio dentro del botón
+                    backgroundColor: Color.fromARGB(255, 255, 49, 231),
+                    padding: EdgeInsets.all(20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -266,7 +336,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       );
     } else {
-      return Container(); // Oculta el contenido en las secciones diferentes a "Juegos"
+      return Container();
     }
   }
 }
