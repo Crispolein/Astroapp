@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -292,16 +292,12 @@ class _LoginPageState extends State<LoginPage> {
         Map<String, dynamic>? userInfo =
             await _getUserInfo(userCredential.user!.uid);
 
-        if (userInfo != null) {
-          if (userInfo['permisos'] == 1) {
-            GoRouter.of(context).pushNamed(Routers.homepage.name);
-          } else if (userInfo['permisos'] == 0) {
-            GoRouter.of(context).pushNamed(Routers.addquestionpageadmin.name);
-          } else {
-            _showErrorDialog('No se encontró el rol del usuario.');
-          }
+        if (userInfo['permisos'] == 1) {
+          GoRouter.of(context).pushNamed(Routers.homepage.name);
+        } else if (userInfo['permisos'] == 0) {
+          GoRouter.of(context).pushNamed(Routers.addquestionpageadmin.name);
         } else {
-          _showErrorDialog('No se encontró la información del usuario.');
+          _showErrorDialog('No se encontró el rol del usuario.');
         }
       } catch (e) {
         // Error durante el inicio de sesión, mostrar mensaje de error

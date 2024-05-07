@@ -4,7 +4,6 @@ import 'package:astro_app/pagina/fade_animationtest.dart';
 import 'package:astro_app/widgets/custom_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 class ForgetPasswordPage extends StatefulWidget {
@@ -63,20 +62,20 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                 child: Form(
                   child: Column(
                     children: [
-                      FadeInAnimation(
+                      const FadeInAnimation(
                         delay: 1.9,
-                        child: const CustomTextFormField(
+                        child: CustomTextFormField(
                           hinttext: 'Ingresa tu correo',
                           obsecuretext: false,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       FadeInAnimation(
                         delay: 2.1,
                         child: CustomElevatedButton(
-                          message: "Ingresa el Codigo:",
+                          message: "Enviar Correo",
                           function: () {
                             GoRouter.of(context)
                                 .pushNamed(Routers.otpverification.name);
@@ -88,7 +87,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                   ),
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               FadeInAnimation(
                 delay: 2.4,
                 child: Padding(

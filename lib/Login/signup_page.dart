@@ -4,7 +4,6 @@ import 'package:astro_app/pagina/fade_animationtest.dart';
 import 'package:astro_app/widgets/custom_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,7 +26,7 @@ class _SignupPageState extends State<SignupPage> {
   String _error = '';
   bool _obscurePassword = true;
 
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final CollectionReference _usuariosCollection =
       FirebaseFirestore.instance.collection('usuarios');
 
@@ -68,7 +67,7 @@ class _SignupPageState extends State<SignupPage> {
     return Scaffold(
       // backgroundColor: const Color.fromRGBO(232, 236, 244, 1),
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -306,10 +305,10 @@ class _SignupPageState extends State<SignupPage> {
                       const SizedBox(
                         height: 20,
                       ),
-                      FadeInAnimation(
+                      const FadeInAnimation(
                         delay: 3.2,
                         child: Padding(
-                          padding: const EdgeInsets.only(
+                          padding: EdgeInsets.only(
                               top: 10, bottom: 10, right: 30, left: 30),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,

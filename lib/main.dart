@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           brightness: Brightness.light,
           useMaterial3: true,
-          primaryColor: Color(0xFF35C2C1),
+          primaryColor: const Color(0xFF35C2C1),
           textTheme: Typography.blackCupertino),
       themeMode: ThemeMode.system,
       darkTheme: ThemeData.dark(useMaterial3: true),

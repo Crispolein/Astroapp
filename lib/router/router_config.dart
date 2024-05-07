@@ -6,7 +6,6 @@ import 'package:astro_app/pagina/new_password.dart';
 import 'package:astro_app/pagina/otp_verification.dart';
 import 'package:astro_app/pagina/password_changed.dart';
 import 'package:astro_app/pagina/quiz_page.dart';
-import 'package:astro_app/pagina/results_page.dart';
 import 'package:astro_app/router/router.dart';
 import 'package:astro_app/pagina/astroApp.dart';
 import 'package:astro_app/login_page.dart';

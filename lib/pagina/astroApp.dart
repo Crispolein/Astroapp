@@ -1,12 +1,6 @@
 import 'package:astro_app/login_page.dart';
 import 'package:astro_app/signup_page.dart';
 import 'package:flutter/material.dart';
-import 'package:astro_app/common/common.dart';
-import 'package:astro_app/router/router.dart';
-import 'package:astro_app/pagina/fade_animationtest.dart';
-import 'package:astro_app/widgets/custom_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class AstroApp extends StatefulWidget {
   const AstroApp({super.key});

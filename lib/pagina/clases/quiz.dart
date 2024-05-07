@@ -1,5 +1,4 @@
 import 'package:astro_app/pagina/clases/preguntas.dart';
-import 'package:flutter/material.dart';
 
 class Quiz {
   String name;

@@ -1,8 +1,6 @@
 import 'package:astro_app/login_page.dart';
 import 'package:astro_app/pagina/admin/ajustes_Admin.dart';
 import 'package:astro_app/pagina/admin/editar_perfil_Admin.dart';
-import 'package:astro_app/pagina/usuario/ajustes.dart';
-import 'package:astro_app/pagina/usuario/editar_perfil.dart';
 import 'package:astro_app/pagina/quiz_page.dart';
 import 'package:astro_app/pagina/review_quiz_page.dart';
 import 'package:flutter/material.dart';
@@ -33,9 +31,9 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Perfil'),
+        title: const Text('Perfil'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Contenido del perfil aquí'),
       ),
     );
@@ -66,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       bottomNavigationBar: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
               Color.fromARGB(255, 255, 0, 0),
@@ -83,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: CurvedNavigationBar(
           color: Colors.blue,
           backgroundColor: Colors.transparent,
-          items: <Widget>[
+          items: const <Widget>[
             Icon(Icons.account_circle, size: 30),
             Icon(Icons.info, size: 30),
             Icon(Icons.sports_esports, size: 30),
@@ -119,13 +117,13 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.all(10),
-              child: CircleAvatar(
+              padding: const EdgeInsets.all(10),
+              child: const CircleAvatar(
                 radius: 50,
                 backgroundImage: AssetImage('assets/perfil.jpg'),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -135,13 +133,13 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: Text('Editar perfil'),
               style: ElevatedButton.styleFrom(
-                fixedSize: Size(200, 50),
+                fixedSize: const Size(200, 50),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10), // Menos redondez
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -151,13 +149,13 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: Text('Ver Perfil'),
               style: ElevatedButton.styleFrom(
-                fixedSize: Size(200, 50),
+                fixedSize: const Size(200, 50),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10), // Menos redondez
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -167,13 +165,13 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: Text('Ajustes'),
               style: ElevatedButton.styleFrom(
-                fixedSize: Size(200, 50),
+                fixedSize: const Size(200, 50),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10), // Menos redondez
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -183,13 +181,13 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: Text('Gestion De Perfiles'),
               style: ElevatedButton.styleFrom(
-                fixedSize: Size(200, 50),
+                fixedSize: const Size(200, 50),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10), // Menos redondez
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -199,23 +197,23 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: Text('Casilla de Correos'),
               style: ElevatedButton.styleFrom(
-                fixedSize: Size(200, 50),
+                fixedSize: const Size(200, 50),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10), // Menos redondez
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
                 );
               },
               child: Text('Cerrar Sesión'),
               style: ElevatedButton.styleFrom(
-                fixedSize: Size(200, 50),
+                fixedSize: const Size(200, 50),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10), // Menos redondez
                 ),
@@ -235,14 +233,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             );
           },
-          child: Text('Ir a Fase Lunar'),
+          child: const Text('Ir a Fase Lunar'),
         ),
       );
     } else if (_selectedIndex == 2) {
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Container(
+          child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
             child: GridView.count(
               crossAxisCount: 2,
@@ -259,12 +257,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Iniciar Quiz',
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
@@ -278,12 +276,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Repasar Quiz',
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
@@ -297,12 +295,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'juego 3',
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
@@ -316,12 +314,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.yellow,
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'juego 4',
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
@@ -335,12 +333,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 32, 241, 227),
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'juego 5',
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
@@ -354,12 +352,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 255, 49, 231),
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'juego 6',
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),

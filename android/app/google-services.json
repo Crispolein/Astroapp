@@ -12,7 +12,20 @@
           "package_name": "com.example.astroapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1074500372330-3i6ms37f7m7k0b07cj6bd4tcckodh35h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.astroapp",
+            "certificate_hash": "b640aa412f79f6e1e2cb56804e96d6a52251ee3e"
+          }
+        },
+        {
+          "client_id": "1074500372330-s63l1i2488q8db9s8vi20bfqe2eolne9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyD0XKsN3cVE8g8rH9ctU4ovBc7fBSbczDA"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1074500372330-s63l1i2488q8db9s8vi20bfqe2eolne9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1074500372330-0t1fqaafps2jp4fq3rgeu8vf96q4dpsd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.astroapp"
+              }
+            }
+          ]
         }
       }
     }
