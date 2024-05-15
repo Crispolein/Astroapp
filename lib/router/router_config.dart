@@ -1,4 +1,5 @@
 import 'package:astro_app/pagina/homeAdmin.dart';
+import 'package:astro_app/pagina/quiz_admin.dart';
 import 'package:astro_app/pagina/review_quiz_page.dart';
 import 'package:astro_app/Login/forget_password.dart';
 import 'package:astro_app/pagina/home.dart';
@@ -62,6 +63,13 @@ final router = GoRouter(routes: [
     name: Routers.passwordchanges.name,
     pageBuilder: (context, state) {
       return const CupertinoPage(child: PasswordChangesPage());
+    },
+  ),
+  GoRoute(
+    path: Routers.addquestionpageadmin.path,
+    name: Routers.addquestionpageadmin.name,
+    pageBuilder: (context, state) {
+      return const CupertinoPage(child: AddQuestionPage());
     },
   ),
   GoRoute(

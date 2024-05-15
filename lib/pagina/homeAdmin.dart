@@ -1,8 +1,8 @@
 import 'package:astro_app/Login/login_page.dart';
 import 'package:astro_app/pagina/admin/ajustes_Admin.dart';
 import 'package:astro_app/pagina/admin/editar_perfil_Admin.dart';
+import 'package:astro_app/pagina/quiz_admin.dart';
 import 'package:astro_app/pagina/quiz_page.dart';
-import 'package:astro_app/pagina/review_quiz_page.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
@@ -253,7 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const QuizPage()));
+                            builder: (context) => const AddQuestionPage()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
@@ -263,7 +263,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   child: const Text(
-                    'Iniciar Quiz',
+                    'Crear Quiz',
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                 ),
@@ -272,7 +272,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ReviewQuizPage()));
+                            builder: (context) => const AddQuestionPage()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
@@ -291,7 +291,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ReviewQuizPage()));
+                            builder: (context) => const AddQuestionPage()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
@@ -310,7 +310,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ReviewQuizPage()));
+                            builder: (context) => const AddQuestionPage()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.yellow,
@@ -329,7 +329,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ReviewQuizPage()));
+                            builder: (context) => const AddQuestionPage()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 32, 241, 227),
@@ -348,7 +348,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ReviewQuizPage()));
+                            builder: (context) => const AddQuestionPage()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 255, 49, 231),
