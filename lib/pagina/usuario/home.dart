@@ -1,12 +1,10 @@
 import 'package:astro_app/Login/login_page.dart';
 import 'package:astro_app/pagina/usuario/ajustes.dart';
 import 'package:astro_app/pagina/usuario/editar_perfil.dart';
-import 'package:astro_app/pagina/quiz_page.dart';
-import 'package:astro_app/pagina/review_quiz_page.dart';
-import 'package:astro_app/pagina/view_apod.dart';
+import 'package:astro_app/pagina/usuario/view_apod.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'fase_lunar.dart';
+import '../fase_lunar.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
