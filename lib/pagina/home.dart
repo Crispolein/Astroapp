@@ -3,10 +3,9 @@ import 'package:astro_app/pagina/usuario/ajustes.dart';
 import 'package:astro_app/pagina/usuario/editar_perfil.dart';
 import 'package:astro_app/pagina/quiz_page.dart';
 import 'package:astro_app/pagina/review_quiz_page.dart';
+import 'package:astro_app/pagina/view_apod.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-
-// Importa la biblioteca donde se encuentra fase_lunar.dart
 import 'fase_lunar.dart';
 
 class HomePage extends StatelessWidget {
@@ -221,7 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const QuizPage()));
+                            builder: (context) => const ApodPage()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
@@ -240,7 +239,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ReviewQuizPage()));
+                            builder: (context) => const ApodPage()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
@@ -259,7 +258,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ReviewQuizPage()));
+                            builder: (context) => const ApodPage()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
@@ -278,7 +277,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ReviewQuizPage()));
+                            builder: (context) => const ApodPage()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.yellow,
@@ -288,7 +287,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   child: Text(
-                    'juego 4',
+                    'Imagen diaria de la NASA',
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                 ),
@@ -297,7 +296,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ReviewQuizPage()));
+                            builder: (context) => const ApodPage()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 32, 241, 227),
@@ -316,7 +315,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ReviewQuizPage()));
+                            builder: (context) => const ApodPage()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 255, 49, 231),

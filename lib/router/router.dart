@@ -27,4 +27,5 @@ class Routers {
       AppRouter(name: "/homeadminpage", path: "/homeadminpage");
   static AppRouter addquestionpageadmin =
       AppRouter(name: "/addquestionpageadmin", path: "/addquestionpageadmin");
+  static AppRouter viewapod = AppRouter(name: "/viewapod", path: "/viewapod");
 }

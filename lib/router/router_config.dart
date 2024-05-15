@@ -6,6 +6,7 @@ import 'package:astro_app/Login/new_password.dart';
 import 'package:astro_app/Login/otp_verification.dart';
 import 'package:astro_app/Login/password_changed.dart';
 import 'package:astro_app/pagina/quiz_page.dart';
+import 'package:astro_app/pagina/view_apod.dart';
 import 'package:astro_app/router/router.dart';
 import 'package:astro_app/pagina/astroApp.dart';
 import 'package:astro_app/Login/login_page.dart';
@@ -89,6 +90,13 @@ final router = GoRouter(routes: [
     name: Routers.homeadminpage.name,
     pageBuilder: (context, state) {
       return const CupertinoPage(child: HomeAdminPage());
+    },
+  ),
+  GoRoute(
+    path: Routers.viewapod.path,
+    name: Routers.viewapod.name,
+    pageBuilder: (context, state) {
+      return const CupertinoPage(child: ApodPage());
     },
   ),
 ]);
