@@ -1,15 +1,15 @@
 import 'package:astro_app/pagina/homeAdmin.dart';
 import 'package:astro_app/pagina/review_quiz_page.dart';
-import 'package:astro_app/pagina/forget_password.dart';
+import 'package:astro_app/Login/forget_password.dart';
 import 'package:astro_app/pagina/home.dart';
-import 'package:astro_app/pagina/new_password.dart';
-import 'package:astro_app/pagina/otp_verification.dart';
-import 'package:astro_app/pagina/password_changed.dart';
+import 'package:astro_app/Login/new_password.dart';
+import 'package:astro_app/Login/otp_verification.dart';
+import 'package:astro_app/Login/password_changed.dart';
 import 'package:astro_app/pagina/quiz_page.dart';
 import 'package:astro_app/router/router.dart';
 import 'package:astro_app/pagina/astroApp.dart';
-import 'package:astro_app/login_page.dart';
-import 'package:astro_app/signup_page.dart';
+import 'package:astro_app/Login/login_page.dart';
+import 'package:astro_app/Login/signup_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 

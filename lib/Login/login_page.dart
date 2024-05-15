@@ -293,9 +293,9 @@ class _LoginPageState extends State<LoginPage> {
             await _getUserInfo(userCredential.user!.uid);
 
         if (userInfo['permisos'] == 1) {
-          GoRouter.of(context).pushNamed(Routers.homepage.name);
+          GoRouter.of(context).pushNamed(Routers.homeadminpage.name);
         } else if (userInfo['permisos'] == 0) {
-          GoRouter.of(context).pushNamed(Routers.addquestionpageadmin.name);
+          GoRouter.of(context).pushNamed(Routers.homepage.name);
         } else {
           _showErrorDialog('No se encontró el rol del usuario.');
         }

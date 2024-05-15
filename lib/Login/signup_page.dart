@@ -264,11 +264,13 @@ class _SignupPageState extends State<SignupPage> {
                                   );
                                   await _usuariosCollection
                                       .add(nuevoUsuario.toMap());
+                                  // ignore: use_build_context_synchronously
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                         content: Text(
                                             'Te has registrado correctamente')),
                                   );
+                                  // ignore: use_build_context_synchronously
                                   Navigator.pop(context);
                                 } catch (e) {
                                   setState(() {

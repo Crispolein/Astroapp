@@ -1,4 +1,4 @@
-import 'package:astro_app/login_page.dart';
+import 'package:astro_app/Login/login_page.dart';
 import 'package:astro_app/pagina/usuario/ajustes.dart';
 import 'package:astro_app/pagina/usuario/editar_perfil.dart';
 import 'package:astro_app/pagina/quiz_page.dart';
