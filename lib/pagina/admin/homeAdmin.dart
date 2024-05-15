@@ -1,13 +1,11 @@
 import 'package:astro_app/Login/login_page.dart';
 import 'package:astro_app/pagina/admin/ajustes_Admin.dart';
+import 'package:astro_app/pagina/admin/creaate_notice.dart';
 import 'package:astro_app/pagina/admin/editar_perfil_Admin.dart';
-import 'package:astro_app/pagina/quiz_admin.dart';
-import 'package:astro_app/pagina/quiz_page.dart';
+import 'package:astro_app/pagina/admin/quiz_admin.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-
-// Importa la biblioteca donde se encuentra fase_lunar.dart
-import 'fase_lunar.dart';
+import '../fase_lunar.dart';
 
 class HomeAdminPage extends StatelessWidget {
   const HomeAdminPage({Key? key}) : super(key: key);
@@ -208,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                  MaterialPageRoute(builder: (context) => LoginPage()),
                 );
               },
               child: Text('Cerrar Sesión'),
@@ -253,7 +251,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const AddQuestionPage()));
+                            builder: (context) => AddQuestionPage()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
@@ -269,10 +267,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const AddQuestionPage()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => AddNoticia()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
@@ -282,16 +278,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   child: const Text(
-                    'Repasar Quiz',
+                    'Añadir Noticias',
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const AddQuestionPage()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => AddNoticia()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
@@ -310,7 +304,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const AddQuestionPage()));
+                            builder: (context) => AddQuestionPage()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.yellow,
@@ -329,7 +323,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const AddQuestionPage()));
+                            builder: (context) => AddQuestionPage()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 32, 241, 227),
@@ -348,7 +342,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const AddQuestionPage()));
+                            builder: (context) => AddQuestionPage()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 255, 49, 231),

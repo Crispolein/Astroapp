@@ -28,4 +28,6 @@ class Routers {
   static AppRouter addquestionpageadmin =
       AppRouter(name: "/addquestionpageadmin", path: "/addquestionpageadmin");
   static AppRouter viewapod = AppRouter(name: "/viewapod", path: "/viewapod");
+  static AppRouter addnoticia =
+      AppRouter(name: "/addnoticia", path: "/addnoticia");
 }

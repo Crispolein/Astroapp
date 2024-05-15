@@ -88,3 +88,35 @@ class Quiz {
     );
   }
 }
+
+class Noticia {
+  final String id;
+  final String titulo;
+  final String descripcion;
+  final String? imagenURL;
+
+  Noticia({
+    required this.id,
+    required this.titulo,
+    required this.descripcion,
+    this.imagenURL,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'titulo': titulo,
+      'descripcion': descripcion,
+      'imagenURL': imagenURL,
+    };
+  }
+
+  factory Noticia.fromMap(Map<String, dynamic> map) {
+    return Noticia(
+      id: map['id'],
+      titulo: map['titulo'],
+      descripcion: map['descripcion'],
+      imagenURL: map['imagenURL'],
+    );
+  }
+}

@@ -1,15 +1,16 @@
-import 'package:astro_app/pagina/homeAdmin.dart';
-import 'package:astro_app/pagina/quiz_admin.dart';
+import 'package:astro_app/pagina/admin/creaate_notice.dart';
+import 'package:astro_app/pagina/admin/homeAdmin.dart';
+import 'package:astro_app/pagina/admin/quiz_admin.dart';
 import 'package:astro_app/pagina/review_quiz_page.dart';
 import 'package:astro_app/Login/forget_password.dart';
-import 'package:astro_app/pagina/home.dart';
+import 'package:astro_app/pagina/usuario/home.dart';
 import 'package:astro_app/Login/new_password.dart';
 import 'package:astro_app/Login/otp_verification.dart';
 import 'package:astro_app/Login/password_changed.dart';
 import 'package:astro_app/pagina/quiz_page.dart';
-import 'package:astro_app/pagina/view_apod.dart';
+import 'package:astro_app/pagina/usuario/view_apod.dart';
 import 'package:astro_app/router/router.dart';
-import 'package:astro_app/pagina/astroApp.dart';
+import 'package:astro_app/astroApp.dart';
 import 'package:astro_app/Login/login_page.dart';
 import 'package:astro_app/Login/signup_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -105,6 +106,13 @@ final router = GoRouter(routes: [
     name: Routers.viewapod.name,
     pageBuilder: (context, state) {
       return const CupertinoPage(child: ApodPage());
+    },
+  ),
+  GoRoute(
+    path: Routers.addnoticia.path,
+    name: Routers.addnoticia.name,
+    pageBuilder: (context, state) {
+      return const CupertinoPage(child: AddNoticia());
     },
   ),
 ]);
