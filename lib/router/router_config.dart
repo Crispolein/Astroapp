@@ -13,6 +13,9 @@ import 'package:astro_app/router/router.dart';
 import 'package:astro_app/astroApp.dart';
 import 'package:astro_app/Login/login_page.dart';
 import 'package:astro_app/Login/signup_page.dart';
+import 'package:astro_app/vistausuario2/TrueOrFalse.dart';
+import 'package:astro_app/vistausuario2/homeb.dart';
+import 'package:astro_app/vistausuario2/passwordVerific.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
@@ -113,6 +116,27 @@ final router = GoRouter(routes: [
     name: Routers.addnoticia.name,
     pageBuilder: (context, state) {
       return const CupertinoPage(child: AddNoticia());
+    },
+  ),
+    GoRoute(
+    path: Routers.homebpage.path,
+    name: Routers.homebpage.name,
+    pageBuilder: (context, state) {
+      return CupertinoPage(child: HomebPage());
+    },
+  ),
+  GoRoute(
+    path: Routers.tickedpage.path,
+    name: Routers.tickedpage.name,
+    pageBuilder: (context, state) {
+      return CupertinoPage(child: TickedPage());
+    },
+  ),
+    GoRoute(
+    path: Routers.trueorfalsepage.path,
+    name: Routers.trueorfalsepage.name,
+    pageBuilder: (context, state) {
+      return CupertinoPage(child: TrueOrFalsePage());
     },
   ),
 ]);

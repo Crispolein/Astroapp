@@ -1,0 +1,66 @@
+[
+  {
+    "date": "16 de Feb",
+    "day": "Martes",
+    "phase": "Luna Nueva",
+    "illumination": "0%",
+    "moon_age": "0 días",
+    "image": "assets/images/llena1.jpg"
+  },
+  {
+    "date": "17 de Feb",
+    "day": "Miércoles",
+    "phase": "Creciente Creciente",
+    "illumination": "0% - 49.9%",
+    "moon_age": "4.87 días",
+    "image": "assets/images/creciente2.jpg"
+  },
+  {
+    "date": "23 de Feb",
+    "day": "Martes",
+    "phase": "Primer Cuarto",
+    "illumination": "50%",
+    "moon_age": "7 días",
+    "image": "assets/images/cuartoCreciente3.jpg"
+  },
+  {
+    "date": "2 de Mar",
+    "day": "Martes",
+    "phase": "Gibosa Creciente",
+    "illumination": "50% - 99.9%",
+    "moon_age": "10.87 días",
+    "image": "assets/images/gibosaCreciente4.jpg"
+  },
+  {
+    "date": "9 de Mar",
+    "day": "Martes",
+    "phase": "Luna Llena",
+    "illumination": "100%",
+    "moon_age": "14 días",
+    "image": "assets/images/lunaNueva5.jpg"
+  },
+  {
+    "date": "16 de Mar",
+    "day": "Martes",
+    "phase": "Gibosa Menguante",
+    "illumination": "99.9% - 50%",
+    "moon_age": "18.87 días",
+    "image": "assets/images/gibosaMenguante6.jpg"
+  },
+  {
+    "date": "23 de Mar",
+    "day": "Martes",
+    "phase": "Último Cuarto",
+    "illumination": "50%",
+    "moon_age": "22 días",
+    "image": "assets/images/cuartoMenguante7.jpg"
+  },
+  {
+    "date": "30 de Mar",
+    "day": "Martes",
+    "phase": "Creciente Menguante",
+    "illumination": "49.9% - 0%",
+    "moon_age": "26.87 días",
+    "image": "assets/images/crecienteMenguante8.jpg"
+  }
+]
