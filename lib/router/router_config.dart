@@ -14,6 +14,7 @@ import 'package:astro_app/astroApp.dart';
 import 'package:astro_app/Login/login_page.dart';
 import 'package:astro_app/Login/signup_page.dart';
 import 'package:astro_app/vistausuario2/TrueOrFalse.dart';
+import 'package:astro_app/vistausuario2/admin/homeb.dart';
 import 'package:astro_app/vistausuario2/homeb.dart';
 import 'package:astro_app/vistausuario2/passwordVerific.dart';
 import 'package:flutter/cupertino.dart';
@@ -101,7 +102,7 @@ final router = GoRouter(routes: [
     path: Routers.homeadminpage.path,
     name: Routers.homeadminpage.name,
     pageBuilder: (context, state) {
-      return const CupertinoPage(child: HomeAdminPage());
+      return  CupertinoPage(child: HomeadminPage());
     },
   ),
   GoRoute(
