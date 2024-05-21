@@ -1,24 +1,5 @@
-import 'package:astro_app/vistausuario2/admin/editarnoticia.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Página de Noticias',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: EditarNoticiaPage(),
-    );
-  }
-}
-
 
 class EditarNoticiaPage extends StatefulWidget {
   @override
@@ -160,4 +141,3 @@ class _EditarNoticiaPageState extends State<EditarNoticiaPage> {
     );
   }
 }
-

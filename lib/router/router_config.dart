@@ -1,4 +1,3 @@
-import 'package:astro_app/pagina/admin/creaate_notice.dart';
 import 'package:astro_app/pagina/admin/homeAdmin.dart';
 import 'package:astro_app/pagina/admin/quiz_admin.dart';
 import 'package:astro_app/pagina/review_quiz_page.dart';
@@ -14,6 +13,9 @@ import 'package:astro_app/astroApp.dart';
 import 'package:astro_app/Login/login_page.dart';
 import 'package:astro_app/Login/signup_page.dart';
 import 'package:astro_app/vistausuario2/TrueOrFalse.dart';
+import 'package:astro_app/vistausuario2/admin/Noticia/agregarnoticia.dart';
+import 'package:astro_app/vistausuario2/admin/Noticia/editarnoticia.dart';
+import 'package:astro_app/vistausuario2/admin/Noticia/listarnoticia.dart';
 import 'package:astro_app/vistausuario2/admin/homeb.dart';
 import 'package:astro_app/vistausuario2/homeb.dart';
 import 'package:astro_app/vistausuario2/passwordVerific.dart';
@@ -102,7 +104,7 @@ final router = GoRouter(routes: [
     path: Routers.homeadminpage.path,
     name: Routers.homeadminpage.name,
     pageBuilder: (context, state) {
-      return  CupertinoPage(child: HomeadminPage());
+      return CupertinoPage(child: HomeadminPage());
     },
   ),
   GoRoute(
@@ -119,7 +121,7 @@ final router = GoRouter(routes: [
       return const CupertinoPage(child: AddNoticia());
     },
   ),
-    GoRoute(
+  GoRoute(
     path: Routers.homebpage.path,
     name: Routers.homebpage.name,
     pageBuilder: (context, state) {
@@ -133,11 +135,28 @@ final router = GoRouter(routes: [
       return CupertinoPage(child: TickedPage());
     },
   ),
-    GoRoute(
+  GoRoute(
     path: Routers.trueorfalsepage.path,
     name: Routers.trueorfalsepage.name,
     pageBuilder: (context, state) {
       return CupertinoPage(child: TrueOrFalsePage());
+    },
+  ),
+  GoRoute(
+    path: Routers.listnoticia.path,
+    name: Routers.listnoticia.name,
+    pageBuilder: (context, state) {
+      return CupertinoPage(
+          child: ListarNoticia(
+        elemento: '',
+      ));
+    },
+  ),
+  GoRoute(
+    path: Routers.editarnoticia.path,
+    name: Routers.editarnoticia.name,
+    pageBuilder: (context, state) {
+      return CupertinoPage(child: EditarNoticiaPage());
     },
   ),
 ]);

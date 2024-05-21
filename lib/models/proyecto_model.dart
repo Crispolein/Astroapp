@@ -93,13 +93,13 @@ class Noticia {
   final String id;
   final String titulo;
   final String descripcion;
-  final String? imagenURL;
+  final String imagenURL;
 
   Noticia({
     required this.id,
     required this.titulo,
     required this.descripcion,
-    this.imagenURL,
+    required this.imagenURL,
   });
 
   Map<String, dynamic> toMap() {
@@ -107,7 +107,7 @@ class Noticia {
       'id': id,
       'titulo': titulo,
       'descripcion': descripcion,
-      'imagenURL': imagenURL,
+      'imagen': imagenURL,
     };
   }
 
@@ -116,7 +116,7 @@ class Noticia {
       id: map['id'],
       titulo: map['titulo'],
       descripcion: map['descripcion'],
-      imagenURL: map['imagenURL'],
+      imagenURL: map['imagen'],
     );
   }
 }

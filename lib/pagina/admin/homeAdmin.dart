@@ -1,8 +1,8 @@
 import 'package:astro_app/Login/login_page.dart';
 import 'package:astro_app/pagina/admin/ajustes_Admin.dart';
-import 'package:astro_app/pagina/admin/creaate_notice.dart';
 import 'package:astro_app/pagina/admin/editar_perfil_Admin.dart';
 import 'package:astro_app/pagina/admin/quiz_admin.dart';
+import 'package:astro_app/vistausuario2/admin/Noticia/agregarnoticia.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import '../fase_lunar.dart';

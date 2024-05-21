@@ -1,5 +1,6 @@
-import 'package:astro_app/vistausuario2/admin/agregarnoticia.dart';
-import 'package:astro_app/vistausuario2/admin/editarnoticia.dart';
+import 'package:astro_app/vistausuario2/admin/Noticia/agregarnoticia.dart';
+import 'package:astro_app/vistausuario2/admin/Noticia/editarnoticia.dart';
+import 'package:astro_app/vistausuario2/admin/Noticia/listarnoticia.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -47,8 +48,7 @@ class NoticiasadminPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => AgregarNoticiaPage()),
+                    MaterialPageRoute(builder: (context) => AddNoticia()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
@@ -82,7 +82,9 @@ class NoticiasadminPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => EditarNoticiaPage()),
+                        builder: (context) => ListarNoticia(
+                              elemento: '',
+                            )),
                   );
                 },
                 style: ElevatedButton.styleFrom(

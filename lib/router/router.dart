@@ -30,10 +30,14 @@ class Routers {
   static AppRouter viewapod = AppRouter(name: "/viewapod", path: "/viewapod");
   static AppRouter addnoticia =
       AppRouter(name: "/addnoticia", path: "/addnoticia");
-        static AppRouter homebpage =
+  static AppRouter homebpage =
       AppRouter(name: "/homebpage", path: "/homebpage");
   static AppRouter tickedpage =
       AppRouter(name: "/tickedpage", path: "/tickedpage");
-        static AppRouter trueorfalsepage =
+  static AppRouter trueorfalsepage =
       AppRouter(name: "/trueorfalsepage", path: "/trueorfalsepage");
+  static AppRouter listnoticia =
+      AppRouter(name: "/listnoticia", path: "/listnoticia");
+  static AppRouter editarnoticia =
+      AppRouter(name: "/editarnoticia", path: "/editarnoticia");
 }
