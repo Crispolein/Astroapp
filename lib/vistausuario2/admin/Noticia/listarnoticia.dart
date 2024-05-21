@@ -176,6 +176,7 @@ class _ListarNoticiaState extends State<ListarNoticia> {
                               onPressed: () async {
                                 GoRouter.of(context).pushNamed(
                                   Routers.editarnoticia.name,
+                                  extra: noticia,
                                 );
                               }),
                           IconButton(

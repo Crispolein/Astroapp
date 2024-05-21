@@ -1,18 +1,67 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:astro_app/models/proyecto_model.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditarNoticiaPage extends StatefulWidget {
+  final Noticia noticia;
+  const EditarNoticiaPage({Key? key, required this.noticia}) : super(key: key);
+
   @override
   _EditarNoticiaPageState createState() => _EditarNoticiaPageState();
 }
 
 class _EditarNoticiaPageState extends State<EditarNoticiaPage> {
-  final TextEditingController _tituloController = TextEditingController();
-  final TextEditingController _descripcionController = TextEditingController();
-  final TextEditingController _urlController = TextEditingController();
-  String _imagenUrl = '';
+  final _formKey = GlobalKey<FormState>();
+  late final TextEditingController _tituloController;
+  late final TextEditingController _descripcionController;
+  late final TextEditingController _imagenURLController;
+  File? _imagenFile;
+  final ImagePicker _picker = ImagePicker();
 
   @override
+  void initState() {
+    super.initState();
+    _tituloController = TextEditingController(text: widget.noticia.titulo);
+    _descripcionController =
+        TextEditingController(text: widget.noticia.descripcion);
+  }
+
+  Future<void> _seleccionarImagen() async {
+    try {
+      final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        setState(() {
+          _imagenFile = File(pickedFile.path);
+        });
+      } else {
+        print('No se seleccionó ninguna imagen.');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  Future<void> _updateNoticia(Noticia noticia) async {
+    try {
+      final documentSnapshot = await FirebaseFirestore.instance
+          .collection('noticia')
+          .doc(noticia.id)
+          .get();
+      if (documentSnapshot.exists) {
+        await FirebaseFirestore.instance
+            .collection('noticia')
+            .doc(noticia.id)
+            .update(noticia.toMap());
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -28,7 +77,8 @@ class _EditarNoticiaPageState extends State<EditarNoticiaPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
           child: Column(
             children: [
               Card(
@@ -41,27 +91,26 @@ class _EditarNoticiaPageState extends State<EditarNoticiaPage> {
                   child: Column(
                     children: [
                       GestureDetector(
-                        onTap: () {
-                          // Lógica para seleccionar imagen
-                        },
-                        child: _imagenUrl.isEmpty
-                            ? Container(
-                                width: double.infinity,
-                                height: 150,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[300],
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                child: Icon(
-                                  Icons.add_a_photo,
-                                  size: 50,
-                                  color: Colors.grey[700],
-                                ),
-                              )
-                            : Image.network(_imagenUrl),
-                      ),
+                          onTap: _seleccionarImagen,
+                          child: Container(
+                            width: double.infinity,
+                            height: 150,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: _imagenFile != null
+                                ? Image.file(_imagenFile!)
+                                : widget.noticia.imagenURL.isNotEmpty
+                                    ? Image.network(widget.noticia.imagenURL)
+                                    : Icon(
+                                        Icons.add_a_photo,
+                                        size: 50,
+                                        color: Colors.grey[700],
+                                      ),
+                          )),
                       SizedBox(height: 16.0),
-                      TextField(
+                      TextFormField(
                         controller: _tituloController,
                         decoration: InputDecoration(
                           labelText: 'Título',
@@ -74,9 +123,14 @@ class _EditarNoticiaPageState extends State<EditarNoticiaPage> {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                         ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, ingrese un título.';
+                          }
+                        },
                       ),
-                      SizedBox(height: 16.0),
-                      TextField(
+                      const SizedBox(height: 16.0),
+                      TextFormField(
                         controller: _descripcionController,
                         decoration: InputDecoration(
                           labelText: 'Descripción',
@@ -89,23 +143,14 @@ class _EditarNoticiaPageState extends State<EditarNoticiaPage> {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                         ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, ingrese una descripción.';
+                          }
+                        },
                         maxLines: 4,
                       ),
                       SizedBox(height: 16.0),
-                      TextField(
-                        controller: _urlController,
-                        decoration: InputDecoration(
-                          labelText: 'URL',
-                          labelStyle: TextStyle(color: Colors.purple),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.purple),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -113,7 +158,18 @@ class _EditarNoticiaPageState extends State<EditarNoticiaPage> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  // Lógica para Editar noticia
+                  if (_formKey.currentState!.validate()) {
+                    final nuevoNoticia = Noticia(
+                      id: widget.noticia.id,
+                      titulo: _tituloController.text,
+                      descripcion: _descripcionController.text,
+                      imagenURL: _imagenFile != null
+                          ? _imagenFile!.path
+                          : widget.noticia.imagenURL,
+                    );
+                    _updateNoticia(nuevoNoticia);
+                    Navigator.pop(context);
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.amber,

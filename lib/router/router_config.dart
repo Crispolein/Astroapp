@@ -1,3 +1,4 @@
+import 'package:astro_app/models/proyecto_model.dart';
 import 'package:astro_app/pagina/admin/homeAdmin.dart';
 import 'package:astro_app/pagina/admin/quiz_admin.dart';
 import 'package:astro_app/pagina/review_quiz_page.dart';
@@ -156,7 +157,8 @@ final router = GoRouter(routes: [
     path: Routers.editarnoticia.path,
     name: Routers.editarnoticia.name,
     pageBuilder: (context, state) {
-      return CupertinoPage(child: EditarNoticiaPage());
+      final noticia = state.extra as Noticia;
+      return CupertinoPage(child: EditarNoticiaPage(noticia: noticia));
     },
   ),
 ]);
