@@ -17,6 +17,7 @@ class _AddQuestionPageState extends State<AddQuestionPage> {
   final _respuesta3Controller = TextEditingController();
   final _respuesta4Controller = TextEditingController();
   final _respuestaCorrectaController = TextEditingController();
+  final _dificultadController = TextEditingController();
   String _error = '';
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -118,6 +119,7 @@ class _AddQuestionPageState extends State<AddQuestionPage> {
                       respuesta3: _respuesta3Controller.text,
                       respuesta4: _respuesta4Controller.text,
                       respuestaCorrecta: _respuestaCorrectaController.text,
+                      dificultad: _dificultadController.text,
                     );
 
                     final snapshot = await _quizCollection
@@ -128,6 +130,7 @@ class _AddQuestionPageState extends State<AddQuestionPage> {
                         .where('respuesta4', isEqualTo: nuevoQuiz.respuesta4)
                         .where('respuestaCorrecta',
                             isEqualTo: nuevoQuiz.respuestaCorrecta)
+                        .where('dificultad', isEqualTo: nuevoQuiz.dificultad)
                         .get();
                     if (snapshot.docs.isEmpty) {
                       final DocumentReference document = _quizCollection.doc();
@@ -138,6 +141,7 @@ class _AddQuestionPageState extends State<AddQuestionPage> {
                           respuesta2: nuevoQuiz.respuesta2,
                           respuesta3: nuevoQuiz.respuesta3,
                           respuesta4: nuevoQuiz.respuesta4,
+                          dificultad: nuevoQuiz.dificultad,
                           respuestaCorrecta: nuevoQuiz.respuestaCorrecta);
                       await document.set({
                         'id': nuevoQuizConID.id,
@@ -147,6 +151,7 @@ class _AddQuestionPageState extends State<AddQuestionPage> {
                         'respuesta3': nuevoQuizConID.respuesta3,
                         'respuesta4': nuevoQuizConID.respuesta4,
                         'respuestaCorrecta': nuevoQuizConID.respuestaCorrecta,
+                        'dificultad': nuevoQuizConID.dificultad,
                       });
                       Navigator.pop(context, nuevoQuizConID);
                     } else {

@@ -1,10 +1,11 @@
+import 'package:astro_app/pagina/usuario/view_apod.dart';
 import 'package:astro_app/vistausuario2/admin/PerfilbPage.dart';
 import 'package:astro_app/vistausuario2/admin/categoria.dart';
-import 'package:astro_app/vistausuario2/admin/imagen.dart';
 import 'package:astro_app/vistausuario2/admin/luna.dart';
-import 'package:astro_app/vistausuario2/admin/noticia.dart';
+import 'package:astro_app/vistausuario2/admin/Noticia/noticia.dart';
 import 'package:flutter/material.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
+import 'package:astro_app/vistausuario2/admin/ApodPage.dart' as admin;
 
 class HomeadminPage extends StatefulWidget {
   @override
@@ -20,7 +21,7 @@ class _HomeadminPageState extends State<HomeadminPage> {
     NoticiasadminPage(),
     CategoriaadminPage(),
     FaselunaradminPage(),
-    ImagendeldiaadminPage()
+    admin.ApodPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -86,10 +87,4 @@ class _HomeadminPageState extends State<HomeadminPage> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: HomeadminPage(),
-  ));
 }

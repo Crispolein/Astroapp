@@ -59,6 +59,7 @@ dependencies:
   fluentui_system_icons: ^1.1.238
   font_awesome_flutter: ^10.7.0    
   firebase_storage: any
+  image_downloader: ^0.31.0
 
 
 dev_dependencies:

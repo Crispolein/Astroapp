@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:astro_app/models/proyecto_model.dart';
 import 'package:astro_app/router/router.dart';
-import 'package:astro_app/router/router_config.dart';
 import 'package:go_router/go_router.dart';
 
 class ListarNoticia extends StatefulWidget {

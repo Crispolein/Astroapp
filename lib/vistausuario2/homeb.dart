@@ -1,4 +1,3 @@
-
 import 'package:astro_app/pagina/usuario/ajustes.dart';
 import 'package:astro_app/pagina/usuario/editar_perfil.dart';
 import 'package:astro_app/pagina/quiz_page.dart';
@@ -8,7 +7,7 @@ import 'package:astro_app/vistausuario2/PerfilbPage.dart';
 import 'package:astro_app/vistausuario2/categoria.dart';
 import 'package:astro_app/vistausuario2/gei.dart';
 import 'package:astro_app/vistausuario2/luna.dart';
-import 'package:astro_app/vistausuario2/noticias.dart';
+import 'package:astro_app/vistausuario2/admin/usuario/noticias.dart';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 

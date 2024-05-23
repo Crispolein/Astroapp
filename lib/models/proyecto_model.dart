@@ -50,6 +50,7 @@ class Quiz {
   final String respuesta4;
   final String respuestaCorrecta;
   final String? imagenURL;
+  final String? dificultad;
 
   Quiz({
     required this.id,
@@ -59,6 +60,7 @@ class Quiz {
     required this.respuesta3,
     required this.respuesta4,
     required this.respuestaCorrecta,
+    required this.dificultad,
     this.imagenURL,
   });
 
@@ -70,6 +72,7 @@ class Quiz {
       'respuesta2': respuesta2,
       'respuesta3': respuesta3,
       'respuesta4': respuesta4,
+      'dificultad': dificultad,
       'respuestaCorrecta': respuestaCorrecta,
       'imagenURL': imagenURL,
     };
@@ -84,6 +87,7 @@ class Quiz {
       respuesta3: map['respuesta3'],
       respuesta4: map['respuesta4'],
       respuestaCorrecta: map['respuestaCorrecta'],
+      dificultad: map['dificultad'],
       imagenURL: map['imagenURL'],
     );
   }

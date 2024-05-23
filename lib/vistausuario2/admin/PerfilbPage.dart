@@ -1,4 +1,3 @@
-
 import 'package:astro_app/astroApp.dart';
 import 'package:astro_app/pagina/usuario/ajustes.dart';
 import 'package:astro_app/pagina/usuario/editar_perfil.dart';
@@ -9,25 +8,6 @@ import 'package:astro_app/vistausuario2/privacidad.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Pagina de Admin',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: Color(0xFF1C1C1E),
-      ),
-      home: PerfiladministradorPage(),
-    );
-  }
-}
 
 class PerfiladministradorPage extends StatefulWidget {
   @override
