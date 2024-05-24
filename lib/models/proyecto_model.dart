@@ -124,3 +124,30 @@ class Noticia {
     );
   }
 }
+
+class FaseLunar {
+  final String fecha;
+  final String fase;
+  final String iluminacion;
+  final String edadLuna;
+  final String imagen;
+
+  FaseLunar({
+    required this.fecha,
+    required this.fase,
+    required this.iluminacion,
+    required this.edadLuna,
+    required this.imagen,
+  });
+
+  factory FaseLunar.fromJson(Map<String, dynamic> json) {
+    return FaseLunar(
+      fecha: json['date'],
+      fase: json['phase']['name'],
+      iluminacion: json['phase']['illumination'],
+      edadLuna: json['phase']['age'],
+      imagen: json['phase']
+          ['imageUrl'], // Asumiendo que la API proporciona una URL de imagen
+    );
+  }
+}

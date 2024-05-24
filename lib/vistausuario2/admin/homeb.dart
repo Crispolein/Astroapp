@@ -1,4 +1,3 @@
-import 'package:astro_app/pagina/usuario/view_apod.dart';
 import 'package:astro_app/vistausuario2/admin/PerfilbPage.dart';
 import 'package:astro_app/vistausuario2/admin/categoria.dart';
 import 'package:astro_app/vistausuario2/admin/luna.dart';

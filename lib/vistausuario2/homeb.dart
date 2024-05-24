@@ -6,13 +6,12 @@ import 'package:astro_app/vistausuario2/PerfilPage.dart';
 import 'package:astro_app/vistausuario2/PerfilbPage.dart';
 import 'package:astro_app/vistausuario2/categoria.dart';
 import 'package:astro_app/vistausuario2/gei.dart';
-import 'package:astro_app/vistausuario2/luna.dart';
+import 'package:astro_app/vistausuario2/luna.dart' as user;
 import 'package:astro_app/vistausuario2/admin/usuario/noticias.dart';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 // Importa la biblioteca donde se encuentra fase_lunar.dart
-import '../pagina/fase_lunar.dart';
 import 'package:flutter/material.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 
@@ -31,8 +30,8 @@ class _HomebPageState extends State<HomebPage> {
     //GeiPage(),
     NoticiasPage(),
     CategoriaPage(),
-    FaselunarPage(),
-    PerfilbPage()
+    user.FaseLunarPage(),
+    PerfilbPage(),
   ];
 
   void _onItemTapped(int index) {

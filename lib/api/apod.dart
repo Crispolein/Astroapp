@@ -3,27 +3,27 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class ApodApi {
-  final String title;
-  final String explanation;
-  final String hdurl;
-  final String type;
-  final String copyright;
+  final String? title;
+  final String? explanation;
+  final String? hdurl;
+  final String? type;
+  final String? copyright;
 
   ApodApi({
-    required this.title,
-    required this.explanation,
-    required this.hdurl,
-    required this.type,
-    required this.copyright,
+    this.title,
+    this.explanation,
+    this.hdurl,
+    this.type,
+    this.copyright,
   });
 
   factory ApodApi.fromJson(Map<String, dynamic> json) {
     return ApodApi(
-      title: json['title'],
-      explanation: json['explanation'],
-      hdurl: json['url'],
-      copyright: json['copyright'],
-      type: json['media_type'],
+      title: json['title'] as String?,
+      explanation: json['explanation'] as String?,
+      hdurl: json['url'] as String?,
+      type: json['media_type'] as String?,
+      copyright: json['copyright'] as String?,
     );
   }
 }
