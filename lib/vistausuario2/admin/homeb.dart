@@ -1,5 +1,5 @@
+import 'package:astro_app/vistausuario2/admin/CrearYeditarA/categoria.dart';
 import 'package:astro_app/vistausuario2/admin/PerfilbPage.dart';
-import 'package:astro_app/vistausuario2/admin/categoria.dart';
 import 'package:astro_app/vistausuario2/admin/luna.dart';
 import 'package:astro_app/vistausuario2/admin/Noticia/noticia.dart';
 import 'package:flutter/material.dart';
