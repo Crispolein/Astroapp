@@ -124,6 +124,7 @@ class _ListarNoticiaState extends State<ListarNoticia> {
                   final noticiaData = noticiaDoc.data() as Map<String, dynamic>;
                   final noticia = Noticia(
                     id: noticiaDoc.id,
+                    categoria: noticiaData['categoria'] ?? '',
                     titulo: noticiaData['titulo'] ?? '',
                     descripcion: noticiaData['descripcion'] ?? '',
                     imagenURL: noticiaData['imagenURL'] ?? '',
@@ -139,7 +140,7 @@ class _ListarNoticiaState extends State<ListarNoticia> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Titulo: ${noticia.titulo}',
+                            'Categoria: ${noticia.categoria}',
                             style: const TextStyle(fontSize: 16),
                           ),
                         ],

@@ -16,6 +16,7 @@ class _AddQuestionPageState extends State<AddQuestionPage> {
   final _respuesta2Controller = TextEditingController();
   final _respuesta3Controller = TextEditingController();
   final _respuesta4Controller = TextEditingController();
+  final _categoriaController = TextEditingController();
   final _respuestaCorrectaController = TextEditingController();
   final _dificultadController = TextEditingController();
   String _error = '';
@@ -118,6 +119,7 @@ class _AddQuestionPageState extends State<AddQuestionPage> {
                       respuesta2: _respuesta2Controller.text,
                       respuesta3: _respuesta3Controller.text,
                       respuesta4: _respuesta4Controller.text,
+                      categoria: _categoriaController.text,
                       respuestaCorrecta: _respuestaCorrectaController.text,
                       dificultad: _dificultadController.text,
                     );
@@ -130,6 +132,7 @@ class _AddQuestionPageState extends State<AddQuestionPage> {
                         .where('respuesta4', isEqualTo: nuevoQuiz.respuesta4)
                         .where('respuestaCorrecta',
                             isEqualTo: nuevoQuiz.respuestaCorrecta)
+                        .where('categoria', isEqualTo: nuevoQuiz.categoria)
                         .where('dificultad', isEqualTo: nuevoQuiz.dificultad)
                         .get();
                     if (snapshot.docs.isEmpty) {
@@ -141,6 +144,7 @@ class _AddQuestionPageState extends State<AddQuestionPage> {
                           respuesta2: nuevoQuiz.respuesta2,
                           respuesta3: nuevoQuiz.respuesta3,
                           respuesta4: nuevoQuiz.respuesta4,
+                          categoria: nuevoQuiz.categoria,
                           dificultad: nuevoQuiz.dificultad,
                           respuestaCorrecta: nuevoQuiz.respuestaCorrecta);
                       await document.set({

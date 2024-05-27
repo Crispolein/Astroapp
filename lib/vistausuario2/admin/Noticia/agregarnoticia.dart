@@ -7,6 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:astro_app/models/proyecto_model.dart';
+import 'package:astro_app/vistausuario2/categoria/crearcategoria.dart';
+import 'package:astro_app/vistausuario2/categoria/listarcategoria.dart';
 
 class AddNoticia extends StatefulWidget {
   const AddNoticia({Key? key}) : super(key: key);
@@ -20,9 +22,11 @@ class _AddNoticiaState extends State<AddNoticia> {
   final _tituloController = TextEditingController();
   final _descripcionController = TextEditingController();
   final _imagenURLController = TextEditingController();
+  final _categoriaController = TextEditingController();
   File? _imagenFile;
   final ImagePicker _picker = ImagePicker();
   String _error = '';
+  List<String> _categorias = [];
 
   Future<void> _seleccionarImagen() async {
     try {
@@ -53,6 +57,30 @@ class _AddNoticiaState extends State<AddNoticia> {
   @override
   void initState() {
     super.initState();
+    _cargarCategorias();
+  }
+
+  Future<void> _cargarCategorias() async {
+    final snapshot = await firestore.collection('categoria').get();
+    setState(() {
+      _categorias =
+          snapshot.docs.map((doc) => doc['categoria'] as String).toList();
+    });
+  }
+
+  Future<void> _agregarCategoria() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ListaCategorias(),
+      ),
+    );
+    if (result != null) {
+      setState(() {
+        _categoriaController.text = result.categoria;
+        _cargarCategorias(); // Cargar las nuevas categorías
+      });
+    }
   }
 
   @override
@@ -123,6 +151,54 @@ class _AddNoticiaState extends State<AddNoticia> {
                         },
                       ),
                       SizedBox(height: 16.0),
+                      Autocomplete<String>(
+                        optionsBuilder: (TextEditingValue textEditingValue) {
+                          if (textEditingValue.text.isEmpty) {
+                            return const Iterable<String>.empty();
+                          }
+                          return _categorias.where((String option) {
+                            return option
+                                .toLowerCase()
+                                .contains(textEditingValue.text.toLowerCase());
+                          });
+                        },
+                        onSelected: (String selection) {
+                          _categoriaController.text = selection;
+                        },
+                        fieldViewBuilder: (BuildContext context,
+                            TextEditingController fieldTextEditingController,
+                            FocusNode fieldFocusNode,
+                            VoidCallback onFieldSubmitted) {
+                          return TextFormField(
+                            controller: fieldTextEditingController,
+                            focusNode: fieldFocusNode,
+                            decoration: InputDecoration(
+                              labelText: 'Categoría',
+                              labelStyle: TextStyle(color: Colors.purple),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.purple),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              suffixIcon: IconButton(
+                                icon: Icon(Icons.add),
+                                onPressed: _agregarCategoria,
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Por favor, ingrese una categoría';
+                              } else if (!_categorias.contains(value)) {
+                                return 'La categoría ingresada no existe';
+                              }
+                              return null;
+                            },
+                          );
+                        },
+                      ),
+                      SizedBox(height: 16.0),
                       TextFormField(
                         controller: _descripcionController,
                         decoration: InputDecoration(
@@ -163,6 +239,7 @@ class _AddNoticiaState extends State<AddNoticia> {
                       titulo: _tituloController.text,
                       descripcion: _descripcionController.text,
                       imagenURL: _imagenURLController.text,
+                      categoria: _categoriaController.text,
                     );
 
                     final snapshot = await _noticiaCollection
@@ -176,12 +253,14 @@ class _AddNoticiaState extends State<AddNoticia> {
                         'titulo': nuevoNoticia.titulo,
                         'descripcion': nuevoNoticia.descripcion,
                         'imagenURL': nuevoNoticia.imagenURL,
+                        'categoria': nuevoNoticia.categoria,
                       }).then((DocumentReference document) {
                         final nuevoNoticiaConId = Noticia(
                           id: document.id,
                           titulo: nuevoNoticia.titulo,
                           descripcion: nuevoNoticia.descripcion,
                           imagenURL: nuevoNoticia.imagenURL,
+                          categoria: nuevoNoticia.categoria,
                         );
                         Navigator.pop(context, nuevoNoticiaConId);
                       });

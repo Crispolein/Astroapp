@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,9 +17,10 @@ class _EditarNoticiaPageState extends State<EditarNoticiaPage> {
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _tituloController;
   late final TextEditingController _descripcionController;
-  late final TextEditingController _imagenURLController;
+  late final TextEditingController _categoriaController;
   File? _imagenFile;
   final ImagePicker _picker = ImagePicker();
+  List<String> _categorias = [];
 
   @override
   void initState() {
@@ -28,6 +28,18 @@ class _EditarNoticiaPageState extends State<EditarNoticiaPage> {
     _tituloController = TextEditingController(text: widget.noticia.titulo);
     _descripcionController =
         TextEditingController(text: widget.noticia.descripcion);
+    _categoriaController =
+        TextEditingController(text: widget.noticia.categoria);
+    _cargarCategorias();
+  }
+
+  Future<void> _cargarCategorias() async {
+    final snapshot =
+        await FirebaseFirestore.instance.collection('categoria').get();
+    setState(() {
+      _categorias =
+          snapshot.docs.map((doc) => doc['categoria'] as String).toList();
+    });
   }
 
   Future<void> _seleccionarImagen() async {
@@ -127,9 +139,56 @@ class _EditarNoticiaPageState extends State<EditarNoticiaPage> {
                           if (value == null || value.isEmpty) {
                             return 'Por favor, ingrese un título.';
                           }
+                          return null;
                         },
                       ),
-                      const SizedBox(height: 16.0),
+                      SizedBox(height: 16.0),
+                      Autocomplete<String>(
+                        optionsBuilder: (TextEditingValue textEditingValue) {
+                          if (textEditingValue.text.isEmpty) {
+                            return const Iterable<String>.empty();
+                          }
+                          return _categorias.where((String option) {
+                            return option
+                                .toLowerCase()
+                                .contains(textEditingValue.text.toLowerCase());
+                          });
+                        },
+                        onSelected: (String selection) {
+                          _categoriaController.text = selection;
+                        },
+                        fieldViewBuilder: (BuildContext context,
+                            TextEditingController fieldTextEditingController,
+                            FocusNode fieldFocusNode,
+                            VoidCallback onFieldSubmitted) {
+                          fieldTextEditingController.text =
+                              _categoriaController.text;
+                          return TextFormField(
+                            controller: fieldTextEditingController,
+                            focusNode: fieldFocusNode,
+                            decoration: InputDecoration(
+                              labelText: 'Categoría',
+                              labelStyle: TextStyle(color: Colors.purple),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.purple),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Por favor, ingrese una categoría.';
+                              } else if (!_categorias.contains(value)) {
+                                return 'La categoría ingresada no existe';
+                              }
+                              return null;
+                            },
+                          );
+                        },
+                      ),
+                      SizedBox(height: 16.0),
                       TextFormField(
                         controller: _descripcionController,
                         decoration: InputDecoration(
@@ -147,6 +206,7 @@ class _EditarNoticiaPageState extends State<EditarNoticiaPage> {
                           if (value == null || value.isEmpty) {
                             return 'Por favor, ingrese una descripción.';
                           }
+                          return null;
                         },
                         maxLines: 4,
                       ),
@@ -162,6 +222,7 @@ class _EditarNoticiaPageState extends State<EditarNoticiaPage> {
                     final nuevoNoticia = Noticia(
                       id: widget.noticia.id,
                       titulo: _tituloController.text,
+                      categoria: _categoriaController.text,
                       descripcion: _descripcionController.text,
                       imagenURL: _imagenFile != null
                           ? _imagenFile!.path

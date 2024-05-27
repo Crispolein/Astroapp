@@ -1,8 +1,6 @@
-
-import 'package:astro_app/vistausuario2/admin/CrearYeditarB/EditarQuiz.dart';
+import 'package:astro_app/vistausuario2/admin/CrearYeditarB/editartruefalse.dart';
+import 'package:astro_app/vistausuario2/admin/CrearYeditarB/listartruefalse.dart';
 import 'package:astro_app/vistausuario2/admin/CrearYeditarB/crearquiz.dart';
-
-import 'package:astro_app/vistausuario2/admin/CrearYeditarB/personalizarquiz.dart';
 import 'package:flutter/material.dart';
 
 class CategorybIcon extends StatelessWidget {
@@ -17,20 +15,14 @@ class CategorybIcon extends StatelessWidget {
         // Navegar a la página correspondiente según la etiqueta del ítem
         Widget destination;
         switch (item.label) {
-          case 'Fácil':
-          case 'Medio':
-          case 'Difícil':
-            destination = CrearbQuizPage(); // Página de creación de quiz
+          case 'Crear':
+            destination = CrearTrueFalsePage(); // Página de creación de quiz
             break;
-          case 'Personalizar':
-            destination =
-                PersonalizarbQuizPage(); // Página de personalización de quiz
-            break;
-          case 'Editar':
-            destination = EditarbQuizPage(); // Página de valoración de quiz
+          case 'Listar':
+            destination = ListarTrueFalsePage(); // Página de listado de quiz
             break;
           default:
-            destination = EditarbQuizPage(); // Página por defecto
+            destination = ListarTrueFalsePage(); // Página por defecto
         }
 
         Navigator.push(

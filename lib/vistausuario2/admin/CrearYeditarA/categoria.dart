@@ -5,8 +5,6 @@ import 'package:astro_app/vistausuario2/admin/CrearYeditarB/categoriaitem.dart';
 import 'package:astro_app/vistausuario2/admin/CrearYeditarC/categoriaitem.dart';
 import 'package:astro_app/vistausuario2/admin/CrearYeditarD/categoriaitem.dart';
 import 'package:flutter/material.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 void main() {
   runApp(MyApp()); // Inicia la aplicación y llama a MyApp
@@ -181,7 +179,7 @@ class FacilCategoryItem extends StatelessWidget {
     return CategoryIcon(
       item: CategoryItem(
           icon: Icons.sentiment_satisfied,
-          label: 'Fácil'), // Ítem de categoría fácil
+          label: 'Crear Quiz'), // Ítem de categoría fácil
     );
   }
 }
@@ -192,7 +190,7 @@ class MedioCategoryItem extends StatelessWidget {
     return CategoryIcon(
       item: CategoryItem(
           icon: Icons.sentiment_neutral,
-          label: 'Medio'), // Ítem de categoría medio
+          label: 'Listar Quiz'), // Ítem de categoría medio
     );
   }
 }
@@ -249,10 +247,10 @@ class CategoryIcon extends StatelessWidget {
                 PersonalizarQuizPage(); // Página de personalización de quiz
             break;
           case 'Editar':
-            destination = EditarQuizPage(); // Página de valoración de quiz
+            destination = ListarQuizPage(); // Página de valoración de quiz
             break;
           default:
-            destination = EditarQuizPage(); // Página por defecto
+            destination = ListarQuizPage(); // Página por defecto
         }
 
         Navigator.push(

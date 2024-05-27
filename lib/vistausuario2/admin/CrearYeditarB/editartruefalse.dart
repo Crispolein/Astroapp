@@ -7,21 +7,21 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:astro_app/models/proyecto_model.dart';
 import 'package:astro_app/vistausuario2/categoria/listarcategoria.dart';
 
-class CrearQuizPage extends StatefulWidget {
+class EditarTrueFalsePage extends StatefulWidget {
+  final TrueFalseQuestion question;
+
+  const EditarTrueFalsePage({required this.question})
+      : super(key: const Key(''));
+
   @override
-  _CrearQuizPageState createState() => _CrearQuizPageState();
+  // ignore: library_private_types_in_public_api
+  _EditarTrueFalsePageState createState() => _EditarTrueFalsePageState();
 }
 
-class _CrearQuizPageState extends State<CrearQuizPage> {
+class _EditarTrueFalsePageState extends State<EditarTrueFalsePage> {
   final _formKey = GlobalKey<FormState>();
-  final _preguntaController = TextEditingController();
-  final _respuesta1Controller = TextEditingController();
-  final _respuesta2Controller = TextEditingController();
-  final _respuesta3Controller = TextEditingController();
-  final _respuesta4Controller = TextEditingController();
-  final _categoriaController = TextEditingController();
-  String? _respuestaCorrecta;
-  String? _dificultad;
+  late TextEditingController _preguntaController;
+  bool _respuestaCorrecta = true;
   File? _imagenFile;
   final ImagePicker _picker = ImagePicker();
   String _categoriaSeleccionada = '';
@@ -31,6 +31,9 @@ class _CrearQuizPageState extends State<CrearQuizPage> {
   void initState() {
     super.initState();
     _cargarCategorias();
+    _preguntaController = TextEditingController(text: widget.question.pregunta);
+    _respuestaCorrecta = widget.question.respuestaCorrecta;
+    _categoriaSeleccionada = widget.question.categoria;
   }
 
   Future<void> _cargarCategorias() async {
@@ -59,35 +62,30 @@ class _CrearQuizPageState extends State<CrearQuizPage> {
 
   Future<String> _subirImagen(File imagen) async {
     final storage = FirebaseStorage.instance;
-    final referencia = storage.ref().child('quiz/${DateTime.now()}.jpg');
+    final referencia = storage.ref().child('truefalse/${DateTime.now()}.jpg');
     await referencia.putFile(imagen);
     return referencia.getDownloadURL();
   }
 
-  Future<void> _guardarQuiz() async {
+  Future<void> _guardarCambios() async {
     if (_formKey.currentState!.validate()) {
-      String? imagenURL;
+      String? imagenURL = widget.question.imagenURL;
       if (_imagenFile != null) {
         imagenURL = await _subirImagen(_imagenFile!);
       }
 
-      final nuevoQuiz = Quiz(
-        id: FirebaseFirestore.instance.collection('quizzes').doc().id,
+      final updatedQuestion = TrueFalseQuestion(
+        id: widget.question.id,
         pregunta: _preguntaController.text,
-        respuesta: _respuesta1Controller.text,
-        respuesta2: _respuesta2Controller.text,
-        respuesta3: _respuesta3Controller.text,
-        respuesta4: _respuesta4Controller.text,
-        respuestaCorrecta: _respuestaCorrecta!,
-        categoria: _categoriaController.text,
-        dificultad: _dificultad!,
+        respuestaCorrecta: _respuestaCorrecta,
+        categoria: _categoriaSeleccionada,
         imagenURL: imagenURL,
       );
 
       await FirebaseFirestore.instance
-          .collection('quizzes')
-          .doc(nuevoQuiz.id)
-          .set(nuevoQuiz.toMap());
+          .collection('truefalse')
+          .doc(updatedQuestion.id)
+          .update(updatedQuestion.toMap());
       Navigator.pop(context);
     }
   }
@@ -96,7 +94,7 @@ class _CrearQuizPageState extends State<CrearQuizPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Crear Quiz'),
+        title: Text('Editar Pregunta de V/F'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -169,96 +167,40 @@ class _CrearQuizPageState extends State<CrearQuizPage> {
                 ),
                 SizedBox(height: 20.0),
                 Text(
-                  'Opciones',
+                  'Respuesta Correcta',
                   style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 SizedBox(height: 10.0),
-                Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Column(
-                    children: [
-                      _buildOptionField('Opción 1', _respuesta1Controller),
-                      _buildOptionField('Opción 2', _respuesta2Controller),
-                      _buildOptionField('Opción 3', _respuesta3Controller),
-                      _buildOptionField('Opción 4', _respuesta4Controller),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                Text(
-                  'Opción Correcta',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                DropdownButtonFormField<String>(
-                  value: _respuestaCorrecta,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
-                  items: [
-                    _respuesta1Controller.text,
-                    _respuesta2Controller.text,
-                    _respuesta3Controller.text,
-                    _respuesta4Controller.text,
-                  ].map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _respuestaCorrecta = value;
-                    });
-                  },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor, selecciona la opción correcta';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 20.0),
-                Text(
-                  'Dificultad',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                DropdownButtonFormField<String>(
-                  value: _dificultad,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
-                  items: ['Fácil', 'Medio', 'Difícil'].map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _dificultad = value;
-                    });
-                  },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor, selecciona una dificultad';
-                    }
-                    return null;
-                  },
+                Row(
+                  children: [
+                    Expanded(
+                      child: RadioListTile<bool>(
+                        title: const Text('Verdadero'),
+                        value: true,
+                        groupValue: _respuestaCorrecta,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _respuestaCorrecta = value!;
+                          });
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: RadioListTile<bool>(
+                        title: const Text('Falso'),
+                        value: false,
+                        groupValue: _respuestaCorrecta,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _respuestaCorrecta = value!;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 20.0),
                 Row(
@@ -318,11 +260,11 @@ class _CrearQuizPageState extends State<CrearQuizPage> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: _guardarQuiz,
+                    onPressed: _guardarCambios,
                     child: Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: Text(
-                        'Guardar',
+                        'Guardar Cambios',
                         style: TextStyle(fontSize: 18.0, color: Colors.purple),
                       ),
                     ),
@@ -342,27 +284,6 @@ class _CrearQuizPageState extends State<CrearQuizPage> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildOptionField(String labelText, TextEditingController controller) {
-    return TextFormField(
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: labelText,
-      ),
-      onChanged: (value) {
-        setState(() {
-          // Update the dropdown menu items whenever an option is changed
-          _respuestaCorrecta = null;
-        });
-      },
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Por favor, introduce $labelText';
-        }
-        return null;
-      },
     );
   }
 }

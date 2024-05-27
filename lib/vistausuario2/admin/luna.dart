@@ -2,23 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' as rootBundle;
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Fases Lunares',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: FaselunaradminPage(),
-    );
-  }
-}
-
 class FaselunaradminPage extends StatefulWidget {
   @override
   _FaselunaradminPageState createState() => _FaselunaradminPageState();

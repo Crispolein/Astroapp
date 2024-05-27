@@ -51,6 +51,7 @@ class Quiz {
   final String respuestaCorrecta;
   final String? imagenURL;
   final String? dificultad;
+  final String? categoria;
 
   Quiz({
     required this.id,
@@ -61,6 +62,7 @@ class Quiz {
     required this.respuesta4,
     required this.respuestaCorrecta,
     required this.dificultad,
+    required this.categoria,
     this.imagenURL,
   });
 
@@ -73,6 +75,7 @@ class Quiz {
       'respuesta3': respuesta3,
       'respuesta4': respuesta4,
       'dificultad': dificultad,
+      'categoria': categoria,
       'respuestaCorrecta': respuestaCorrecta,
       'imagenURL': imagenURL,
     };
@@ -89,6 +92,7 @@ class Quiz {
       respuestaCorrecta: map['respuestaCorrecta'],
       dificultad: map['dificultad'],
       imagenURL: map['imagenURL'],
+      categoria: map['categoria'],
     );
   }
 }
@@ -98,12 +102,14 @@ class Noticia {
   final String titulo;
   final String descripcion;
   final String imagenURL;
+  final String categoria;
 
   Noticia({
     required this.id,
     required this.titulo,
     required this.descripcion,
     required this.imagenURL,
+    required this.categoria,
   });
 
   Map<String, dynamic> toMap() {
@@ -112,6 +118,7 @@ class Noticia {
       'titulo': titulo,
       'descripcion': descripcion,
       'imagen': imagenURL,
+      'categoria': 'categoria',
     };
   }
 
@@ -121,6 +128,7 @@ class Noticia {
       titulo: map['titulo'],
       descripcion: map['descripcion'],
       imagenURL: map['imagen'],
+      categoria: map['categoria'],
     );
   }
 }
@@ -142,12 +150,71 @@ class FaseLunar {
 
   factory FaseLunar.fromJson(Map<String, dynamic> json) {
     return FaseLunar(
-      fecha: json['date'],
-      fase: json['phase']['name'],
-      iluminacion: json['phase']['illumination'],
-      edadLuna: json['phase']['age'],
-      imagen: json['phase']
-          ['imageUrl'], // Asumiendo que la API proporciona una URL de imagen
+      fecha: json['date'] as String,
+      fase: json['phase']['name'] as String,
+      iluminacion: json['phase']['illumination'] as String,
+      edadLuna: json['phase']['age'] as String,
+      imagen: json['image_url'] as String,
+    );
+  }
+}
+
+class Categoria {
+  final String id;
+  final String categoria;
+
+  Categoria({
+    required this.id,
+    required this.categoria,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'nombre': categoria,
+    };
+  }
+
+  factory Categoria.fromMap(Map<String, dynamic> map) {
+    return Categoria(
+      id: map['id'],
+      categoria: map['categoria'],
+    );
+  }
+}
+
+class TrueFalseQuestion {
+  final String id;
+  final String pregunta;
+  final bool respuestaCorrecta; // true para verdadero, false para falso
+  final String? imagenURL;
+  final String categoria;
+
+  TrueFalseQuestion({
+    required this.id,
+    required this.pregunta,
+    required this.respuestaCorrecta,
+    required this.categoria,
+    this.imagenURL,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'pregunta': pregunta,
+      'respuestaCorrecta': respuestaCorrecta,
+      'imagenURL': imagenURL,
+      'categoria': categoria,
+    };
+  }
+
+  factory TrueFalseQuestion.fromMap(Map<String, dynamic> map) {
+    return TrueFalseQuestion(
+      id: map['id'],
+      pregunta: map['pregunta'],
+      respuestaCorrecta: map['respuestaCorrecta'],
+      imagenURL: map['imagenURL'],
+      categoria: map['categoria'],
     );
   }
 }

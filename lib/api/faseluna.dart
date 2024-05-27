@@ -1,30 +1,62 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:astro_app/models/proyecto_model.dart';
 
-Future<List<FaseLunar>> fetchFasesLunares(
-    String latitude, String longitude, String startDate, String endDate) async {
-  final String apiKey = "e1687554-4196-40bb-a612-0fff9c1588fd	";
+class FaseLunar {
+  final String fecha;
+  final String imagen;
+
+  FaseLunar({
+    required this.fecha,
+    required this.imagen,
+  });
+
+  factory FaseLunar.fromJson(Map<String, dynamic> json) {
+    return FaseLunar(
+      fecha: json['date'] as String,
+      imagen: json['imageUrl'] as String,
+    );
+  }
+}
+
+Future<FaseLunar> fetchMoonPhase(
+    String latitude, String longitude, String date) async {
+  final String apiKey =
+      "86ab6c1a-9f55-405d-942f-a7959bc94feb"; // Reemplaza con tu clave API
 
   try {
-    var response = await http.get(
-      Uri.parse(
-          'https://api.astronomyapi.com/api/v2/bodies/positions/moon?latitude=$latitude&longitude=$longitude&from_date=$startDate&to_date=$endDate'),
+    var response = await http.post(
+      Uri.parse('https://api.astronomyapi.com/api/v2/studio/moon-phase'),
       headers: {
         'Authorization': 'Bearer $apiKey',
+        'Content-Type': 'application/json',
       },
+      body: jsonEncode({
+        'format': 'png',
+        'style': {
+          'moonStyle':
+              'default', // Puedes cambiar esto según el estilo que desees
+          'backgroundStyle': 'stars',
+          'backgroundColor': 'black',
+          'headingColor': 'white',
+          'textColor': 'white',
+        },
+        'observer': {
+          'latitude': latitude,
+          'longitude': longitude,
+          'date': date,
+        },
+        'view': {
+          'type':
+              'portrait-simple', // Puedes cambiar esto según el tipo de vista que desees
+        }
+      }),
     );
 
-    print('Response status code: ${response.statusCode}');
-    print('Response body: ${response.body}');
-
     if (response.statusCode == 200) {
-      List<dynamic> jsonList =
-          json.decode(response.body)['data']['table']['rows'];
-      return jsonList
-          .map((json) => FaseLunar.fromJson(json['cells'][0]))
-          .toList();
+      var jsonResponse = json.decode(response.body);
+      return FaseLunar.fromJson(
+          {'date': date, 'imageUrl': jsonResponse['data']['imageUrl']});
     } else {
       throw Exception('Failed to load JSON: ${response.statusCode}');
     }
