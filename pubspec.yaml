@@ -59,6 +59,8 @@ dependencies:
   font_awesome_flutter: ^10.7.0    
   firebase_storage: any
   translator: ^1.0.0
+  video_player: ^2.2.18
+  youtube_player_flutter: 
 
 
 dev_dependencies:
