@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:astro_app/api/apod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:image_downloader/image_downloader.dart';
 import 'package:translator/translator.dart';
 
 class ApodPage extends StatefulWidget {
@@ -38,29 +37,6 @@ class _ApodPageState extends State<ApodPage> {
             ),
           );
         },
-      );
-    }
-  }
-
-  Future<void> _descargarImagen(String? imagenURL) async {
-    if (imagenURL != null) {
-      try {
-        var imageId = await ImageDownloader.downloadImage(imagenURL);
-        if (imageId == null) {
-          return;
-        }
-        var path = await ImageDownloader.findPath(imageId);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Imagen descargada en: $path')),
-        );
-      } catch (error) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al descargar la imagen: $error')),
-        );
-      }
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('URL de imagen no disponible')),
       );
     }
   }
@@ -134,9 +110,6 @@ class _ApodPageState extends State<ApodPage> {
                           return GestureDetector(
                             onTap: () {
                               _mostrarImagenAgrandada(apodData?.hdurl);
-                            },
-                            onLongPress: () {
-                              _descargarImagen(apodData?.hdurl);
                             },
                             child: Column(
                               children: [
