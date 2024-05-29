@@ -1,13 +1,8 @@
 import 'package:astro_app/models/proyecto_model.dart';
-import 'package:astro_app/pagina/admin/homeAdmin.dart';
-import 'package:astro_app/pagina/admin/quiz_admin.dart';
-import 'package:astro_app/pagina/review_quiz_page.dart';
 import 'package:astro_app/Login/forget_password.dart';
-import 'package:astro_app/pagina/usuario/home.dart';
 import 'package:astro_app/Login/new_password.dart';
 import 'package:astro_app/Login/otp_verification.dart';
 import 'package:astro_app/Login/password_changed.dart';
-import 'package:astro_app/pagina/quiz_page.dart';
 import 'package:astro_app/router/router.dart';
 import 'package:astro_app/astroApp.dart';
 import 'package:astro_app/Login/login_page.dart';
@@ -70,34 +65,6 @@ final router = GoRouter(routes: [
     name: Routers.passwordchanges.name,
     pageBuilder: (context, state) {
       return const CupertinoPage(child: PasswordChangesPage());
-    },
-  ),
-  GoRoute(
-    path: Routers.addquestionpageadmin.path,
-    name: Routers.addquestionpageadmin.name,
-    pageBuilder: (context, state) {
-      return const CupertinoPage(child: AddQuestionPage());
-    },
-  ),
-  GoRoute(
-    path: Routers.quizpage.path,
-    name: Routers.quizpage.name,
-    pageBuilder: (context, state) {
-      return const CupertinoPage(child: QuizPage());
-    },
-  ),
-  GoRoute(
-    path: Routers.homepage.path,
-    name: Routers.homepage.name,
-    pageBuilder: (context, state) {
-      return const CupertinoPage(child: HomePage());
-    },
-  ),
-  GoRoute(
-    path: Routers.reviewquizpage.path,
-    name: Routers.reviewquizpage.name,
-    pageBuilder: (context, state) {
-      return const CupertinoPage(child: ReviewQuizPage());
     },
   ),
   GoRoute(
