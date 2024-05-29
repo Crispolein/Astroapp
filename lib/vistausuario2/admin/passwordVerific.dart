@@ -45,7 +45,7 @@ class _TickedadminPageState extends State<TickedadminPage> {
               child: CustomElevatedButton(
                 message: "Volver al inicio",
                 function: () {
-                  GoRouter.of(context).pushReplacement(Routers.homebpage.name);
+                  GoRouter.of(context).pushReplacement(Routers.homeadminpage.name);
                 },
                 color: Colors.black,
               ),

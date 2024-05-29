@@ -1,6 +1,29 @@
 import 'dart:convert';
+import 'package:astro_app/vistausuario2/admin/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' as rootBundle;
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: themeNotifier,
+      builder: (context, _) {
+        return MaterialApp(
+          theme: ThemeData.light(),
+          darkTheme: ThemeData.dark(),
+          themeMode: themeNotifier.value,
+          title: 'Fases Lunares',
+          home: FaselunaradminPage(),
+        );
+      },
+    );
+  }
+}
 
 class FaselunaradminPage extends StatefulWidget {
   @override
@@ -27,31 +50,50 @@ class _FaselunaradminPageState extends State<FaselunaradminPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: FutureBuilder<List<FaseLunar>>(
-        future: _fasesLunaresFuturo,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            final fasesLunares = snapshot.data ?? [];
-            return PageView.builder(
-              controller: _pageController,
-              itemCount: fasesLunares.length,
-              itemBuilder: (context, index) {
-                final faseLunar = fasesLunares[index];
-                return PaginaFaseLunar(
-                  faseLunar: faseLunar,
-                  pageController: _pageController,
+    final Color backgroundColor =
+        Theme.of(context).brightness == Brightness.dark
+            ? Color(0xFF1C1C1E)
+            : Color.fromARGB(255, 255, 255, 255);
+    final Color titleColor = Theme.of(context).brightness == Brightness.dark
+        ? Colors.amber
+        : Colors.black;
+    final Color textColor = Theme.of(context).brightness == Brightness.dark
+        ? Colors.grey[300]!
+        : Colors.grey[800]!;
+
+    return AnimatedSwitcher(
+      duration: Duration(milliseconds: 500),
+      child: Container(
+        key: ValueKey<ThemeMode>(themeNotifier.value),
+        color: backgroundColor,
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: FutureBuilder<List<FaseLunar>>(
+            future: _fasesLunaresFuturo,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else {
+                final fasesLunares = snapshot.data ?? [];
+                return PageView.builder(
+                  controller: _pageController,
                   itemCount: fasesLunares.length,
-                  currentIndex: index,
+                  itemBuilder: (context, index) {
+                    final faseLunar = fasesLunares[index];
+                    return PaginaFaseLunar(
+                      faseLunar: faseLunar,
+                      pageController: _pageController,
+                      itemCount: fasesLunares.length,
+                      currentIndex: index,
+                    );
+                  },
                 );
-              },
-            );
-          }
-        },
+              }
+            },
+          ),
+        ),
       ),
     );
   }
@@ -72,6 +114,16 @@ class PaginaFaseLunar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color textColor = Theme.of(context).brightness == Brightness.dark
+        ? Colors.grey[300]!
+        : Colors.black;
+    final Color containerColor = Theme.of(context).brightness == Brightness.dark
+        ? Color(0xFF2C2C2E)
+        : Colors.white;
+    final Color titleColor = Theme.of(context).brightness == Brightness.dark
+        ? Colors.amber
+        : Colors.purple;
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -81,7 +133,7 @@ class PaginaFaseLunar extends StatelessWidget {
             children: [
               if (currentIndex > 0)
                 IconButton(
-                  icon: Icon(Icons.arrow_back),
+                  icon: Icon(Icons.arrow_back, color: titleColor),
                   onPressed: () {
                     pageController.previousPage(
                       duration: Duration(milliseconds: 300),
@@ -92,20 +144,28 @@ class PaginaFaseLunar extends StatelessWidget {
               Spacer(),
               Column(
                 children: [
-                  Text(
-                    faseLunar.fecha,
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top:
+                            40.0), // Ajusta el valor de 'top' para bajar el título
+                    child: Text(
+                      faseLunar.fecha,
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: titleColor),
+                    ),
                   ),
                   Text(
                     faseLunar.dia,
-                    style: TextStyle(fontSize: 24, color: Colors.grey),
+                    style: TextStyle(fontSize: 24, color: textColor),
                   ),
                 ],
               ),
               Spacer(),
               if (currentIndex < itemCount - 1)
                 IconButton(
-                  icon: Icon(Icons.arrow_forward),
+                  icon: Icon(Icons.arrow_forward, color: titleColor),
                   onPressed: () {
                     pageController.nextPage(
                       duration: Duration(milliseconds: 300),
@@ -125,6 +185,7 @@ class PaginaFaseLunar extends StatelessWidget {
                 image: AssetImage(faseLunar.imagen),
                 fit: BoxFit.cover,
               ),
+              color: containerColor,
             ),
           ),
           SizedBox(height: 20),
@@ -137,7 +198,10 @@ class PaginaFaseLunar extends StatelessWidget {
                     Alignment.centerLeft, // Alinea el texto a la izquierda
                 child: Text(
                   faseLunar.fase,
-                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: titleColor),
                   textAlign: TextAlign.left, // Alinea el texto a la izquierda
                 ),
               ),
@@ -147,7 +211,7 @@ class PaginaFaseLunar extends StatelessWidget {
                     Alignment.centerLeft, // Alinea el texto a la izquierda
                 child: Text(
                   'Fase Lunar',
-                  style: TextStyle(fontSize: 18, color: Colors.grey),
+                  style: TextStyle(fontSize: 18, color: textColor),
                   textAlign: TextAlign.left, // Alinea el texto a la izquierda
                 ),
               ),
@@ -158,7 +222,7 @@ class PaginaFaseLunar extends StatelessWidget {
             alignment: Alignment.centerLeft, // Alinea el texto a la izquierda
             child: Text(
               'Iluminación: ${faseLunar.iluminacion}',
-              style: TextStyle(fontSize: 22),
+              style: TextStyle(fontSize: 22, color: textColor),
               textAlign: TextAlign.left, // Alinea el texto a la izquierda
             ),
           ),
@@ -167,7 +231,7 @@ class PaginaFaseLunar extends StatelessWidget {
             alignment: Alignment.centerLeft, // Alinea el texto a la izquierda
             child: Text(
               'Edad de la Luna: ${faseLunar.edadLuna}',
-              style: TextStyle(fontSize: 22),
+              style: TextStyle(fontSize: 22, color: textColor),
               textAlign: TextAlign.left, // Alinea el texto a la izquierda
             ),
           ),
