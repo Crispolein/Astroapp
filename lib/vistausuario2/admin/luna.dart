@@ -144,12 +144,17 @@ class PaginaFaseLunar extends StatelessWidget {
               Spacer(),
               Column(
                 children: [
-                  Text(
-                    faseLunar.fecha,
-                    style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: titleColor),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top:
+                            40.0), // Ajusta el valor de 'top' para bajar el título
+                    child: Text(
+                      faseLunar.fecha,
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: titleColor),
+                    ),
                   ),
                   Text(
                     faseLunar.dia,

@@ -4,6 +4,7 @@ import 'package:astro_app/vistausuario2/admin/CrearYeditarA/EditarQuiz.dart';
 import 'package:astro_app/vistausuario2/admin/CrearYeditarB/categoriaitem.dart';
 import 'package:astro_app/vistausuario2/admin/CrearYeditarC/categoriaitem.dart';
 import 'package:astro_app/vistausuario2/admin/CrearYeditarD/categoriaitem.dart';
+import 'package:astro_app/vistausuario2/admin/theme.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -19,88 +20,118 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class CategoriaadminPage extends StatelessWidget {
+class CategoriaadminPage extends StatefulWidget {
+  @override
+  _CategoriaadminPageState createState() => _CategoriaadminPageState();
+}
+
+class _CategoriaadminPageState extends State<CategoriaadminPage> {
+  void _toggleTheme() {
+    setState(() {
+      themeNotifier.toggleTheme();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black, // Color de fondo del Scaffold
-      body: SingleChildScrollView(
-        child: Padding(
-          padding:
-              const EdgeInsets.all(16.0), // Padding alrededor del contenido
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Título llamativo
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: Text(
-                  'Categorías de Juegos', // Texto del título
-                  style: TextStyle(
-                    color: Colors.amber, // Color del texto
-                    fontSize: 32, // Tamaño de fuente
-                    fontWeight: FontWeight.bold, // Grosor de la fuente
-                    letterSpacing: 1.5, // Espaciado entre letras
-                    shadows: [
-                      Shadow(
-                        offset: Offset(2.0, 2.0), // Desplazamiento de la sombra
-                        blurRadius: 3.0, // Radio de desenfoque de la sombra
-                        color:
-                            Colors.black.withOpacity(0.5), // Color de la sombra
+    final Color backgroundColor =
+        Theme.of(context).brightness == Brightness.dark
+            ? Color(0xFF1C1C1E)
+            : Color.fromARGB(255, 255, 255, 255);
+    final Color titleColor = Theme.of(context).brightness == Brightness.dark
+        ? Colors.amber
+        : Colors.black;
+
+    return AnimatedSwitcher(
+      duration: Duration(milliseconds: 500),
+      child: Container(
+        key: ValueKey<ThemeMode>(themeNotifier.value),
+        color: backgroundColor,
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SingleChildScrollView(
+            child: Padding(
+              padding:
+                  const EdgeInsets.all(16.0), // Padding alrededor del contenido
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Título llamativo
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 40.0,
+                        bottom:
+                            16.0), // Ajusta el valor de 'top' para bajar el título
+                    child: Text(
+                      'Categorías de Juegos', // Texto del título
+                      style: TextStyle(
+                        color: titleColor, // Color del texto del título
+                        fontSize: 32, // Tamaño de fuente
+                        fontWeight: FontWeight.bold, // Grosor de la fuente
+                        letterSpacing: 1.5, // Espaciado entre letras
+                        shadows: [
+                          Shadow(
+                            offset:
+                                Offset(2.0, 2.0), // Desplazamiento de la sombra
+                            blurRadius: 3.0, // Radio de desenfoque de la sombra
+                            color: Colors.black
+                                .withOpacity(0.5), // Color de la sombra
+                          ),
+                        ],
                       ),
+                    ),
+                  ),
+                  // Secciones de categorías
+                  CategorySection(
+                    title: 'Alternativas', // Título de la sección
+                    icon: Icons.list, // Icono de la sección
+                    items: [
+                      FacilCategoryItem(), // Botón de categoría fácil
+                      MedioCategoryItem(), // Botón de categoría medio
+                      DificilCategoryItem(), // Botón de categoría difícil
+                      PersonalizarCategoryItem(), // Botón de personalizar
+                      ValorarCategoryItem(), // Botón de valorar
                     ],
                   ),
-                ),
-              ),
-              // Secciones de categorías
-              CategorySection(
-                title: 'Alternativas', // Título de la sección
-                icon: Icons.list, // Icono de la sección
-                items: [
-                  FacilCategoryItem(), // Botón de categoría fácil
-                  MedioCategoryItem(), // Botón de categoría medio
-                  DificilCategoryItem(), // Botón de categoría difícil
-                  PersonalizarCategoryItem(), // Botón de personalizar
-                  ValorarCategoryItem(), // Botón de valorar
+                  SizedBox(height: 16), // Espacio entre secciones
+                  CategorySection(
+                    title: 'Verdadero Y Falso',
+                    icon: Icons.check_circle,
+                    items: [
+                      FacilbCategoryItem(),
+                      MediobCategoryItem(),
+                      DificilbCategoryItem(),
+                      PersonalizarbCategoryItem(),
+                      ValorarbCategoryItem(),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  CategorySection(
+                    title: 'Terminos Pareados',
+                    icon: Icons.compare_arrows,
+                    items: [
+                      FacilcCategoryItem(),
+                      MediocCategoryItem(),
+                      DificilcCategoryItem(),
+                      PersonalizarcCategoryItem(),
+                      ValorarcCategoryItem(),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  CategorySection(
+                    title: 'Preguntas Abiertas',
+                    icon: Icons.edit,
+                    items: [
+                      FacildCategoryItem(),
+                      MediodCategoryItem(),
+                      DificildCategoryItem(),
+                      PersonalizardCategoryItem(),
+                      ValorardCategoryItem(),
+                    ],
+                  ),
                 ],
               ),
-              SizedBox(height: 16), // Espacio entre secciones
-              CategorySection(
-                title: 'Verdadero Y Falso',
-                icon: Icons.check_circle,
-                items: [
-                  FacilbCategoryItem(),
-                  MediobCategoryItem(),
-                  DificilbCategoryItem(),
-                  PersonalizarbCategoryItem(),
-                  ValorarbCategoryItem(),
-                ],
-              ),
-              SizedBox(height: 16),
-              CategorySection(
-                title: 'Terminos Pareados',
-                icon: Icons.compare_arrows,
-                items: [
-                  FacilcCategoryItem(),
-                  MediocCategoryItem(),
-                  DificilcCategoryItem(),
-                  PersonalizarcCategoryItem(),
-                  ValorarcCategoryItem(),
-                ],
-              ),
-              SizedBox(height: 16),
-              CategorySection(
-                title: 'Preguntas Abiertas',
-                icon: Icons.edit,
-                items: [
-                  FacildCategoryItem(),
-                  MediodCategoryItem(),
-                  DificildCategoryItem(),
-                  PersonalizardCategoryItem(),
-                  ValorardCategoryItem(),
-                ],
-              ),
-            ],
+            ),
           ),
         ),
       ),
