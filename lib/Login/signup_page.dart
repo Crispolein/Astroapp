@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bcrypt/bcrypt.dart'; // Añadir el paquete bcrypt
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -37,7 +38,7 @@ class _SignupPageState extends State<SignupPage> {
     return result.docs.isNotEmpty;
   }
 
-  // Función para comprobar si el correo electrónico ya está en uso
+  // Función para comprobar si el nombre de usuario ya está en uso
   Future<bool> usernameYaExiste(String username) async {
     final result =
         await _usuariosCollection.where('username', isEqualTo: username).get();
@@ -60,6 +61,12 @@ class _SignupPageState extends State<SignupPage> {
     } catch (e) {
       throw 'Error inesperado: $e';
     }
+  }
+
+  // Función para hashear la contraseña
+  String hashPassword(String password) {
+    final String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+    return hashedPassword;
   }
 
   @override
@@ -253,13 +260,15 @@ class _SignupPageState extends State<SignupPage> {
                                   UserCredential user = await registerNewUser(
                                       _correoController.text,
                                       _passwordController.text);
+                                  final hashedPassword =
+                                      hashPassword(_passwordController.text);
                                   final nuevoUsuario = Usuarios(
                                     id: user.user!.uid,
                                     nombre: _nombreController.text,
                                     apellido: _apellidoController.text,
                                     username: _usernameController.text,
                                     correo: _correoController.text,
-                                    password: _passwordController.text,
+                                    password: hashedPassword,
                                     permisos: 0,
                                   );
                                   await _usuariosCollection
