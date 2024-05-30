@@ -1,19 +1,10 @@
-import 'package:astro_app/pagina/usuario/ajustes.dart';
-import 'package:astro_app/pagina/usuario/editar_perfil.dart';
-import 'package:astro_app/pagina/quiz_page.dart';
-import 'package:astro_app/pagina/review_quiz_page.dart';
-import 'package:astro_app/vistausuario2/PerfilPage.dart';
 import 'package:astro_app/vistausuario2/PerfilbPage.dart';
 import 'package:astro_app/vistausuario2/categoria.dart';
-import 'package:astro_app/vistausuario2/gei.dart';
 import 'package:astro_app/vistausuario2/luna.dart' as user;
 import 'package:astro_app/vistausuario2/admin/usuario/noticias.dart';
-
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-
-// Importa la biblioteca donde se encuentra fase_lunar.dart
 import 'package:flutter/material.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
+import 'package:astro_app/vistausuario2/iss_map.dart'; // Importa la vista de ISS
 
 class HomebPage extends StatefulWidget {
   @override
@@ -25,13 +16,10 @@ class _HomebPageState extends State<HomebPage> {
 
   final List<Widget> _pages = [
     PerfilbPage(),
-    //PerfilPage(),
-    //HomeScreen(),
-    //GeiPage(),
     NoticiasPage(),
     CategoriaPage(),
     user.FaseLunarPage(),
-    PerfilbPage(),
+    ISSData(), // Añade la vista de ISSData
   ];
 
   void _onItemTapped(int index) {
@@ -80,54 +68,15 @@ class _HomebPageState extends State<HomebPage> {
                 style: TextStyle(
                     color: const Color.fromARGB(255, 0, 0, 0), fontSize: 17)),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            'Bienvenido a la página de inicio',
-            style: TextStyle(fontSize: 24.0),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AnotherPage()),
-              );
-            },
-            child: Text('Ir a otra página'),
+          FlashyTabBarItem(
+            icon: Icon(Icons.image,
+                size: 35, color: const Color.fromARGB(255, 0, 0, 0)),
+            title: Text('ISS Info',
+                style: TextStyle(
+                    color: const Color.fromARGB(255, 0, 0, 0), fontSize: 17)),
           ),
         ],
       ),
     );
   }
-}
-
-class AnotherPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Otra Página'),
-      ),
-      body: Center(
-        child: Text('Esta es otra página'),
-      ),
-    );
-  }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: HomebPage(),
-  ));
 }

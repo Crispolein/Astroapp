@@ -65,7 +65,8 @@ dependencies:
   video_player: ^2.2.18
   youtube_player_flutter: 
   bcrypt: ^1.1.3
-
+  flutter_map: ^6.1.0
+  latlon2: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -95,9 +96,6 @@ flutter:
     - assets/imagen2.jpg
     - assets/imagen3.jpg
     - assets/imagen4.jpg
-    - assets/imagen5.jpg
-    - assets/imagen6.jpg
-    - assets/imagen7.jpg
     - assets/perfil.jpg
     - assets/images/preguntas.json
     - assets/images/ticker.json
