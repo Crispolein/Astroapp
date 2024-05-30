@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Usuarios {
   final String id;
   final String nombre;
@@ -103,6 +105,7 @@ class Noticia {
   final String descripcion;
   final String imagenURL;
   final String categoria;
+  final Timestamp timestamp;
 
   Noticia({
     required this.id,
@@ -110,6 +113,7 @@ class Noticia {
     required this.descripcion,
     required this.imagenURL,
     required this.categoria,
+    required this.timestamp,
   });
 
   Map<String, dynamic> toMap() {
@@ -117,8 +121,9 @@ class Noticia {
       'id': id,
       'titulo': titulo,
       'descripcion': descripcion,
-      'imagen': imagenURL,
-      'categoria': 'categoria',
+      'imagenURL': imagenURL,
+      'categoria': categoria,
+      'timestamp': timestamp,
     };
   }
 
@@ -127,8 +132,9 @@ class Noticia {
       id: map['id'],
       titulo: map['titulo'],
       descripcion: map['descripcion'],
-      imagenURL: map['imagen'],
+      imagenURL: map['imagenURL'],
       categoria: map['categoria'],
+      timestamp: map['timestamp'],
     );
   }
 }

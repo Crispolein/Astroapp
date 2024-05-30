@@ -1,13 +1,9 @@
 import 'dart:io';
-
-import 'package:astro_app/vistausuario2/admin/Noticia/editarnoticia.dart';
+import 'package:astro_app/models/proyecto_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:astro_app/models/proyecto_model.dart';
-import 'package:astro_app/vistausuario2/categoria/crearcategoria.dart';
 import 'package:astro_app/vistausuario2/categoria/listarcategoria.dart';
 
 class AddNoticia extends StatefulWidget {
@@ -240,6 +236,7 @@ class _AddNoticiaState extends State<AddNoticia> {
                       descripcion: _descripcionController.text,
                       imagenURL: _imagenURLController.text,
                       categoria: _categoriaController.text,
+                      timestamp: Timestamp.now(),
                     );
 
                     final snapshot = await _noticiaCollection
@@ -249,18 +246,16 @@ class _AddNoticiaState extends State<AddNoticia> {
                         .get();
 
                     if (snapshot.docs.isEmpty) {
-                      await _noticiaCollection.add({
-                        'titulo': nuevoNoticia.titulo,
-                        'descripcion': nuevoNoticia.descripcion,
-                        'imagenURL': nuevoNoticia.imagenURL,
-                        'categoria': nuevoNoticia.categoria,
-                      }).then((DocumentReference document) {
+                      await _noticiaCollection
+                          .add(nuevoNoticia.toMap())
+                          .then((DocumentReference document) {
                         final nuevoNoticiaConId = Noticia(
                           id: document.id,
                           titulo: nuevoNoticia.titulo,
                           descripcion: nuevoNoticia.descripcion,
                           imagenURL: nuevoNoticia.imagenURL,
                           categoria: nuevoNoticia.categoria,
+                          timestamp: nuevoNoticia.timestamp,
                         );
                         Navigator.pop(context, nuevoNoticiaConId);
                       });

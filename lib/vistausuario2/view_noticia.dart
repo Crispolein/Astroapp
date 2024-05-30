@@ -1,14 +1,16 @@
 import 'package:astro_app/models/proyecto_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:astro_app/vistausuario2/view_noticia_completa.dart';
 
-class ListarNoticia extends StatefulWidget {
-  const ListarNoticia({Key? key, required String elemento}) : super(key: key);
+class ListarNoticiaLectura extends StatefulWidget {
+  const ListarNoticiaLectura({Key? key}) : super(key: key);
+
   @override
-  _ListarNoticiaState createState() => _ListarNoticiaState();
+  _ListarNoticiaLecturaState createState() => _ListarNoticiaLecturaState();
 }
 
-class _ListarNoticiaState extends State<ListarNoticia> {
+class _ListarNoticiaLecturaState extends State<ListarNoticiaLectura> {
   final CollectionReference noticiaCollection =
       FirebaseFirestore.instance.collection('noticia');
   String _filtroTexto = '';
@@ -101,46 +103,49 @@ class _ListarNoticiaState extends State<ListarNoticia> {
                     imagenURL: noticiaData['imagenURL'] ?? '',
                     timestamp: noticiaData['timestamp'] ?? Timestamp.now(),
                   );
-                  return Card(
-                    child: ListTile(
-                      title: Text(
-                        noticia.titulo,
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Categoría: ${noticia.categoria}',
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            noticia.descripcion,
-                            style: const TextStyle(fontSize: 14),
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                      leading: GestureDetector(
-                        onTap: () {
-                          if (noticia.imagenURL.isNotEmpty) {
-                            _mostrarImagenAgrandada(noticia.imagenURL);
-                          }
-                        },
-                        child: Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: noticia.imagenURL.isNotEmpty
-                                ? DecorationImage(
-                                    image: NetworkImage(noticia.imagenURL),
-                                    fit: BoxFit.cover,
-                                  )
-                                : null,
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                NoticiaCompletaPage(noticia: noticia)),
+                      );
+                    },
+                    child: Card(
+                      child: ListTile(
+                        title: Text(
+                          noticia.titulo,
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Categoría: ${noticia.categoria}',
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ],
+                        ),
+                        leading: GestureDetector(
+                          onTap: () {
+                            if (noticia.imagenURL.isNotEmpty) {
+                              _mostrarImagenAgrandada(noticia.imagenURL);
+                            }
+                          },
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: noticia.imagenURL.isNotEmpty
+                                  ? DecorationImage(
+                                      image: NetworkImage(noticia.imagenURL),
+                                      fit: BoxFit.cover,
+                                    )
+                                  : null,
+                            ),
                           ),
                         ),
                       ),

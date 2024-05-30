@@ -1,9 +1,10 @@
 import 'dart:io';
+import 'package:astro_app/models/proyecto_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:astro_app/models/proyecto_model.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class EditarNoticiaPage extends StatefulWidget {
   final Noticia noticia;
@@ -57,6 +58,13 @@ class _EditarNoticiaPageState extends State<EditarNoticiaPage> {
     }
   }
 
+  Future<String> _subirImagen(File imagen) async {
+    final storage = firebase_storage.FirebaseStorage.instance;
+    final referencia = storage.ref().child('noticia/${DateTime.now()}.jpg');
+    await referencia.putFile(imagen);
+    return referencia.getDownloadURL();
+  }
+
   Future<void> _updateNoticia(Noticia noticia) async {
     try {
       final documentSnapshot = await FirebaseFirestore.instance
@@ -74,6 +82,7 @@ class _EditarNoticiaPageState extends State<EditarNoticiaPage> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -217,18 +226,22 @@ class _EditarNoticiaPageState extends State<EditarNoticiaPage> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    final nuevoNoticia = Noticia(
+                    String? imagenURL = widget.noticia.imagenURL;
+                    if (_imagenFile != null) {
+                      imagenURL = await _subirImagen(_imagenFile!);
+                    }
+
+                    final nuevaNoticia = Noticia(
                       id: widget.noticia.id,
                       titulo: _tituloController.text,
                       categoria: _categoriaController.text,
                       descripcion: _descripcionController.text,
-                      imagenURL: _imagenFile != null
-                          ? _imagenFile!.path
-                          : widget.noticia.imagenURL,
+                      imagenURL: imagenURL,
+                      timestamp: widget.noticia.timestamp,
                     );
-                    _updateNoticia(nuevoNoticia);
+                    await _updateNoticia(nuevaNoticia);
                     Navigator.pop(context);
                   }
                 },

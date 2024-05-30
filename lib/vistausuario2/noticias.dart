@@ -1,4 +1,7 @@
+import 'package:astro_app/models/proyecto_model.dart';
 import 'package:astro_app/vistausuario2/admin/ApodPage.dart';
+import 'package:astro_app/vistausuario2/view_noticia.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:translator/translator.dart';
@@ -130,68 +133,93 @@ class NoticiasPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 8),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => NoticiasDetailPage()),
+            StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('noticia')
+                  .orderBy('timestamp', descending: true)
+                  .limit(1)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                }
+
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return Center(child: Text('No hay noticias disponibles'));
+                }
+
+                final noticiaDoc = snapshot.data!.docs.first;
+                final noticiaData = noticiaDoc.data() as Map<String, dynamic>;
+                final noticia = Noticia(
+                  id: noticiaDoc.id,
+                  categoria: noticiaData['categoria'] ?? '',
+                  titulo: noticiaData['titulo'] ?? '',
+                  descripcion: noticiaData['descripcion'] ?? '',
+                  imagenURL: noticiaData['imagenURL'] ?? '',
+                  timestamp: noticiaData['timestamp'] ?? Timestamp.now(),
+                );
+
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ListarNoticiaLectura()),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.orange[800],
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 8.0,
+                          spreadRadius: 1.0,
+                          offset: Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ClipOval(
+                            child: noticia.imagenURL.isNotEmpty
+                                ? Image.network(
+                                    noticia.imagenURL,
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Icon(
+                                    Icons.image,
+                                    size: 100,
+                                    color: Colors.grey,
+                                  ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(
+                              noticia.titulo,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 );
               },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.orange[800],
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 8.0,
-                      spreadRadius: 1.0,
-                      offset: Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ClipOval(
-                        child: Image.asset(
-                          'assets/imagen2.jpg',
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          'El telescopio espacial James Webb ha capturado nuevas imágenes impresionantes de galaxias lejanas, revelando detalles nunca antes vistos.',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class NoticiasDetailPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Detalle de Noticias'),
-      ),
-      body: Center(
-        child: Text('Detalle de la noticia'),
       ),
     );
   }
