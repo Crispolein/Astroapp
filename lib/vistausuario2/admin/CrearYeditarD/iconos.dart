@@ -1,6 +1,5 @@
 import 'package:astro_app/vistausuario2/admin/CrearYeditarD/EditarQuiz.dart';
 import 'package:astro_app/vistausuario2/admin/CrearYeditarD/crearquiz.dart';
-import 'package:astro_app/vistausuario2/admin/CrearYeditarD/personalizarquiz.dart';
 import 'package:flutter/material.dart';
 
 class CategorydIcon extends StatelessWidget {
@@ -15,18 +14,11 @@ class CategorydIcon extends StatelessWidget {
         // Navegar a la página correspondiente según la etiqueta del ítem
         Widget destination;
         switch (item.label) {
-          case 'Fácil':
-          case 'Medio':
-          case 'Difícil':
-            destination = CreardQuizPage(); // Página de creación de quiz
-            break;
-          case 'Personalizar':
-            destination =
-                PersonalizardQuizPage(); // Página de personalización de quiz
-            break;
-          case 'Editar':
+          case 'Crear Memorice':
+            destination = CrearImagenesPage(); // Página de creación de quiz
+          case 'Editar Memorice':
             destination = EditardQuizPage(); // Página de valoración de quiz
-            break;
+
           default:
             destination = EditardQuizPage(); // Página por defecto
         }

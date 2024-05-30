@@ -256,3 +256,31 @@ class Term {
     );
   }
 }
+
+class MemoryCard {
+  final String id;
+  final String imageUrl;
+  final String categoria;
+
+  MemoryCard({
+    required this.id,
+    required this.imageUrl,
+    required this.categoria,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'imageUrl': imageUrl,
+      'categoria': categoria,
+    };
+  }
+
+  factory MemoryCard.fromMap(Map<String, dynamic> map) {
+    return MemoryCard(
+      id: map['id'],
+      imageUrl: map['imageUrl'],
+      categoria: map['categoria'],
+    );
+  }
+}
