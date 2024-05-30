@@ -224,3 +224,35 @@ class TrueFalseQuestion {
     );
   }
 }
+
+class Term {
+  final String id;
+  final String term;
+  final String definition;
+  final String categoria;
+
+  Term({
+    required this.id,
+    required this.term,
+    required this.definition,
+    required this.categoria,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'term': term,
+      'definition': definition,
+      'categoria': categoria,
+    };
+  }
+
+  factory Term.fromMap(Map<String, dynamic> map) {
+    return Term(
+      id: map['id'],
+      term: map['term'],
+      definition: map['definition'],
+      categoria: map['categoria'],
+    );
+  }
+}

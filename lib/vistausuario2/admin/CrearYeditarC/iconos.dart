@@ -1,5 +1,3 @@
-
-
 import 'package:astro_app/vistausuario2/admin/CrearYeditarC/EditarQuiz.dart';
 import 'package:astro_app/vistausuario2/admin/CrearYeditarC/crearquiz.dart';
 import 'package:astro_app/vistausuario2/admin/CrearYeditarC/personalizarquiz.dart';
@@ -17,18 +15,10 @@ class CategorycIcon extends StatelessWidget {
         // Navegar a la página correspondiente según la etiqueta del ítem
         Widget destination;
         switch (item.label) {
-          case 'Fácil':
-          case 'Medio':
-          case 'Difícil':
-            destination = CrearcQuizPage(); // Página de creación de quiz
-            break;
-          case 'Personalizar':
-            destination =
-                PersonalizarcQuizPage(); // Página de personalización de quiz
-            break;
-          case 'Editar':
-            destination = EditarcQuizPage(); // Página de valoración de quiz
-            break;
+          case 'Crear Terminos':
+            destination = CrearcQuizPage();
+          case 'Listar Terminos':
+            destination = EditarcQuizPage();
           default:
             destination = EditarcQuizPage(); // Página por defecto
         }

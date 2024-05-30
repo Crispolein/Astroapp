@@ -15,10 +15,10 @@ class CategorybIcon extends StatelessWidget {
         // Navegar a la página correspondiente según la etiqueta del ítem
         Widget destination;
         switch (item.label) {
-          case 'Crear':
+          case 'Crear Preguntas':
             destination = CrearTrueFalsePage(); // Página de creación de quiz
             break;
-          case 'Listar':
+          case 'Listar Preguntas':
             destination = ListarTrueFalsePage(); // Página de listado de quiz
             break;
           default:

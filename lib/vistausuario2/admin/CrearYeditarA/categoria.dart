@@ -7,19 +7,6 @@ import 'package:astro_app/vistausuario2/admin/CrearYeditarD/categoriaitem.dart';
 import 'package:astro_app/vistausuario2/admin/theme.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp()); // Inicia la aplicación y llama a MyApp
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: CategoriaadminPage(), // Define la página de inicio de la aplicación
-    );
-  }
-}
-
 class CategoriaadminPage extends StatefulWidget {
   @override
   _CategoriaadminPageState createState() => _CategoriaadminPageState();
@@ -86,11 +73,8 @@ class _CategoriaadminPageState extends State<CategoriaadminPage> {
                     title: 'Alternativas', // Título de la sección
                     icon: Icons.list, // Icono de la sección
                     items: [
-                      FacilCategoryItem(), // Botón de categoría fácil
-                      MedioCategoryItem(), // Botón de categoría medio
-                      DificilCategoryItem(), // Botón de categoría difícil
-                      PersonalizarCategoryItem(), // Botón de personalizar
-                      ValorarCategoryItem(), // Botón de valorar
+                      FacilCategoryItem(),
+                      MedioCategoryItem(),
                     ],
                   ),
                   SizedBox(height: 16), // Espacio entre secciones
@@ -100,9 +84,6 @@ class _CategoriaadminPageState extends State<CategoriaadminPage> {
                     items: [
                       FacilbCategoryItem(),
                       MediobCategoryItem(),
-                      DificilbCategoryItem(),
-                      PersonalizarbCategoryItem(),
-                      ValorarbCategoryItem(),
                     ],
                   ),
                   SizedBox(height: 16),
@@ -112,9 +93,6 @@ class _CategoriaadminPageState extends State<CategoriaadminPage> {
                     items: [
                       FacilcCategoryItem(),
                       MediocCategoryItem(),
-                      DificilcCategoryItem(),
-                      PersonalizarcCategoryItem(),
-                      ValorarcCategoryItem(),
                     ],
                   ),
                   SizedBox(height: 16),
@@ -124,9 +102,6 @@ class _CategoriaadminPageState extends State<CategoriaadminPage> {
                     items: [
                       FacildCategoryItem(),
                       MediodCategoryItem(),
-                      DificildCategoryItem(),
-                      PersonalizardCategoryItem(),
-                      ValorardCategoryItem(),
                     ],
                   ),
                 ],
@@ -140,9 +115,9 @@ class _CategoriaadminPageState extends State<CategoriaadminPage> {
 }
 
 class CategorySection extends StatelessWidget {
-  final String title; // Título de la sección
-  final IconData icon; // Icono de la sección
-  final List<Widget> items; // Lista de ítems de la sección
+  final String title;
+  final IconData icon;
+  final List<Widget> items;
 
   const CategorySection(
       {required this.title, required this.icon, required this.items});
@@ -226,36 +201,6 @@ class MedioCategoryItem extends StatelessWidget {
   }
 }
 
-class DificilCategoryItem extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return CategoryIcon(
-      item: CategoryItem(
-          icon: Icons.sentiment_dissatisfied,
-          label: 'Difícil'), // Ítem de categoría difícil
-    );
-  }
-}
-
-class PersonalizarCategoryItem extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return CategoryIcon(
-      item: CategoryItem(
-          icon: Icons.settings, label: 'Personalizar'), // Ítem de personalizar
-    );
-  }
-}
-
-class ValorarCategoryItem extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return CategoryIcon(
-      item: CategoryItem(icon: Icons.edit, label: 'Editar'), // Ítem de valorar
-    );
-  }
-}
-
 class CategoryIcon extends StatelessWidget {
   final CategoryItem item; // Ítem de categoría
 
@@ -268,17 +213,10 @@ class CategoryIcon extends StatelessWidget {
         // Navegar a la página correspondiente según la etiqueta del ítem
         Widget destination;
         switch (item.label) {
-          case 'Fácil':
-          case 'Medio':
-          case 'Difícil':
-            destination = CrearQuizPage(); // Página de creación de quiz
-            break;
-          case 'Personalizar':
-            destination =
-                PersonalizarQuizPage(); // Página de personalización de quiz
-            break;
-          case 'Editar':
-            destination = ListarQuizPage(); // Página de valoración de quiz
+          case 'Crear Quiz':
+            destination = CrearQuizPage();
+          case 'Listar Quiz':
+            destination = ListarQuizPage(); // Página de creación de quiz
             break;
           default:
             destination = ListarQuizPage(); // Página por defecto
