@@ -12,6 +12,7 @@ class ISSData extends StatefulWidget {
 
 class _ISSDataState extends State<ISSData> {
   LatLng _issPosition = LatLng(0, 0);
+  MapController _mapController = MapController();
   Timer? _timer; // Add a timer for periodic updates
 
   @override
@@ -42,6 +43,8 @@ class _ISSDataState extends State<ISSData> {
             double.parse(data['iss_position']['latitude']),
             double.parse(data['iss_position']['longitude']),
           );
+          // Move the map to the new position
+          _mapController.move(_issPosition, _mapController.zoom);
         });
       } else {
         // Log an error if the request was not successful
@@ -61,6 +64,7 @@ class _ISSDataState extends State<ISSData> {
         title: const Text('International Space Station Tracker'),
       ),
       body: FlutterMap(
+        mapController: _mapController,
         options: MapOptions(
           center: _issPosition,
           zoom: 3.0,
@@ -76,7 +80,11 @@ class _ISSDataState extends State<ISSData> {
                 width: 80.0,
                 height: 80.0,
                 point: _issPosition,
-                child: Icon(Icons.location_on, color: Colors.red, size: 40),
+                child: Image.asset(
+                  'assets/spacecraft.png',
+                  width: 50.0,
+                  height: 50.0,
+                ),
               ),
             ],
           ),

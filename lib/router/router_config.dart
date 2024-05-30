@@ -7,7 +7,6 @@ import 'package:astro_app/router/router.dart';
 import 'package:astro_app/astroApp.dart';
 import 'package:astro_app/Login/login_page.dart';
 import 'package:astro_app/Login/signup_page.dart';
-import 'package:astro_app/vistausuario2/TrueOrFalse.dart';
 import 'package:astro_app/vistausuario2/admin/Noticia/agregarnoticia.dart';
 import 'package:astro_app/vistausuario2/admin/Noticia/editarnoticia.dart';
 import 'package:astro_app/vistausuario2/admin/Noticia/listarnoticia.dart';
@@ -93,13 +92,6 @@ final router = GoRouter(routes: [
     name: Routers.tickedpage.name,
     pageBuilder: (context, state) {
       return CupertinoPage(child: TickedPage());
-    },
-  ),
-  GoRoute(
-    path: Routers.trueorfalsepage.path,
-    name: Routers.trueorfalsepage.name,
-    pageBuilder: (context, state) {
-      return CupertinoPage(child: TrueOrFalsePage());
     },
   ),
   GoRoute(

@@ -11,16 +11,25 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-    WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  runApp(EasyLocalization(
+  runApp(
+    EasyLocalization(
       path: 'assets/translations',
-      supportedLocales: [Locale('es'), Locale('ja'), Locale('en'),Locale('pt'),Locale('de')],
+      supportedLocales: [
+        Locale('es'),
+        Locale('ja'),
+        Locale('en'),
+        Locale('pt'),
+        Locale('de')
+      ],
       fallbackLocale: Locale('es'),
       assetLoader: CodegenLoader(),
       child: MyApp(),
-    ),);
+    ),
+  );
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
