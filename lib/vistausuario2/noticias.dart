@@ -1,21 +1,9 @@
+import 'package:astro_app/vistausuario2/admin/ApodPage.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // Asegúrate de tener esta dependencia
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: NoticiasPage(),
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.blue[900], // Fondo azul oscuro
-      ),
-    );
-  }
-}
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:translator/translator.dart';
+import 'package:astro_app/api/apod.dart';
+import 'package:intl/intl.dart';
 
 class NoticiasPage extends StatelessWidget {
   @override
@@ -25,15 +13,13 @@ class NoticiasPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: 12.0), // Espacio horizontal
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: Icon(Icons.menu),
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 12.0), // Espacio horizontal
-            child: Icon(FontAwesomeIcons.globe), // Icono de planeta
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            child: Icon(FontAwesomeIcons.globe),
           ),
         ],
       ),
@@ -51,41 +37,88 @@ class NoticiasPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 8),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.orange[800],
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 8.0,
-                    spreadRadius: 1.0,
-                    offset: Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ClipRRect(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(8)),
-                    child: Image.asset(
-                      'assets/imagen1.jpg', // Asegúrate de tener esta imagen en la carpeta assets
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      height: 200, // Ajusta la altura según sea necesario
+            FutureBuilder<ApodApi>(
+              future: fetchApod(
+                  date: DateFormat('yyyy-MM-dd').format(DateTime.now())),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (snapshot.hasData) {
+                  final apodData = snapshot.data;
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ApodPage()),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.orange[800],
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 8.0,
+                            spreadRadius: 1.0,
+                            offset: Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                            borderRadius:
+                                BorderRadius.vertical(top: Radius.circular(8)),
+                            child: Image.network(
+                              apodData!.url!,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: 200,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: FutureBuilder<String>(
+                              future: GoogleTranslator()
+                                  .translate(apodData.title ?? '', to: 'es')
+                                  .then((value) => value.text),
+                              builder: (context, translateSnapshot) {
+                                if (translateSnapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                } else if (translateSnapshot.hasError) {
+                                  return Text(
+                                    'Error: ${translateSnapshot.error}',
+                                    style: TextStyle(color: Colors.white),
+                                  );
+                                } else if (translateSnapshot.hasData) {
+                                  return Text(
+                                    translateSnapshot.data ??
+                                        'Título no disponible',
+                                    style: TextStyle(color: Colors.white),
+                                  );
+                                } else {
+                                  return Text(
+                                    'No translation available',
+                                    style: TextStyle(color: Colors.white),
+                                  );
+                                }
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Nebulosa de Orión - Una de las nebulosas más brillantes, visible a simple vista en el cielo nocturno. Ubicada a 1,344 años luz de la Tierra.',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ],
-              ),
+                  );
+                } else {
+                  return Center(child: Text('No data available'));
+                }
+              },
             ),
             SizedBox(height: 16),
             Text(
@@ -97,46 +130,68 @@ class NoticiasPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 8),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.orange[800],
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 8.0,
-                    spreadRadius: 1.0,
-                    offset: Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ClipOval(
-                      child: Image.asset(
-                        'assets/imagen2.jpg', // Asegúrate de tener esta imagen en la carpeta assets
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.cover,
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NoticiasDetailPage()),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.orange[800],
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 8.0,
+                      spreadRadius: 1.0,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ClipOval(
+                        child: Image.asset(
+                          'assets/imagen2.jpg',
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        'El telescopio espacial James Webb ha capturado nuevas imágenes impresionantes de galaxias lejanas, revelando detalles nunca antes vistos.',
-                        style: TextStyle(color: Colors.white),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          'El telescopio espacial James Webb ha capturado nuevas imágenes impresionantes de galaxias lejanas, revelando detalles nunca antes vistos.',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class NoticiasDetailPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Detalle de Noticias'),
+      ),
+      body: Center(
+        child: Text('Detalle de la noticia'),
       ),
     );
   }

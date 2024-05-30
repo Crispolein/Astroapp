@@ -7,7 +7,7 @@ import 'package:astro_app/vistausuario2/admin/translations/codegen_loader.g.dart
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
-import 'package:astro_app/vistausuario2/admin/ApodPage.dart' as admin;
+import 'package:astro_app/vistausuario2/admin/ApodPage.dart';
 
 class HomeadminPage extends StatefulWidget {
   @override
@@ -23,9 +23,9 @@ class _HomeadminPageState extends State<HomeadminPage> {
     NoticiasadminPage(),
     CategoriaadminPage(),
     FaselunaradminPage(),
-    admin.ApodPage(),
+    ApodPage(),
   ];
-void _onItemTapped(int index) {
+  void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
