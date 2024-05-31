@@ -1,68 +1,130 @@
+import 'package:astro_app/vistausuario2/Quiz/quiz_facil.dart';
+import 'package:astro_app/vistausuario2/Quiz/quiz_medio.dart';
+import 'package:astro_app/vistausuario2/Quiz/quiz_dificil.dart';
+import 'package:astro_app/vistausuario2/TerminosPareados/terminos_pareados_facil.dart';
+import 'package:astro_app/vistausuario2/TerminosPareados/terminos_pareados_medio.dart';
+import 'package:astro_app/vistausuario2/TerminosPareados/terminos_pareados_dificil.dart';
+import 'package:astro_app/vistausuario2/VerdaderoFalso/verdadero_falso_facil.dart';
+import 'package:astro_app/vistausuario2/VerdaderoFalso/verdadero_falso_medio.dart';
+import 'package:astro_app/vistausuario2/VerdaderoFalso/verdadero_falso_dificil.dart';
+import 'package:astro_app/vistausuario2/Memorice/memorice_facil.dart';
+import 'package:astro_app/vistausuario2/Memorice/memorice_medio.dart';
+import 'package:astro_app/vistausuario2/Memorice/memorice_dificil.dart';
 import 'package:flutter/material.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CategoriaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Juegos'),
+        backgroundColor: Colors.purple,
+      ),
       backgroundColor: Colors.black,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CategorySection(
-              title: 'Verdadero y Falso',
-              icon: Icons.check_circle,
-              items: [
-                CategoryItem(icon: Icons.sentiment_satisfied, label: 'Fácil'),
-                CategoryItem(icon: Icons.sentiment_neutral, label: 'Medio'),
-                CategoryItem(
-                    icon: Icons.sentiment_dissatisfied, label: 'Difícil'),
-                CategoryItem(icon: Icons.settings, label: 'Personalizar'),
-                CategoryItem(icon: Icons.star, label: 'Valorar'),
+        child: Scrollbar(
+          // Agregar Scrollbar
+          child: SingleChildScrollView(
+            // Agregar SingleChildScrollView
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CategorySection(
+                  title: 'Quiz',
+                  icon: Icons.check_circle,
+                  items: [
+                    CategoryItem(
+                        icon: Icons.sentiment_satisfied,
+                        label: 'Fácil',
+                        category: 'Quiz'),
+                    CategoryItem(
+                        icon: Icons.sentiment_neutral,
+                        label: 'Medio',
+                        category: 'Quiz'),
+                    CategoryItem(
+                        icon: Icons.sentiment_dissatisfied,
+                        label: 'Difícil',
+                        category: 'Quiz'),
+                    CategoryItem(
+                        icon: Icons.settings,
+                        label: 'Ranking',
+                        category: 'Quiz'),
+                  ],
+                ),
+                SizedBox(height: 16),
+                CategorySection(
+                  title: 'Términos Pareados',
+                  icon: Icons.compare_arrows,
+                  items: [
+                    CategoryItem(
+                        icon: FontAwesomeIcons.smile,
+                        label: 'Fácil',
+                        category: 'TerminosPareados'),
+                    CategoryItem(
+                        icon: FontAwesomeIcons.meh,
+                        label: 'Medio',
+                        category: 'TerminosPareados'),
+                    CategoryItem(
+                        icon: FontAwesomeIcons.frown,
+                        label: 'Difícil',
+                        category: 'TerminosPareados'),
+                    CategoryItem(
+                        icon: Icons.settings,
+                        label: 'Ranking',
+                        category: 'TerminosPareados'),
+                  ],
+                ),
+                SizedBox(height: 16),
+                CategorySection(
+                  title: 'Verdadero y Falso',
+                  icon: Icons.list,
+                  items: [
+                    CategoryItem(
+                        icon: Icons.sentiment_satisfied,
+                        label: 'Fácil',
+                        category: 'VerdaderoFalso'),
+                    CategoryItem(
+                        icon: Icons.sentiment_neutral,
+                        label: 'Medio',
+                        category: 'VerdaderoFalso'),
+                    CategoryItem(
+                        icon: Icons.sentiment_dissatisfied,
+                        label: 'Difícil',
+                        category: 'VerdaderoFalso'),
+                    CategoryItem(
+                        icon: Icons.settings,
+                        label: 'Ranking',
+                        category: 'VerdaderoFalso'),
+                  ],
+                ),
+                SizedBox(height: 16),
+                CategorySection(
+                  title: 'Memorice',
+                  icon: Icons.edit,
+                  items: [
+                    CategoryItem(
+                        icon: Icons.sentiment_satisfied,
+                        label: 'Fácil',
+                        category: 'Memorice'),
+                    CategoryItem(
+                        icon: Icons.sentiment_neutral,
+                        label: 'Medio',
+                        category: 'Memorice'),
+                    CategoryItem(
+                        icon: Icons.sentiment_dissatisfied,
+                        label: 'Difícil',
+                        category: 'Memorice'),
+                    CategoryItem(
+                        icon: Icons.settings,
+                        label: 'Ranking',
+                        category: 'Memorice'),
+                  ],
+                ),
               ],
             ),
-            SizedBox(height: 16),
-            CategorySection(
-              title: 'Términos Pareados',
-              icon: Icons.compare_arrows,
-              items: [
-                CategoryItem(icon: FontAwesomeIcons.smile, label: 'Fácil'),
-                CategoryItem(icon: FontAwesomeIcons.meh, label: 'Medio'),
-                CategoryItem(icon: FontAwesomeIcons.frown, label: 'Difícil'),
-                CategoryItem(icon: Icons.settings, label: 'Personalizar'),
-                CategoryItem(icon: Icons.star, label: 'Valorar'),
-              ],
-            ),
-            SizedBox(height: 16),
-            CategorySection(
-              title: 'Alternativas',
-              icon: Icons.list,
-              items: [
-                CategoryItem(icon: Icons.sentiment_satisfied, label: 'Fácil'),
-                CategoryItem(icon: Icons.sentiment_neutral, label: 'Medio'),
-                CategoryItem(
-                    icon: Icons.sentiment_dissatisfied, label: 'Difícil'),
-                CategoryItem(icon: Icons.settings, label: 'Personalizar'),
-                CategoryItem(icon: Icons.star, label: 'Valorar'),
-              ],
-            ),
-            SizedBox(height: 16),
-            CategorySection(
-              title: 'Preguntas Abiertas',
-              icon: Icons.edit,
-              items: [
-                CategoryItem(icon: Icons.sentiment_satisfied, label: 'Fácil'),
-                CategoryItem(icon: Icons.sentiment_neutral, label: 'Medio'),
-                CategoryItem(
-                    icon: Icons.sentiment_dissatisfied, label: 'Difícil'),
-                CategoryItem(icon: Icons.settings, label: 'Personalizar'),
-                CategoryItem(icon: Icons.star, label: 'Valorar'),
-              ],
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -74,8 +136,11 @@ class CategorySection extends StatelessWidget {
   final IconData icon;
   final List<CategoryItem> items;
 
-  const CategorySection(
-      {required this.title, required this.icon, required this.items});
+  const CategorySection({
+    required this.title,
+    required this.icon,
+    required this.items,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -138,10 +203,57 @@ class CategoryIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        // Pantalla predeterminada para errores
+        Widget targetScreen = Scaffold(
+          appBar: AppBar(
+            title: Text('Error'),
+          ),
+          body: Center(
+            child: Text(
+                'No se encontró la pantalla para esta categoría y dificultad'),
+          ),
+        );
+
+        // Asignación de la pantalla según la categoría y la dificultad
+        if (item.category == 'Quiz') {
+          if (item.label == 'Fácil') {
+            targetScreen = QuizFacilScreen();
+          } else if (item.label == 'Medio') {
+            targetScreen = QuizMedioScreen();
+          } else if (item.label == 'Difícil') {
+            targetScreen = QuizDificilScreen();
+          }
+        } else if (item.category == 'TerminosPareados') {
+          if (item.label == 'Fácil') {
+            // targetScreen = TerminosPareadosFacilScreen();
+          } else if (item.label == 'Medio') {
+            // targetScreen = TerminosPareadosMedioScreen();
+          } else if (item.label == 'Difícil') {
+            // targetScreen = TerminosPareadosDificilScreen();
+          }
+        } else if (item.category == 'VerdaderoFalso') {
+          if (item.label == 'Fácil') {
+            targetScreen = VerdaderoFalsoFacilScreen();
+          } else if (item.label == 'Medio') {
+            targetScreen = VerdaderoFalsoMedioScreen();
+          } else if (item.label == 'Difícil') {
+            targetScreen = VerdaderoFalsoDificilScreen();
+          }
+        } else if (item.category == 'Memorice') {
+          if (item.label == 'Fácil') {
+            // targetScreen = MemoriceFacilScreen();
+          } else if (item.label == 'Medio') {
+            // targetScreen = MemoriceMedioScreen();
+          } else if (item.label == 'Difícil') {
+            // targetScreen = MemoriceDificilScreen();
+          }
+        }
+
+        // Navegación a la pantalla correspondiente
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => CategoryDetailPage(label: item.label),
+            builder: (context) => targetScreen,
           ),
         );
       },
@@ -192,6 +304,8 @@ class CategoryDetailPage extends StatelessWidget {
 class CategoryItem {
   final IconData icon;
   final String label;
+  final String category;
 
-  CategoryItem({required this.icon, required this.label});
+  CategoryItem(
+      {required this.icon, required this.label, required this.category});
 }

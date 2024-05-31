@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:astro_app/vistausuario2/categoria/listarcategoria.dart';
+import 'package:astro_app/vistausuario2/admin/categoria/listarcategoria.dart';
 import 'package:astro_app/models/proyecto_model.dart';
 
 class CrearcQuizPage extends StatefulWidget {

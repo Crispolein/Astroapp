@@ -195,12 +195,14 @@ class TrueFalseQuestion {
   final bool respuestaCorrecta; // true para verdadero, false para falso
   final String? imagenURL;
   final String categoria;
+  final String dificultad; // Nuevo campo para la dificultad
 
   TrueFalseQuestion({
     required this.id,
     required this.pregunta,
     required this.respuestaCorrecta,
     required this.categoria,
+    required this.dificultad, // Asegurarse de que la dificultad es requerida
     this.imagenURL,
   });
 
@@ -211,6 +213,7 @@ class TrueFalseQuestion {
       'respuestaCorrecta': respuestaCorrecta,
       'imagenURL': imagenURL,
       'categoria': categoria,
+      'dificultad': dificultad, // Incluir dificultad en el mapa
     };
   }
 
@@ -221,6 +224,7 @@ class TrueFalseQuestion {
       respuestaCorrecta: map['respuestaCorrecta'],
       imagenURL: map['imagenURL'],
       categoria: map['categoria'],
+      dificultad: map['dificultad'], // Asignar dificultad desde el mapa
     );
   }
 }

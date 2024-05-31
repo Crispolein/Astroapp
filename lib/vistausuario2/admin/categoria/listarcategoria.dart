@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:astro_app/models/proyecto_model.dart';
-import 'package:astro_app/vistausuario2/categoria/crearcategoria.dart';
-import 'package:astro_app/vistausuario2/categoria/editarcategoria.dart';
+import 'package:astro_app/vistausuario2/admin/categoria/crearcategoria.dart';
+import 'package:astro_app/vistausuario2/admin/categoria/editarcategoria.dart';
 
 class ListaCategorias extends StatefulWidget {
   @override

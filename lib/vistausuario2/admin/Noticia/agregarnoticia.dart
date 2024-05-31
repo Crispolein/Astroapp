@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:astro_app/vistausuario2/categoria/listarcategoria.dart';
+import 'package:astro_app/vistausuario2/admin/categoria/listarcategoria.dart';
 
 class AddNoticia extends StatefulWidget {
   const AddNoticia({Key? key}) : super(key: key);

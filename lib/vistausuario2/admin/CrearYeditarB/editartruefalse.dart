@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:astro_app/models/proyecto_model.dart';
-import 'package:astro_app/vistausuario2/categoria/listarcategoria.dart';
+import 'package:astro_app/vistausuario2/admin/categoria/listarcategoria.dart';
 
 class EditarTrueFalsePage extends StatefulWidget {
   final TrueFalseQuestion question;
@@ -26,6 +26,12 @@ class _EditarTrueFalsePageState extends State<EditarTrueFalsePage> {
   final ImagePicker _picker = ImagePicker();
   String _categoriaSeleccionada = '';
   List<String> _categorias = [];
+  String _dificultadSeleccionada = ''; // Variable para la dificultad
+  final List<String> _dificultades = [
+    'Facil',
+    'Medio',
+    'Difícil'
+  ]; // Lista de dificultades
 
   @override
   void initState() {
@@ -34,6 +40,8 @@ class _EditarTrueFalsePageState extends State<EditarTrueFalsePage> {
     _preguntaController = TextEditingController(text: widget.question.pregunta);
     _respuestaCorrecta = widget.question.respuestaCorrecta;
     _categoriaSeleccionada = widget.question.categoria;
+    _dificultadSeleccionada =
+        widget.question.dificultad; // Inicializar la dificultad
   }
 
   Future<void> _cargarCategorias() async {
@@ -79,6 +87,7 @@ class _EditarTrueFalsePageState extends State<EditarTrueFalsePage> {
         pregunta: _preguntaController.text,
         respuestaCorrecta: _respuestaCorrecta,
         categoria: _categoriaSeleccionada,
+        dificultad: _dificultadSeleccionada,
         imagenURL: imagenURL,
       );
 
@@ -201,6 +210,38 @@ class _EditarTrueFalsePageState extends State<EditarTrueFalsePage> {
                       ),
                     ),
                   ],
+                ),
+                SizedBox(height: 20.0),
+                Text(
+                  'Dificultad',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 10.0),
+                DropdownButtonFormField<String>(
+                  value: _dificultadSeleccionada,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                  ),
+                  items: _dificultades.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (newValue) {
+                    setState(() {
+                      _dificultadSeleccionada = newValue!;
+                    });
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, selecciona una dificultad';
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(height: 20.0),
                 Row(

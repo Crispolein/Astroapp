@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:astro_app/models/proyecto_model.dart';
-import 'package:astro_app/vistausuario2/categoria/listarcategoria.dart';
+import 'package:astro_app/vistausuario2/admin/categoria/listarcategoria.dart';
 
 class CrearQuizPage extends StatefulWidget {
   @override
