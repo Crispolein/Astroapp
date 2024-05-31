@@ -1,17 +1,14 @@
+import 'package:astro_app/vistausuario2/Memorice/memorice_dificl.dart';
+import 'package:astro_app/vistausuario2/Quiz/quiz_dificil.dart';
 import 'package:astro_app/vistausuario2/Quiz/quiz_facil.dart';
 import 'package:astro_app/vistausuario2/Quiz/quiz_medio.dart';
-import 'package:astro_app/vistausuario2/Quiz/quiz_dificil.dart';
-import 'package:astro_app/vistausuario2/TerminosPareados/terminos_pareados_facil.dart';
-import 'package:astro_app/vistausuario2/TerminosPareados/terminos_pareados_medio.dart';
-import 'package:astro_app/vistausuario2/TerminosPareados/terminos_pareados_dificil.dart';
+import 'package:astro_app/vistausuario2/TerminosPareados/categorias.dart';
+import 'package:astro_app/vistausuario2/VerdaderoFalso/verdadero_falso_dificil.dart';
 import 'package:astro_app/vistausuario2/VerdaderoFalso/verdadero_falso_facil.dart';
 import 'package:astro_app/vistausuario2/VerdaderoFalso/verdadero_falso_medio.dart';
-import 'package:astro_app/vistausuario2/VerdaderoFalso/verdadero_falso_dificil.dart';
+import 'package:flutter/material.dart';
 import 'package:astro_app/vistausuario2/Memorice/memorice_facil.dart';
 import 'package:astro_app/vistausuario2/Memorice/memorice_medio.dart';
-import 'package:astro_app/vistausuario2/Memorice/memorice_dificil.dart';
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CategoriaPage extends StatelessWidget {
   @override
@@ -25,9 +22,7 @@ class CategoriaPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Scrollbar(
-          // Agregar Scrollbar
           child: SingleChildScrollView(
-            // Agregar SingleChildScrollView
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -59,16 +54,8 @@ class CategoriaPage extends StatelessWidget {
                   icon: Icons.compare_arrows,
                   items: [
                     CategoryItem(
-                        icon: FontAwesomeIcons.smile,
-                        label: 'Fácil',
-                        category: 'TerminosPareados'),
-                    CategoryItem(
-                        icon: FontAwesomeIcons.meh,
-                        label: 'Medio',
-                        category: 'TerminosPareados'),
-                    CategoryItem(
-                        icon: FontAwesomeIcons.frown,
-                        label: 'Difícil',
+                        icon: Icons.play_arrow,
+                        label: 'Jugar',
                         category: 'TerminosPareados'),
                     CategoryItem(
                         icon: Icons.settings,
@@ -179,7 +166,7 @@ class CategorySection extends StatelessWidget {
                 ),
               ),
               child: GridView.count(
-                crossAxisCount: 3,
+                crossAxisCount: 2, // Cambiado a 2 para que haya dos botones
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 padding: const EdgeInsets.all(16), // Añadir padding aquí
@@ -224,12 +211,12 @@ class CategoryIcon extends StatelessWidget {
             targetScreen = QuizDificilScreen();
           }
         } else if (item.category == 'TerminosPareados') {
-          if (item.label == 'Fácil') {
-            // targetScreen = TerminosPareadosFacilScreen();
-          } else if (item.label == 'Medio') {
-            // targetScreen = TerminosPareadosMedioScreen();
-          } else if (item.label == 'Difícil') {
-            // targetScreen = TerminosPareadosDificilScreen();
+          if (item.label == 'Jugar') {
+            targetScreen =
+                CategoriaSeleccionScreen(); // Nueva pantalla del juego de términos pareados
+          } else if (item.label == 'Ranking') {
+            targetScreen =
+                CategoryDetailPage(label: 'Ranking de Términos Pareados');
           }
         } else if (item.category == 'VerdaderoFalso') {
           if (item.label == 'Fácil') {
@@ -241,11 +228,11 @@ class CategoryIcon extends StatelessWidget {
           }
         } else if (item.category == 'Memorice') {
           if (item.label == 'Fácil') {
-            // targetScreen = MemoriceFacilScreen();
+            targetScreen = MemoriceFacilScreen();
           } else if (item.label == 'Medio') {
-            // targetScreen = MemoriceMedioScreen();
+            targetScreen = MemoriceMedioScreen();
           } else if (item.label == 'Difícil') {
-            // targetScreen = MemoriceDificilScreen();
+            targetScreen = MemoriceDificilScreen();
           }
         }
 

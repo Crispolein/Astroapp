@@ -1,9 +1,9 @@
 import 'package:astro_app/vistausuario2/Memorice/memorice_game.dart';
 import 'package:flutter/material.dart';
 
-class MemoriceMedioScreen extends StatelessWidget {
+class MemoriceDificilScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MemoriceGameScreen(numImages: 6);
+    return MemoriceGameScreen(numImages: 9);
   }
 }

@@ -77,7 +77,7 @@ class _VerdaderoFalsoFacilScreenState extends State<VerdaderoFalsoFacilScreen> {
                 child: Image.network(currentQuestion.imagenURL!),
               ),
             Expanded(
-              flex: 2,
+              flex: 1,
               child: Column(
                 children: [
                   Text(
