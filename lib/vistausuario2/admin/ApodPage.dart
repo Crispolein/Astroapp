@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:translator/translator.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -77,22 +76,14 @@ class _ApodPageState extends State<ApodPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12.0),
-          child: Icon(Icons.menu),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => _navigateDate(-1),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => _navigateDate(-1),
-          ),
-          IconButton(
             icon: const Icon(Icons.arrow_forward),
             onPressed: () => _navigateDate(1),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.0),
-            child: Icon(FontAwesomeIcons.globe),
           ),
         ],
       ),

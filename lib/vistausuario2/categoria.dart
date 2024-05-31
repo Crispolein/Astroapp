@@ -6,110 +6,198 @@ import 'package:astro_app/vistausuario2/TerminosPareados/categorias.dart';
 import 'package:astro_app/vistausuario2/VerdaderoFalso/verdadero_falso_dificil.dart';
 import 'package:astro_app/vistausuario2/VerdaderoFalso/verdadero_falso_facil.dart';
 import 'package:astro_app/vistausuario2/VerdaderoFalso/verdadero_falso_medio.dart';
+import 'package:astro_app/vistausuario2/admin/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:astro_app/vistausuario2/Memorice/memorice_facil.dart';
 import 'package:astro_app/vistausuario2/Memorice/memorice_medio.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class CategoriaPage extends StatelessWidget {
+class CategoriaPage extends StatefulWidget {
+  @override
+  _CategoriaPageState createState() => _CategoriaPageState();
+}
+
+class _CategoriaPageState extends State<CategoriaPage> {
+  void _toggleTheme() {
+    setState(() {
+      themeNotifier.toggleTheme();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Juegos'),
-        backgroundColor: Colors.purple,
-      ),
-      backgroundColor: Colors.black,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Scrollbar(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CategorySection(
-                  title: 'Quiz',
-                  icon: Icons.check_circle,
-                  items: [
-                    CategoryItem(
-                        icon: Icons.sentiment_satisfied,
-                        label: 'Fácil',
-                        category: 'Quiz'),
-                    CategoryItem(
-                        icon: Icons.sentiment_neutral,
-                        label: 'Medio',
-                        category: 'Quiz'),
-                    CategoryItem(
-                        icon: Icons.sentiment_dissatisfied,
-                        label: 'Difícil',
-                        category: 'Quiz'),
-                    CategoryItem(
-                        icon: Icons.settings,
-                        label: 'Ranking',
-                        category: 'Quiz'),
+    final Color backgroundColor =
+        Theme.of(context).brightness == Brightness.dark
+            ? Color(0xFF2C2C2E)
+            : Color.fromARGB(255, 255, 255, 255);
+    final Color titleColor = Theme.of(context).brightness == Brightness.dark
+        ? Colors.amber
+        : Colors.black;
+    final Color iconColor = Theme.of(context).brightness == Brightness.dark
+        ? Colors.amber
+        : Colors.black;
+    final Color containerOuterColor =
+        Theme.of(context).brightness == Brightness.dark
+            ? Color(0xFF2C2C2E)
+            : Color(0xFFFFFFFF);
+    final Color containerInnerColor =
+        Theme.of(context).brightness == Brightness.dark
+            ? Color(0xFF3C3C3E)
+            : Color(0xFFF0F0F0);
+    final Color buttonOuterColor =
+        Theme.of(context).brightness == Brightness.dark
+            ? Color(0xFF3C3C3E)
+            : Color(0xFFE0E0E0);
+    final Color buttonInnerColor =
+        Theme.of(context).brightness == Brightness.dark
+            ? Colors.purple
+            : Color(0xFFFFFFFF);
+    final Color shadowColor = Theme.of(context).brightness == Brightness.dark
+        ? Color.fromARGB(177, 255, 22, 22)
+        : Colors.black26;
+    final Color appBarColor = Theme.of(context).brightness == Brightness.dark
+        ? Color(0xFF2C2C2E)
+        : Colors.purple;
+
+    return AnimatedSwitcher(
+      duration: Duration(milliseconds: 500),
+      child: Container(
+        key: ValueKey<ThemeMode>(themeNotifier.value),
+        color: backgroundColor,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Center(
+              child: GestureDetector(
+                onTap: _toggleTheme,
+                child: Text(
+                  'Juegos',
+                  style: TextStyle(
+                      fontSize: 30,
+                      color: titleColor), // Tamaño y color del título
+                ),
+              ),
+            ),
+            backgroundColor: appBarColor,
+            automaticallyImplyLeading: false, // Quita la flecha de regreso
+          ),
+          backgroundColor: Colors.transparent,
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Scrollbar(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CategorySection(
+                      title: 'Quiz',
+                      icon: Icons.check_circle,
+                      items: [
+                        CategoryItem(
+                            icon: FontAwesomeIcons.faceSmile,
+                            label: 'Fácil',
+                            category: 'Quiz'),
+                        CategoryItem(
+                            icon: FontAwesomeIcons.faceMeh,
+                            label: 'Medio',
+                            category: 'Quiz'),
+                        CategoryItem(
+                            icon: FontAwesomeIcons.faceFrown,
+                            label: 'Difícil',
+                            category: 'Quiz'),
+                        CategoryItem(
+                            icon: Icons.settings,
+                            label: 'Ranking',
+                            category: 'Quiz'),
+                      ],
+                      iconColor: iconColor,
+                      containerOuterColor: containerOuterColor,
+                      containerInnerColor: containerInnerColor,
+                      buttonOuterColor: buttonOuterColor,
+                      buttonInnerColor: buttonInnerColor,
+                      shadowColor: shadowColor,
+                    ),
+                    SizedBox(height: 16),
+                    CategorySection(
+                      title: 'Términos Pareados',
+                      icon: Icons.compare_arrows,
+                      items: [
+                        CategoryItem(
+                            icon: Icons.play_arrow,
+                            label: 'Jugar',
+                            category: 'TerminosPareados'),
+                        CategoryItem(
+                            icon: Icons.settings,
+                            label: 'Ranking',
+                            category: 'TerminosPareados'),
+                      ],
+                      iconColor: iconColor,
+                      containerOuterColor: containerOuterColor,
+                      containerInnerColor: containerInnerColor,
+                      buttonOuterColor: buttonOuterColor,
+                      buttonInnerColor: buttonInnerColor,
+                      shadowColor: shadowColor,
+                    ),
+                    SizedBox(height: 16),
+                    CategorySection(
+                      title: 'Verdadero y Falso',
+                      icon: Icons.list,
+                      items: [
+                        CategoryItem(
+                            icon: FontAwesomeIcons.faceSmile,
+                            label: 'Fácil',
+                            category: 'VerdaderoFalso'),
+                        CategoryItem(
+                            icon: FontAwesomeIcons.faceMeh,
+                            label: 'Medio',
+                            category: 'VerdaderoFalso'),
+                        CategoryItem(
+                            icon: FontAwesomeIcons.faceFrown,
+                            label: 'Difícil',
+                            category: 'VerdaderoFalso'),
+                        CategoryItem(
+                            icon: Icons.settings,
+                            label: 'Ranking',
+                            category: 'VerdaderoFalso'),
+                      ],
+                      iconColor: iconColor,
+                      containerOuterColor: containerOuterColor,
+                      containerInnerColor: containerInnerColor,
+                      buttonOuterColor: buttonOuterColor,
+                      buttonInnerColor: buttonInnerColor,
+                      shadowColor: shadowColor,
+                    ),
+                    SizedBox(height: 16),
+                    CategorySection(
+                      title: 'Memorice',
+                      icon: Icons.edit,
+                      items: [
+                        CategoryItem(
+                            icon: FontAwesomeIcons.faceSmile,
+                            label: 'Fácil',
+                            category: 'Memorice'),
+                        CategoryItem(
+                            icon: FontAwesomeIcons.faceMeh,
+                            label: 'Medio',
+                            category: 'Memorice'),
+                        CategoryItem(
+                            icon: FontAwesomeIcons.faceFrown,
+                            label: 'Difícil',
+                            category: 'Memorice'),
+                        CategoryItem(
+                            icon: Icons.settings,
+                            label: 'Ranking',
+                            category: 'Memorice'),
+                      ],
+                      iconColor: iconColor,
+                      containerOuterColor: containerOuterColor,
+                      containerInnerColor: containerInnerColor,
+                      buttonOuterColor: buttonOuterColor,
+                      buttonInnerColor: buttonInnerColor,
+                      shadowColor: shadowColor,
+                    ),
                   ],
                 ),
-                SizedBox(height: 16),
-                CategorySection(
-                  title: 'Términos Pareados',
-                  icon: Icons.compare_arrows,
-                  items: [
-                    CategoryItem(
-                        icon: Icons.play_arrow,
-                        label: 'Jugar',
-                        category: 'TerminosPareados'),
-                    CategoryItem(
-                        icon: Icons.settings,
-                        label: 'Ranking',
-                        category: 'TerminosPareados'),
-                  ],
-                ),
-                SizedBox(height: 16),
-                CategorySection(
-                  title: 'Verdadero y Falso',
-                  icon: Icons.list,
-                  items: [
-                    CategoryItem(
-                        icon: Icons.sentiment_satisfied,
-                        label: 'Fácil',
-                        category: 'VerdaderoFalso'),
-                    CategoryItem(
-                        icon: Icons.sentiment_neutral,
-                        label: 'Medio',
-                        category: 'VerdaderoFalso'),
-                    CategoryItem(
-                        icon: Icons.sentiment_dissatisfied,
-                        label: 'Difícil',
-                        category: 'VerdaderoFalso'),
-                    CategoryItem(
-                        icon: Icons.settings,
-                        label: 'Ranking',
-                        category: 'VerdaderoFalso'),
-                  ],
-                ),
-                SizedBox(height: 16),
-                CategorySection(
-                  title: 'Memorice',
-                  icon: Icons.edit,
-                  items: [
-                    CategoryItem(
-                        icon: Icons.sentiment_satisfied,
-                        label: 'Fácil',
-                        category: 'Memorice'),
-                    CategoryItem(
-                        icon: Icons.sentiment_neutral,
-                        label: 'Medio',
-                        category: 'Memorice'),
-                    CategoryItem(
-                        icon: Icons.sentiment_dissatisfied,
-                        label: 'Difícil',
-                        category: 'Memorice'),
-                    CategoryItem(
-                        icon: Icons.settings,
-                        label: 'Ranking',
-                        category: 'Memorice'),
-                  ],
-                ),
-              ],
+              ),
             ),
           ),
         ),
@@ -122,44 +210,64 @@ class CategorySection extends StatelessWidget {
   final String title;
   final IconData icon;
   final List<CategoryItem> items;
+  final Color iconColor;
+  final Color containerOuterColor;
+  final Color containerInnerColor;
+  final Color buttonOuterColor;
+  final Color buttonInnerColor;
+  final Color shadowColor;
 
   const CategorySection({
     required this.title,
     required this.icon,
     required this.items,
+    required this.iconColor,
+    required this.containerOuterColor,
+    required this.containerInnerColor,
+    required this.buttonOuterColor,
+    required this.buttonInnerColor,
+    required this.shadowColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.amber,
+        color: containerOuterColor,
         borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: shadowColor,
+            blurRadius: 10.0,
+            spreadRadius: 1.9,
+            offset: Offset(0, 7),
+          ),
+        ],
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: ExpansionTile(
           initiallyExpanded: false,
           tilePadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          leading: Icon(icon, color: Colors.purple, size: 30),
+          leading: Icon(icon, color: iconColor, size: 30),
           title: Row(
             children: [
               SizedBox(width: 8), // Espacio entre el icono y el título
               Text(
                 title,
                 style: TextStyle(
-                  color: Colors.black,
+                  color: iconColor,
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
               ),
             ],
           ),
-          backgroundColor: Colors.amber,
+          backgroundColor: containerOuterColor,
           children: [
             Container(
               decoration: BoxDecoration(
-                color: Color(0xFF2E2E2E),
+                color: containerInnerColor,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
@@ -169,9 +277,15 @@ class CategorySection extends StatelessWidget {
                 crossAxisCount: 2, // Cambiado a 2 para que haya dos botones
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.all(16), // Añadir padding aquí
-                children:
-                    items.map((item) => CategoryIcon(item: item)).toList(),
+                padding: const EdgeInsets.all(8.0), // Ajuste de padding
+                children: items
+                    .map((item) => CategoryIcon(
+                        item: item,
+                        iconColor: iconColor,
+                        outerColor: buttonOuterColor,
+                        innerColor: buttonInnerColor,
+                        shadowColor: shadowColor))
+                    .toList(),
               ),
             ),
           ],
@@ -183,8 +297,18 @@ class CategorySection extends StatelessWidget {
 
 class CategoryIcon extends StatelessWidget {
   final CategoryItem item;
+  final Color iconColor;
+  final Color outerColor;
+  final Color innerColor;
+  final Color shadowColor;
 
-  const CategoryIcon({required this.item});
+  const CategoryIcon({
+    required this.item,
+    required this.iconColor,
+    required this.outerColor,
+    required this.innerColor,
+    required this.shadowColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -251,16 +375,30 @@ class CategoryIcon extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: outerColor,
                 borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: shadowColor,
+                    blurRadius: 10.0,
+                    spreadRadius: 1.9,
+                    offset: Offset(0, 7),
+                  ),
+                ],
               ),
-              padding: EdgeInsets.all(16),
-              child: Icon(item.icon, color: Colors.purple, size: 30),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: innerColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: EdgeInsets.all(16),
+                child: Icon(item.icon, color: iconColor, size: 30),
+              ),
             ),
             SizedBox(height: 8),
             Text(
               item.label,
-              style: TextStyle(color: Colors.white, fontSize: 14),
+              style: TextStyle(color: iconColor, fontSize: 14),
               textAlign: TextAlign.center,
             ),
           ],

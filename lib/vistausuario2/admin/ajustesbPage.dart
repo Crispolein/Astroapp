@@ -51,7 +51,7 @@ class _AjustesadminPageState extends State<AjustesadminPage> {
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
-      duration: Duration(milliseconds: 2000), // Slower transition
+      duration: Duration(milliseconds: 1500), // Slower transition
       child: Scaffold(
         key: ValueKey<bool>(
             _modoNocturnoEnabled), // Key to trigger the animation

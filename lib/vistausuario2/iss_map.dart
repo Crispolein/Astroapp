@@ -62,6 +62,7 @@ class _ISSDataState extends State<ISSData> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('International Space Station Tracker'),
+        automaticallyImplyLeading: false, // Remove the back arrow
       ),
       body: FlutterMap(
         mapController: _mapController,

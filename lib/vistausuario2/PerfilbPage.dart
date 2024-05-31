@@ -1,7 +1,7 @@
-
 import 'package:astro_app/astroApp.dart';
 import 'package:astro_app/pagina/usuario/ajustes.dart';
 import 'package:astro_app/pagina/usuario/editar_perfil.dart';
+import 'package:astro_app/vistausuario2/admin/theme.dart';
 import 'package:astro_app/vistausuario2/ajustesbPage.dart';
 import 'package:astro_app/vistausuario2/changepassword.dart';
 import 'package:astro_app/vistausuario2/privacidad.dart';
@@ -48,125 +48,142 @@ class _PerfilbPageState extends State<PerfilbPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Center(
-              child: Stack(
-                children: [
-                  CircleAvatar(
-                    radius: 80,
-                    backgroundImage: _image != null
-                        ? FileImage(_image!)
-                        : NetworkImage(
-                            'https://upload.wikimedia.org/wikipedia/en/thumb/a/a3/Starbucks_Corporation_Logo_2011.svg/1200px-Starbucks_Corporation_Logo_2011.svg.png',
-                          ) as ImageProvider,
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: InkWell(
-                      onTap: _pickImage,
-                      child: CircleAvatar(
-                        radius: 15,
-                        backgroundColor: Colors.orange,
-                        child: Icon(
-                          Icons.add,
-                          color: Colors.white,
+    return AnimatedBuilder(
+      animation: themeNotifier,
+      builder: (context, _) {
+        final Color emailTextColor =
+            Theme.of(context).brightness == Brightness.dark
+                ? Colors.grey[300]!
+                : const Color.fromARGB(255, 3, 2, 2);
+
+        return Scaffold(
+          backgroundColor: themeNotifier.value == ThemeMode.dark
+              ? Color(0xFF1C1C1E)
+              : Color.fromARGB(255, 255, 255, 255),
+          body: SingleChildScrollView(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Center(
+                  child: Stack(
+                    children: [
+                      CircleAvatar(
+                        radius: 80,
+                        backgroundImage: _image != null
+                            ? FileImage(_image!)
+                            : NetworkImage(
+                                'https://upload.wikimedia.org/wikipedia/en/thumb/a/a3/Starbucks_Corporation_Logo_2011.svg/1200px-Starbucks_Corporation_Logo_2011.svg.png',
+                              ) as ImageProvider,
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: InkWell(
+                          onTap: _pickImage,
+                          child: CircleAvatar(
+                            radius: 15,
+                            backgroundColor: Colors.orange,
+                            child: Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-            SizedBox(height: 16),
-            Text(
-              'Sanzana',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              'UsuarioNormal@gmail.com',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
-            ),
-            SizedBox(height: 32),
-            ProfileSection(
-              title: 'Usuario',
-              children: [
-                ProfileItem(
-                  icon: Icons.person,
-                  text: 'Datos Personales',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => EditarPerfil()),
-                    );
-                  },
                 ),
-                ProfileItem(
-                  icon: Icons.language,
-                  text: 'Lenguaje',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LanguagePage()),
-                    );
-                  },
+                SizedBox(height: 16),
+                Text(
+                  'Sanzana',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                ProfileItem(
-                  icon: Icons.settings,
-                  text: 'Ajustes',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AjustesbPage()),
-                    );
-                  },
+                Text(
+                  'UsuarioNormal@gmail.com',
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                ),
+                SizedBox(height: 32),
+                ProfileSection(
+                  title: 'Usuario',
+                  children: [
+                    ProfileItem(
+                      icon: Icons.person,
+                      text: 'Datos Personales',
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EditarPerfil()),
+                        );
+                      },
+                    ),
+                    ProfileItem(
+                      icon: Icons.language,
+                      text: 'Lenguaje',
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LanguagePage()),
+                        );
+                      },
+                    ),
+                    ProfileItem(
+                      icon: Icons.settings,
+                      text: 'Ajustes',
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AjustesbPage()),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16),
+                ProfileSection(
+                  title: 'Seguridad',
+                  children: [
+                    ProfileItem(
+                      icon: Icons.lock,
+                      text: 'Contraseña',
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PasswordCPage()),
+                        );
+                      },
+                    ),
+                    ProfileItem(
+                      icon: Icons.policy,
+                      text: 'Politica de Privadidad',
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PrivacyPolicyPage()),
+                        );
+                      },
+                    ),
+                    ProfileItem(
+                      icon: Icons.logout,
+                      text: 'Cerrar Sesion',
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => AstroApp()),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
-            SizedBox(height: 16),
-            ProfileSection(
-              title: 'Seguridad',
-              children: [
-                ProfileItem(
-                  icon: Icons.lock,
-                  text: 'Contraseña',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => PasswordCPage()),
-                    );
-                  },
-                ),
-                ProfileItem(
-                  icon: Icons.policy,
-                  text: 'Politica de Privadidad',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PrivacyPolicyPage()),
-                    );
-                  },
-                ),
-                ProfileItem(
-                  icon: Icons.logout,
-                  text: 'Cerrar Sesion',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AstroApp()),
-                    );
-                  },
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
@@ -183,6 +200,13 @@ class ProfileSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color containerColor = Theme.of(context).brightness == Brightness.dark
+        ? Color(0xFF2C2C2E)
+        : Color(0xFFFFFFFF);
+    final Color shadowColor = Theme.of(context).brightness == Brightness.dark
+        ? Color.fromARGB(177, 255, 22, 22)
+        : Colors.black26;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -193,8 +217,16 @@ class ProfileSection extends StatelessWidget {
         SizedBox(height: 8),
         Container(
           decoration: BoxDecoration(
-            color: Color(0xFF2C2C2E),
+            color: containerColor,
             borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: shadowColor,
+                blurRadius: 10.0,
+                spreadRadius: 1.9,
+                offset: Offset(0, 7),
+              ),
+            ],
           ),
           child: Column(
             children: children,
