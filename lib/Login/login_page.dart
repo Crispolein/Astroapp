@@ -152,7 +152,8 @@ class _LoginPageState extends State<LoginPage> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 50, vertical: 15),
                           ),
                           child: const Text(
                             'Iniciar Sesion',
@@ -172,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: SizedBox(
-                  height: 300,
+                  height: 200,
                   width: double.infinity,
                   child: Column(
                     children: [
@@ -204,7 +205,7 @@ class _LoginPageState extends State<LoginPage> {
               FadeInAnimation(
                 delay: 2.8,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 50),
+                  padding: const EdgeInsets.only(left: 30),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [

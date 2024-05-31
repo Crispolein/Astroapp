@@ -137,7 +137,7 @@ class _AstroAppState extends State<AstroApp> {
         // Acción para el botón "Continuar como invitado"
       },
       child: Text(
-        "Continuar como invitado",
+        "",
         style: TextStyle(
             fontSize: 15,
             fontFamily: "Urbanist",
