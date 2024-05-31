@@ -1,6 +1,7 @@
 import 'package:astro_app/astroApp.dart';
 import 'package:astro_app/pagina/usuario/ajustes.dart';
 import 'package:astro_app/pagina/usuario/editar_perfil.dart';
+import 'package:astro_app/vistausuario2/PerfilbPage.dart';
 import 'package:astro_app/vistausuario2/admin/ajustesbPage.dart';
 import 'package:astro_app/vistausuario2/admin/correo.dart';
 import 'package:astro_app/vistausuario2/admin/gestiondeperfiles.dart';
@@ -8,37 +9,19 @@ import 'package:astro_app/vistausuario2/admin/theme.dart';
 import 'package:astro_app/vistausuario2/ajustesbPage.dart';
 import 'package:astro_app/vistausuario2/changepassword.dart';
 import 'package:astro_app/vistausuario2/privacidad.dart';
-import 'package:easy_localization/easy_localization.dart';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 void main() {
-  runApp(
-    EasyLocalization(
-      supportedLocales: [
-        Locale('en'),
-        Locale('es'),
-        Locale('ja'),
-        Locale('pt'),
-        Locale('de')
-      ],
-      path: 'assets/localizations',
-      fallbackLocale: Locale('en'),
-      child: MyApp(),
-    ),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      supportedLocales: context.supportedLocales,
-      localizationsDelegates: context.localizationDelegates,
-      locale: context.locale,
-      title: tr('Pagina de Admin'),
+      title: 'Pagina de Admin',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         brightness: Brightness.dark,
@@ -51,16 +34,14 @@ class MyApp extends StatelessWidget {
 
 class PerfiladministradorPage extends StatefulWidget {
   @override
-  _PerfiladministradorPageState createState() =>
-      _PerfiladministradorPageState();
+  _PerfiladministradorPageState createState() => _PerfiladministradorPageState();
 }
 
 class _PerfiladministradorPageState extends State<PerfiladministradorPage> {
   File? _image;
 
   Future<void> _pickImage() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
         _image = File(pickedFile.path);
@@ -73,10 +54,9 @@ class _PerfiladministradorPageState extends State<PerfiladministradorPage> {
     return AnimatedBuilder(
       animation: themeNotifier,
       builder: (context, _) {
-        final Color emailTextColor =
-            Theme.of(context).brightness == Brightness.dark
-                ? Colors.grey[300]!
-                : const Color.fromARGB(255, 3, 2, 2);
+        final Color emailTextColor = Theme.of(context).brightness == Brightness.dark
+            ? Colors.grey[300]!
+            : const Color.fromARGB(255, 3, 2, 2);
 
         return Scaffold(
           backgroundColor: themeNotifier.value == ThemeMode.dark
@@ -117,7 +97,7 @@ class _PerfiladministradorPageState extends State<PerfiladministradorPage> {
                 ),
                 SizedBox(height: 16),
                 Text(
-                  tr('Christian'),
+                  'Christian',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 Text(
@@ -126,60 +106,55 @@ class _PerfiladministradorPageState extends State<PerfiladministradorPage> {
                 ),
                 SizedBox(height: 32),
                 ProfileSection(
-                  title: tr('Usuario'),
+                  title: 'Usuario',
                   children: [
                     ProfileItem(
                       icon: Icons.person,
-                      text: tr('Datos Personales'),
+                      text: 'Datos Personales',
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => EditarPerfil()),
+                          MaterialPageRoute(builder: (context) => EditarPerfil()),
                         );
                       },
                     ),
                     ProfileItem(
                       icon: Icons.language,
-                      text: tr('Lenguaje'),
+                      text: 'Lenguaje',
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => LanguagePage()),
+                          MaterialPageRoute(builder: (context) => LanguagePage()),
                         );
                       },
                     ),
                     ProfileItem(
                       icon: Icons.email,
-                      text: tr('Casilla de Correo'),
+                      text: 'Casilla de Correo',
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => CasillaDeCorreoPage()),
+                          MaterialPageRoute(builder: (context) => CasillaDeCorreoPage()),
                         );
                       },
                     ),
                     ProfileItem(
                       icon: Icons.policy,
-                      text: tr('Gestión de Perfiles'),
+                      text: 'Gestión de Perfiles',
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => GestionDePerfilesPage()),
+                          MaterialPageRoute(builder: (context) => GestionDePerfilesPage()),
                         );
                       },
                     ),
                     ProfileItem(
                       icon: Icons.settings,
-                      text: tr('Ajustes'),
+                      text: 'Ajustes',
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => AjustesadminPage()),
+                          MaterialPageRoute(builder: (context) => AjustesadminPage()),
                         );
                       },
                     ),
@@ -187,33 +162,31 @@ class _PerfiladministradorPageState extends State<PerfiladministradorPage> {
                 ),
                 SizedBox(height: 16),
                 ProfileSection(
-                  title: tr('Seguridad'),
+                  title: 'Seguridad',
                   children: [
                     ProfileItem(
                       icon: Icons.lock,
-                      text: tr('Contraseña'),
+                      text: 'Contraseña',
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => PasswordCPage()),
+                          MaterialPageRoute(builder: (context) => PasswordCPage()),
                         );
                       },
                     ),
                     ProfileItem(
                       icon: Icons.policy,
-                      text: tr('Politica de Privadidad'),
+                      text: 'Politica de Privadidad',
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => PrivacyPolicyPage()),
+                          MaterialPageRoute(builder: (context) => PrivacyPolicyPage()),
                         );
                       },
                     ),
                     ProfileItem(
                       icon: Icons.logout,
-                      text: tr('Cerrar Sesion'),
+                      text: 'Cerrar Sesion',
                       onTap: () {
                         Navigator.push(
                           context,
@@ -244,7 +217,6 @@ class ProfileSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Determinar el color del contenedor basado en el modo de tema
     final Color containerColor = Theme.of(context).brightness == Brightness.dark
         ? Color(0xFF2C2C2E)
         : Color(0xFFFFFFFF);
@@ -286,53 +258,20 @@ class ProfileItem extends StatelessWidget {
   final IconData icon;
   final String text;
   final VoidCallback onTap;
-  final bool hasSwitch;
-  final bool isEnabled;
 
   const ProfileItem({
     Key? key,
     required this.icon,
     required this.text,
     required this.onTap,
-    this.hasSwitch = false,
-    this.isEnabled = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // Determinar el color de los iconos basado en el modo de tema
-    final Color iconColor = Theme.of(context).brightness == Brightness.dark
-        ? Colors.orange
-        : Color(0xFFF8E24AA); // Ajusta el color según sea necesario
-
-    final Color arrowColor = Theme.of(context).brightness == Brightness.dark
-        ? Colors.grey
-        : Colors.black; // Ajusta el color según sea necesario
-
     return ListTile(
-      leading: Icon(icon, color: iconColor),
-      title: Text(text, style: TextStyle(fontSize: 16)),
-      trailing: hasSwitch
-          ? Switch(
-              value: isEnabled,
-              onChanged: (_) {
-                onTap();
-              },
-            )
-          : Icon(Icons.arrow_forward_ios, color: arrowColor),
+      leading: Icon(icon),
+      title: Text(text),
       onTap: onTap,
-    );
-  }
-}
-
-// Asegúrate de definir las siguientes clases con el contenido de tus vistas:
-
-class LanguagePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Language')),
-      body: Center(child: Text('Language Page')),
     );
   }
 }

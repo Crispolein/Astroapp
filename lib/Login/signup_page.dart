@@ -289,7 +289,21 @@ class _SignupPageState extends State<SignupPage> {
                               }
                             }
                           },
-                          child: const Text('Guardar'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 50, vertical: 15),
+                          ),
+                          child: const Text(
+                            'Guardar',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
                         ),
                       ),
                     ],

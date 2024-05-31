@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:astro_app/common/common.dart';
 import 'package:astro_app/router/router.dart';
 import 'package:astro_app/pagina/fade_animationtest.dart';
@@ -154,8 +152,14 @@ class _LoginPageState extends State<LoginPage> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
+                            padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                           ),
-                          child: const Text('Iniciar Sesion'),
+                          child: const Text(
+                            'Iniciar Sesion',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
                     ],
