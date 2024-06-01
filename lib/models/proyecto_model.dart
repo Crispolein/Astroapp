@@ -288,3 +288,39 @@ class MemoryCard {
     );
   }
 }
+
+class Ranking {
+  final String id;
+  final String userId;
+  final int score;
+  final String game;
+  final String level;
+
+  Ranking({
+    required this.id,
+    required this.userId,
+    required this.score,
+    required this.game,
+    required this.level,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'userId': userId,
+      'score': score,
+      'game': game,
+      'level': level,
+    };
+  }
+
+  factory Ranking.fromMap(Map<String, dynamic> map) {
+    return Ranking(
+      id: map['id'],
+      userId: map['userId'],
+      score: map['score'],
+      game: map['game'],
+      level: map['level'],
+    );
+  }
+}

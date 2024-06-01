@@ -37,10 +37,15 @@ class _VerdaderoFalsoFacilScreenState extends State<VerdaderoFalsoFacilScreen> {
     });
   }
 
-  void _vibrate() {
+  void _vibrateOnCorrect() {
     if (Vibration.hasVibrator() != null) {
-      Vibration.vibrate(
-          duration: 50); // Duración de la vibración en milisegundos
+      Vibration.vibrate(pattern: [0, 100, 50, 100]); // Patrón para acierto
+    }
+  }
+
+  void _vibrateOnIncorrect() {
+    if (Vibration.hasVibrator() != null) {
+      Vibration.vibrate(pattern: [0, 200, 50, 200]); // Patrón para error
     }
   }
 
@@ -51,7 +56,11 @@ class _VerdaderoFalsoFacilScreenState extends State<VerdaderoFalsoFacilScreen> {
           selectedAnswer == _questions[_currentIndex].respuestaCorrecta;
     });
 
-    _vibrate(); // Activar vibración al seleccionar una respuesta
+    if (_isCorrect) {
+      _vibrateOnCorrect(); // Vibración para respuesta correcta
+    } else {
+      _vibrateOnIncorrect(); // Vibración para respuesta incorrecta
+    }
 
     Timer(Duration(seconds: 2), () {
       setState(() {

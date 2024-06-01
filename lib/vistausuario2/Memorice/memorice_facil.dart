@@ -4,6 +4,6 @@ import 'package:flutter/material.dart';
 class MemoriceFacilScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MemoriceGameScreen(numImages: 3);
+    return MemoriceGameScreen(numImages: 3, difficulty: 'facil');
   }
 }

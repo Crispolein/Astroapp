@@ -41,10 +41,15 @@ class _TerminosPareadosJuegoScreenState
     });
   }
 
-  void _vibrate() {
+  void _vibrateOnCorrect() {
     if (Vibration.hasVibrator() != null) {
-      Vibration.vibrate(
-          duration: 50); // Duración de la vibración en milisegundos
+      Vibration.vibrate(pattern: [0, 100, 50, 100]); // Patrón para acierto
+    }
+  }
+
+  void _vibrateOnIncorrect() {
+    if (Vibration.hasVibrator() != null) {
+      Vibration.vibrate(pattern: [0, 200, 50, 200]); // Patrón para error
     }
   }
 
@@ -53,7 +58,7 @@ class _TerminosPareadosJuegoScreenState
       _terminos.remove(termino);
       _definitions.remove(definicion);
     });
-    _vibrate(); // Activar vibración al emparejar correctamente
+    _vibrateOnCorrect(); // Vibración para emparejamiento correcto
   }
 
   @override
@@ -90,6 +95,11 @@ class _TerminosPareadosJuegoScreenState
                     ),
                     childWhenDragging:
                         _buildCard(termino.term, Colors.grey.shade200),
+                    onDragEnd: (details) {
+                      if (!details.wasAccepted) {
+                        _vibrateOnIncorrect(); // Vibración para emparejamiento incorrecto
+                      }
+                    },
                   );
                 }).toList(),
               ),
@@ -102,6 +112,8 @@ class _TerminosPareadosJuegoScreenState
                     onAccept: (receivedTerm) {
                       if (receivedTerm.definition == definition.definition) {
                         _eliminarTerminosPareados(receivedTerm, definition);
+                      } else {
+                        _vibrateOnIncorrect(); // Vibración para emparejamiento incorrecto
                       }
                     },
                     builder: (context, candidateData, rejectedData) {
