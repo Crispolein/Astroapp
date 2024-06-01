@@ -1,5 +1,4 @@
 import 'package:astro_app/common/common.dart';
-import 'package:astro_app/models/proyecto_model.dart';
 import 'package:astro_app/pagina/fade_animationtest.dart';
 import 'package:astro_app/widgets/custom_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:bcrypt/bcrypt.dart'; // Añadir el paquete bcrypt
+import 'package:bcrypt/bcrypt.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -31,21 +30,18 @@ class _SignupPageState extends State<SignupPage> {
   final CollectionReference _usuariosCollection =
       FirebaseFirestore.instance.collection('usuarios');
 
-  // Función para comprobar si el correo electrónico ya está en uso
   Future<bool> correoYaExiste(String correo) async {
     final result =
         await _usuariosCollection.where('correo', isEqualTo: correo).get();
     return result.docs.isNotEmpty;
   }
 
-  // Función para comprobar si el nombre de usuario ya está en uso
   Future<bool> usernameYaExiste(String username) async {
     final result =
         await _usuariosCollection.where('username', isEqualTo: username).get();
     return result.docs.isNotEmpty;
   }
 
-  // Función para registrar un nuevo usuario
   Future<UserCredential> registerNewUser(String email, String password) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
@@ -63,7 +59,6 @@ class _SignupPageState extends State<SignupPage> {
     }
   }
 
-  // Función para hashear la contraseña
   String hashPassword(String password) {
     final String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
     return hashedPassword;
@@ -72,7 +67,6 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: const Color.fromRGBO(232, 236, 244, 1),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(10.0),
@@ -169,6 +163,10 @@ class _SignupPageState extends State<SignupPage> {
                             if (value!.isEmpty) {
                               return 'Ingresa un nombre de usuario';
                             }
+                            // Validación adicional para nombre de usuario
+                            if (!RegExp(r'^[a-zA-Z0-9_]+$').hasMatch(value)) {
+                              return 'El nombre de usuario solo puede contener letras, números y guiones bajos';
+                            }
                             return null;
                           },
                         ),
@@ -208,7 +206,7 @@ class _SignupPageState extends State<SignupPage> {
                               return 'Por favor ingrese su contraseña';
                             }
                             if (value.length < 8) {
-                              return 'La contraseña debe tener al menos 6 caracteres';
+                              return 'La contraseña debe tener al menos 8 caracteres';
                             }
                             return null;
                           },
@@ -257,33 +255,39 @@ class _SignupPageState extends State<SignupPage> {
                                 });
                               } else {
                                 try {
-                                  UserCredential user = await registerNewUser(
-                                      _correoController.text,
-                                      _passwordController.text);
+                                  UserCredential userCredential =
+                                      await registerNewUser(
+                                          _correoController.text,
+                                          _passwordController.text);
+                                  User user = userCredential.user!;
+
                                   final hashedPassword =
                                       hashPassword(_passwordController.text);
-                                  final nuevoUsuario = Usuarios(
-                                    id: user.user!.uid,
-                                    nombre: _nombreController.text,
-                                    apellido: _apellidoController.text,
-                                    username: _usernameController.text,
-                                    correo: _correoController.text,
-                                    password: hashedPassword,
-                                    permisos: 0,
-                                  );
+                                  final nuevoUsuario = {
+                                    'id': user.uid,
+                                    'nombre': _nombreController.text,
+                                    'apellido': _apellidoController.text,
+                                    'username': _usernameController.text,
+                                    'correo': _correoController.text,
+                                    'password': hashedPassword,
+                                    'permisos': 0,
+                                  };
+
                                   await _usuariosCollection
-                                      .add(nuevoUsuario.toMap());
-                                  // ignore: use_build_context_synchronously
+                                      .doc(user.uid)
+                                      .set(nuevoUsuario);
+
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                        content: Text(
-                                            'Te has registrado correctamente')),
+                                      content: Text(
+                                          'Te has registrado correctamente'),
+                                    ),
                                   );
-                                  // ignore: use_build_context_synchronously
+
                                   Navigator.pop(context);
                                 } catch (e) {
                                   setState(() {
-                                    _error = ' $e';
+                                    _error = 'Error al registrar: $e';
                                   });
                                 }
                               }
@@ -294,7 +298,7 @@ class _SignupPageState extends State<SignupPage> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 50, vertical: 15),
                           ),
                           child: const Text(
@@ -310,9 +314,15 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 15,
-              ),
+              const SizedBox(height: 15),
+              if (_error.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text(
+                    _error,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                ),
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: SizedBox(

@@ -4,7 +4,7 @@ class Usuarios {
   final String id;
   final String nombre;
   final String apellido;
-  final dynamic username;
+  final String username;
   final String? correo;
   final String? password;
   final int? permisos;
@@ -33,13 +33,14 @@ class Usuarios {
 
   factory Usuarios.fromMap(Map<String, dynamic> map) {
     return Usuarios(
-        id: map['id'],
-        nombre: map['nombre'],
-        apellido: 'apellido',
-        username: map['username'],
-        password: map['password'],
-        correo: map['correo'],
-        permisos: map['permisos']);
+      id: map['id'],
+      nombre: map['nombre'],
+      apellido: map['apellido'],
+      username: map['username'],
+      correo: map['correo'],
+      password: map['password'],
+      permisos: map['permisos'],
+    );
   }
 }
 
