@@ -1,12 +1,10 @@
 import 'package:astro_app/astroApp.dart';
-import 'package:astro_app/pagina/usuario/ajustes.dart';
-import 'package:astro_app/pagina/usuario/editar_perfil.dart';
+import 'package:astro_app/pagina/admin/editar_perfil_Admin.dart';
 import 'package:astro_app/vistausuario2/PerfilbPage.dart';
 import 'package:astro_app/vistausuario2/admin/ajustesbPage.dart';
 import 'package:astro_app/vistausuario2/admin/correo.dart';
 import 'package:astro_app/vistausuario2/admin/gestiondeperfiles.dart';
 import 'package:astro_app/vistausuario2/admin/theme.dart';
-import 'package:astro_app/vistausuario2/ajustesbPage.dart';
 import 'package:astro_app/vistausuario2/changepassword.dart';
 import 'package:astro_app/vistausuario2/privacidad.dart';
 import 'package:flutter/material.dart';
@@ -34,14 +32,16 @@ class MyApp extends StatelessWidget {
 
 class PerfiladministradorPage extends StatefulWidget {
   @override
-  _PerfiladministradorPageState createState() => _PerfiladministradorPageState();
+  _PerfiladministradorPageState createState() =>
+      _PerfiladministradorPageState();
 }
 
 class _PerfiladministradorPageState extends State<PerfiladministradorPage> {
   File? _image;
 
   Future<void> _pickImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
         _image = File(pickedFile.path);
@@ -54,9 +54,13 @@ class _PerfiladministradorPageState extends State<PerfiladministradorPage> {
     return AnimatedBuilder(
       animation: themeNotifier,
       builder: (context, _) {
-        final Color emailTextColor = Theme.of(context).brightness == Brightness.dark
-            ? Colors.grey[300]!
-            : const Color.fromARGB(255, 3, 2, 2);
+        final Color emailTextColor =
+            Theme.of(context).brightness == Brightness.dark
+                ? Colors.grey[300]!
+                : const Color.fromARGB(255, 3, 2, 2);
+        final Color iconColor = Theme.of(context).brightness == Brightness.dark
+            ? Colors.amber
+            : Colors.black;
 
         return Scaffold(
           backgroundColor: themeNotifier.value == ThemeMode.dark
@@ -110,51 +114,61 @@ class _PerfiladministradorPageState extends State<PerfiladministradorPage> {
                   children: [
                     ProfileItem(
                       icon: Icons.person,
+                      iconColor: iconColor,
                       text: 'Datos Personales',
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => EditarPerfil()),
+                          MaterialPageRoute(
+                              builder: (context) => EditarAdminPerfil()),
                         );
                       },
                     ),
                     ProfileItem(
                       icon: Icons.language,
+                      iconColor: iconColor,
                       text: 'Lenguaje',
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => LanguagePage()),
+                          MaterialPageRoute(
+                              builder: (context) => LanguagePage()),
                         );
                       },
                     ),
                     ProfileItem(
                       icon: Icons.email,
+                      iconColor: iconColor,
                       text: 'Casilla de Correo',
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => CasillaDeCorreoPage()),
+                          MaterialPageRoute(
+                              builder: (context) => CasillaDeCorreoPage()),
                         );
                       },
                     ),
                     ProfileItem(
                       icon: Icons.policy,
+                      iconColor: iconColor,
                       text: 'Gestión de Perfiles',
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => GestionDePerfilesPage()),
+                          MaterialPageRoute(
+                              builder: (context) => GestionDePerfilesPage()),
                         );
                       },
                     ),
                     ProfileItem(
                       icon: Icons.settings,
+                      iconColor: iconColor,
                       text: 'Ajustes',
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => AjustesadminPage()),
+                          MaterialPageRoute(
+                              builder: (context) => AjustesadminPage()),
                         );
                       },
                     ),
@@ -166,26 +180,31 @@ class _PerfiladministradorPageState extends State<PerfiladministradorPage> {
                   children: [
                     ProfileItem(
                       icon: Icons.lock,
+                      iconColor: iconColor,
                       text: 'Contraseña',
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => PasswordCPage()),
+                          MaterialPageRoute(
+                              builder: (context) => PasswordCPage()),
                         );
                       },
                     ),
                     ProfileItem(
                       icon: Icons.policy,
+                      iconColor: iconColor,
                       text: 'Politica de Privadidad',
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => PrivacyPolicyPage()),
+                          MaterialPageRoute(
+                              builder: (context) => PrivacyPolicyPage()),
                         );
                       },
                     ),
                     ProfileItem(
                       icon: Icons.logout,
+                      iconColor: iconColor,
                       text: 'Cerrar Sesion',
                       onTap: () {
                         Navigator.push(
@@ -256,12 +275,14 @@ class ProfileSection extends StatelessWidget {
 
 class ProfileItem extends StatelessWidget {
   final IconData icon;
+  final Color iconColor;
   final String text;
   final VoidCallback onTap;
 
   const ProfileItem({
     Key? key,
     required this.icon,
+    required this.iconColor,
     required this.text,
     required this.onTap,
   }) : super(key: key);
@@ -269,8 +290,10 @@ class ProfileItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(icon),
+      leading: Icon(icon, color: iconColor),
       title: Text(text),
+      trailing: Icon(Icons.arrow_forward,
+          color: iconColor), // Add trailing arrow icon
       onTap: onTap,
     );
   }

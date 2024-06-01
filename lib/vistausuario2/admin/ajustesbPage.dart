@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 class AjustesadminPage extends StatefulWidget {
   @override
   _AjustesadminPageState createState() => _AjustesadminPageState();
@@ -230,4 +231,3 @@ class ProfileItem extends StatelessWidget {
     );
   }
 }
-

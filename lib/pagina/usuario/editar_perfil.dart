@@ -9,12 +9,10 @@ class EditarPerfil extends StatefulWidget {
 
 class _EditarPerfilState extends State<EditarPerfil> {
   String _nombre = '';
+  String _apellido = '';
+  String _nombreUsuario = '';
   String _correo = '';
-  int _edad = 18; // Inicializar con una edad por defecto (por ejemplo, 18 años)
-  String _descripcion = '';
-  File? _image;
-  List<int> _edades = List<int>.generate(
-      100, (int index) => index + 1); // Lista de edades del 1 al 100
+  File? _image; // Lista de edades del 1 al 100
 
   // Función para guardar los cambios en el perfil
   void _guardarCambios() {
@@ -23,6 +21,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
     // y realizar las acciones necesarias para actualizar el perfil.
   }
 
+  // Función para seleccionar una foto de la galería
   // Función para seleccionar una foto de la galería
   Future<void> _seleccionarFoto() async {
     final picker = ImagePicker();
@@ -51,19 +50,27 @@ class _EditarPerfilState extends State<EditarPerfil> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor = isDarkTheme ? Color(0xFF121212) : Colors.white;
+    final appBarColor = isDarkTheme ? Color(0xFF1F1F1F) : Colors.amber;
+    final textColor = isDarkTheme ? Colors.white : Colors.black;
+    final buttonColor = isDarkTheme ? Colors.purple : Colors.amber;
+    final containerColor = isDarkTheme ? Color(0xFF2C2C2E) : Color(0xFFFFFFFF);
+    final shadowColor =
+        isDarkTheme ? Color.fromARGB(177, 255, 22, 22) : Colors.black26;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Editar Perfil'),
-        backgroundColor:
-            Colors.blueAccent, // Cambio de color de la barra de navegación
+        title: Text('Editar Perfil', style: TextStyle(color: textColor)),
+        backgroundColor: appBarColor,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.save),
+            icon: Icon(Icons.save, color: textColor),
             onPressed: _guardarCambios,
           ),
         ],
       ),
-      backgroundColor: Colors.white, // Fondo de pantalla blanco
+      backgroundColor: backgroundColor,
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: ListView(
@@ -107,8 +114,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
                   height: 150,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color:
-                        Colors.grey[300], // Color de fondo de la foto de perfil
+                    color: Colors.grey[300],
                   ),
                   child: _image != null
                       ? ClipOval(
@@ -122,24 +128,32 @@ class _EditarPerfilState extends State<EditarPerfil> {
                       : Icon(
                           Icons.camera_alt,
                           size: 70,
-                          color: Colors.grey[
-                              700], // Cambio de color del icono de la cámara
-                        ), // Placeholder de la foto de perfil
+                          color: Colors.grey[700],
+                        ),
                 ),
               ),
             ),
             SizedBox(height: 16.0),
             Container(
               decoration: BoxDecoration(
-                color: Colors.grey[
-                    300], // Cambio de color del contenedor de entrada de texto
-                borderRadius: BorderRadius.circular(8.0),
+                color: containerColor,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: shadowColor,
+                    blurRadius: 10.0,
+                    spreadRadius: 1.9,
+                    offset: Offset(0, 7),
+                  ),
+                ],
               ),
               child: TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Nombre',
                   border: OutlineInputBorder(),
+                  labelStyle: TextStyle(color: textColor),
                 ),
+                style: TextStyle(color: textColor),
                 initialValue: _nombre,
                 onChanged: (value) {
                   setState(() {
@@ -151,15 +165,82 @@ class _EditarPerfilState extends State<EditarPerfil> {
             SizedBox(height: 16.0),
             Container(
               decoration: BoxDecoration(
-                color: Colors.grey[
-                    300], // Cambio de color del contenedor de entrada de texto
-                borderRadius: BorderRadius.circular(8.0),
+                color: containerColor,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: shadowColor,
+                    blurRadius: 10.0,
+                    spreadRadius: 1.9,
+                    offset: Offset(0, 7),
+                  ),
+                ],
+              ),
+              child: TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Apellido',
+                  border: OutlineInputBorder(),
+                  labelStyle: TextStyle(color: textColor),
+                ),
+                style: TextStyle(color: textColor),
+                initialValue: _apellido,
+                onChanged: (value) {
+                  setState(() {
+                    _apellido = value;
+                  });
+                },
+              ),
+            ),
+            SizedBox(height: 16.0),
+            Container(
+              decoration: BoxDecoration(
+                color: containerColor,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: shadowColor,
+                    blurRadius: 10.0,
+                    spreadRadius: 1.9,
+                    offset: Offset(0, 7),
+                  ),
+                ],
+              ),
+              child: TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Nombre de Usuario',
+                  border: OutlineInputBorder(),
+                  labelStyle: TextStyle(color: textColor),
+                ),
+                style: TextStyle(color: textColor),
+                initialValue: _nombreUsuario,
+                onChanged: (value) {
+                  setState(() {
+                    _nombreUsuario = value;
+                  });
+                },
+              ),
+            ),
+            SizedBox(height: 16.0),
+            Container(
+              decoration: BoxDecoration(
+                color: containerColor,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: shadowColor,
+                    blurRadius: 10.0,
+                    spreadRadius: 1.9,
+                    offset: Offset(0, 7),
+                  ),
+                ],
               ),
               child: TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Correo',
                   border: OutlineInputBorder(),
+                  labelStyle: TextStyle(color: textColor),
                 ),
+                style: TextStyle(color: textColor),
                 initialValue: _correo,
                 onChanged: (value) {
                   setState(() {
@@ -168,65 +249,22 @@ class _EditarPerfilState extends State<EditarPerfil> {
                 },
               ),
             ),
-            SizedBox(height: 16.0),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[
-                    300], // Cambio de color del contenedor de entrada de texto
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: DropdownButtonFormField<int>(
-                decoration: InputDecoration(
-                  labelText: 'Edad',
-                  border: OutlineInputBorder(),
-                ),
-                value: _edad,
-                onChanged: (value) {
-                  setState(() {
-                    _edad = value!;
-                  });
-                },
-                items: _edades.map((int value) {
-                  return DropdownMenuItem<int>(
-                    value: value,
-                    child: Text(value.toString()),
-                  );
-                }).toList(),
-              ),
-            ),
-            SizedBox(height: 16.0),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[
-                    300], // Cambio de color del contenedor de entrada de texto
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Descripción',
-                  border: OutlineInputBorder(),
-                ),
-                initialValue: _descripcion,
-                onChanged: (value) {
-                  setState(() {
-                    _descripcion = value;
-                  });
-                },
-                maxLines: 4,
-              ),
-            ),
             SizedBox(height: 30.0),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _guardarCambios,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      Colors.blueAccent, // Cambio de color del botón
-                ),
-                child: Text(
-                  'Guardar cambios',
-                  style: TextStyle(fontSize: 20.0),
+            Center(
+              child: SizedBox(
+                width: 250,
+                child: ElevatedButton(
+                  onPressed: _guardarCambios,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: buttonColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: Text(
+                    'Guardar cambios',
+                    style: TextStyle(fontSize: 22.0, color: textColor),
+                  ),
                 ),
               ),
             ),
