@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:astro_app/models/proyecto_model.dart';
+import 'package:vibration/vibration.dart'; // Importa el paquete de vibración
 
 class QuizDificilScreen extends StatefulWidget {
   @override
@@ -34,11 +35,29 @@ class _QuizDificilScreenState extends State<QuizDificilScreen> {
     });
   }
 
+  void _vibrateOnCorrect() {
+    if (Vibration.hasVibrator() != null) {
+      Vibration.vibrate(pattern: [0, 100, 50, 100]); // Patrón para acierto
+    }
+  }
+
+  void _vibrateOnIncorrect() {
+    if (Vibration.hasVibrator() != null) {
+      Vibration.vibrate(pattern: [0, 200, 50, 200]); // Patrón para error
+    }
+  }
+
   void _checkAnswer(String selectedAnswer) {
     setState(() {
       _isAnswered = true;
       _isCorrect = selectedAnswer == _quizzes[_currentIndex].respuestaCorrecta;
     });
+
+    if (_isCorrect) {
+      _vibrateOnCorrect(); // Vibración para acierto
+    } else {
+      _vibrateOnIncorrect(); // Vibración para error
+    }
 
     Timer(Duration(seconds: 2), () {
       setState(() {

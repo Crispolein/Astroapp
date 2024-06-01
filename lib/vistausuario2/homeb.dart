@@ -5,6 +5,7 @@ import 'package:astro_app/vistausuario2/noticias.dart';
 import 'package:flutter/material.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:astro_app/vistausuario2/iss_map.dart';
+import 'package:vibration/vibration.dart'; // Importa el paquete de vibración
 
 class HomebPage extends StatefulWidget {
   @override
@@ -22,10 +23,18 @@ class _HomebPageState extends State<HomebPage> {
     ISSData(),
   ];
 
+  void _vibrate() {
+    if (Vibration.hasVibrator() != null) {
+      Vibration.vibrate(
+          duration: 50); // Duración de la vibración en milisegundos
+    }
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+    _vibrate(); // Activar vibración al tocar el botón
   }
 
   @override

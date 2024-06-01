@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:vibration/vibration.dart'; // Importa el paquete de vibración
 
 class TickedPage extends StatefulWidget {
   const TickedPage({super.key});
@@ -15,6 +16,13 @@ class TickedPage extends StatefulWidget {
 }
 
 class _TickedPageState extends State<TickedPage> {
+  void _vibrate() {
+    if (Vibration.hasVibrator() != null) {
+      Vibration.vibrate(
+          duration: 50); // Duración de la vibración en milisegundos
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +41,7 @@ class _TickedPageState extends State<TickedPage> {
             FadeInAnimation(
               delay: 1.5,
               child: Text(
-                "Tu contraseña fue cambiada con exito",
+                "Tu contraseña fue cambiada con éxito",
                 style: Common().mediumThemeblack,
               ),
             ),
@@ -45,6 +53,7 @@ class _TickedPageState extends State<TickedPage> {
               child: CustomElevatedButton(
                 message: "Volver al inicio",
                 function: () {
+                  _vibrate(); // Activar vibración al presionar el botón
                   GoRouter.of(context).pushReplacement(Routers.homebpage.name);
                 },
                 color: Colors.black,

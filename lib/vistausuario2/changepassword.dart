@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:vibration/vibration.dart'; // Importa el paquete de vibración
 
 class PasswordCPage extends StatefulWidget {
   const PasswordCPage({super.key});
@@ -19,6 +20,13 @@ class _PasswordCPageState extends State<PasswordCPage> {
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
+  void _vibrate() {
+    if (Vibration.hasVibrator() != null) {
+      Vibration.vibrate(
+          duration: 50); // Duración de la vibración en milisegundos
+    }
+  }
+
   Future<void> _changePassword() async {
     if (_formKey.currentState?.validate() ?? false) {
       try {
@@ -27,6 +35,7 @@ class _PasswordCPageState extends State<PasswordCPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Contraseña actualizada con éxito')),
         );
+        _vibrate(); // Activar vibración al actualizar la contraseña con éxito
         GoRouter.of(context).pushNamed(Routers.tickedpage.name);
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(

@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:astro_app/vistausuario2/Memorice/memorice_facil.dart';
 import 'package:astro_app/vistausuario2/Memorice/memorice_medio.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:vibration/vibration.dart'; // Importa el paquete de vibración
 
 class CategoriaPage extends StatefulWidget {
   @override
@@ -22,6 +23,13 @@ class _CategoriaPageState extends State<CategoriaPage> {
     setState(() {
       themeNotifier.toggleTheme();
     });
+  }
+
+  void _vibrate() {
+    if (Vibration.hasVibrator() != null) {
+      Vibration.vibrate(
+          duration: 50); // Duración de la vibración en milisegundos
+    }
   }
 
   @override
@@ -367,6 +375,7 @@ class CategoryIcon extends StatelessWidget {
             builder: (context) => targetScreen,
           ),
         );
+        Vibration.vibrate(duration: 50); // Activar vibración al tocar el botón
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),

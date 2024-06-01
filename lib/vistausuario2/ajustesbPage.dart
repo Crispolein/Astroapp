@@ -1,24 +1,8 @@
 import 'package:astro_app/vistausuario2/admin/theme.dart';
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Pagina de Usuario',
-      theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: Color(0xFF121212),
-      ),
-      home: AjustesbPage(),
-    );
-  }
-}
+import 'package:vibration/vibration.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'settings_manager.dart'; // Importa la clase SettingsManager
 
 class AjustesbPage extends StatefulWidget {
   @override
@@ -37,6 +21,8 @@ class _AjustesbPageState extends State<AjustesbPage> {
       _modoNocturnoEnabled = !_modoNocturnoEnabled;
       themeNotifier.toggleTheme();
       _updateAppBarColor(); // Update AppBar color based on theme change
+      SettingsManager.setModoNocturnoEnabled(
+          _modoNocturnoEnabled); // Save setting
     });
   }
 
@@ -46,10 +32,26 @@ class _AjustesbPageState extends State<AjustesbPage> {
         : Color.fromARGB(255, 255, 255, 255); // Light theme color
   }
 
+  void _vibrate() {
+    if (_vibracionEnabled && Vibration.hasVibrator() != null) {
+      Vibration.vibrate(
+          duration: 50); // Duración de la vibración en milisegundos
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    _loadSettings();
     _updateAppBarColor(); // Update AppBar color on initial load
+  }
+
+  Future<void> _loadSettings() async {
+    _vibracionEnabled = await SettingsManager.getVibracionEnabled();
+    _sonidoEnabled = await SettingsManager.getSonidoEnabled();
+    _modoNocturnoEnabled = await SettingsManager.getModoNocturnoEnabled();
+    _recordatorioEnabled = await SettingsManager.getRecordatorioEnabled();
+    setState(() {}); // Update UI with loaded settings
   }
 
   @override
@@ -80,7 +82,10 @@ class _AjustesbPageState extends State<AjustesbPage> {
                     onTap: () {
                       setState(() {
                         _vibracionEnabled = !_vibracionEnabled;
+                        SettingsManager.setVibracionEnabled(
+                            _vibracionEnabled); // Save setting
                       });
+                      _vibrate(); // Activar vibración al tocar el botón
                     },
                     hasSwitch: true,
                     isEnabled: _vibracionEnabled,
@@ -92,7 +97,10 @@ class _AjustesbPageState extends State<AjustesbPage> {
                     onTap: () {
                       setState(() {
                         _sonidoEnabled = !_sonidoEnabled;
+                        SettingsManager.setSonidoEnabled(
+                            _sonidoEnabled); // Save setting
                       });
+                      _vibrate(); // Activar vibración al tocar el botón
                     },
                     hasSwitch: true,
                     isEnabled: _sonidoEnabled,
@@ -101,7 +109,10 @@ class _AjustesbPageState extends State<AjustesbPage> {
                   ProfileItem(
                     icon: Icons.nightlight_round,
                     text: 'Modo Nocturno',
-                    onTap: _toggleTheme,
+                    onTap: () {
+                      _toggleTheme();
+                      _vibrate(); // Activar vibración al tocar el botón
+                    },
                     hasSwitch: true,
                     isEnabled: _modoNocturnoEnabled,
                   ),
@@ -112,7 +123,10 @@ class _AjustesbPageState extends State<AjustesbPage> {
                     onTap: () {
                       setState(() {
                         _recordatorioEnabled = !_recordatorioEnabled;
+                        SettingsManager.setRecordatorioEnabled(
+                            _recordatorioEnabled); // Save setting
                       });
+                      _vibrate(); // Activar vibración al tocar el botón
                     },
                     hasSwitch: true,
                     isEnabled: _recordatorioEnabled,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:vibration/vibration.dart'; // Importa el paquete de vibración
 
 class MemoriceGameScreen extends StatefulWidget {
   final int numImages;
@@ -51,8 +52,16 @@ class _MemoriceGameScreenState extends State<MemoriceGameScreen> {
     });
   }
 
+  void _vibrate() {
+    if (Vibration.hasVibrator() != null) {
+      Vibration.vibrate(
+          duration: 50); // Duración de la vibración en milisegundos
+    }
+  }
+
   void _onCardTapped(int index) {
     if (_canTap && !_revealed[index]) {
+      _vibrate(); // Activar vibración al tocar la tarjeta
       setState(() {
         _revealed[index] = true;
       });

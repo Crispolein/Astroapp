@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:astro_app/models/proyecto_model.dart';
+import 'package:vibration/vibration.dart'; // Importa el paquete de vibración
 
 class QuizFacilScreen extends StatefulWidget {
   @override
@@ -34,11 +35,20 @@ class _QuizFacilScreenState extends State<QuizFacilScreen> {
     });
   }
 
+  void _vibrate() {
+    if (Vibration.hasVibrator() != null) {
+      Vibration.vibrate(
+          duration: 50); // Duración de la vibración en milisegundos
+    }
+  }
+
   void _checkAnswer(String selectedAnswer) {
     setState(() {
       _isAnswered = true;
       _isCorrect = selectedAnswer == _quizzes[_currentIndex].respuestaCorrecta;
     });
+
+    _vibrate(); // Activar vibración al seleccionar una respuesta
 
     Timer(Duration(seconds: 2), () {
       setState(() {

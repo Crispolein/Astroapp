@@ -1,6 +1,7 @@
 import 'package:astro_app/Login/login_page.dart';
 import 'package:astro_app/Login/signup_page.dart';
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart'; // Importa el paquete de vibración
 
 class AstroApp extends StatefulWidget {
   const AstroApp({super.key});
@@ -12,6 +13,13 @@ class AstroApp extends StatefulWidget {
 class _AstroAppState extends State<AstroApp> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  void _vibrate() {
+    if (Vibration.hasVibrator() != null) {
+      Vibration.vibrate(
+          duration: 50); // Duración de la vibración en milisegundos
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +50,15 @@ class _AstroAppState extends State<AstroApp> {
           _title(),
           const SizedBox(height: 50),
           _loginButton("Iniciar sesión", () {
-            // Acción para el botón "Iniciar sesión"
+            _vibrate(); // Activar vibración al presionar el botón
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const LoginPage()));
           }, Colors.black, Colors.white),
           const SizedBox(height: 20),
           _registerButton("Registrarse", () {
-            // Acción para el botón "Registrarse"
+            _vibrate(); // Activar vibración al presionar el botón
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => SignupPage()));
           }),
           const SizedBox(height: 20),
           _continueAsGuestButton(),
@@ -70,10 +82,7 @@ class _AstroAppState extends State<AstroApp> {
   Widget _loginButton(
       String text, Function() onPressed, Color buttonColor, Color textColor) {
     return ElevatedButton(
-      onPressed: () => {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const LoginPage()))
-      },
+      onPressed: onPressed,
       child: SizedBox(
         width: double.infinity,
         child: Text(
@@ -98,10 +107,7 @@ class _AstroAppState extends State<AstroApp> {
 
   Widget _registerButton(String text, Function() onPressed) {
     return ElevatedButton(
-      onPressed: () => {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SignupPage()))
-      },
+      onPressed: onPressed,
       style: ButtonStyle(
         side: MaterialStateProperty.all(BorderSide(color: Colors.black)),
         shape: MaterialStateProperty.all(
@@ -134,10 +140,11 @@ class _AstroAppState extends State<AstroApp> {
   Widget _continueAsGuestButton() {
     return TextButton(
       onPressed: () {
+        _vibrate(); // Activar vibración al presionar el botón
         // Acción para el botón "Continuar como invitado"
       },
       child: Text(
-        "",
+        "Continuar como invitado",
         style: TextStyle(
             fontSize: 15,
             fontFamily: "Urbanist",

@@ -6,8 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:translator/translator.dart';
 import 'package:astro_app/api/apod.dart';
 import 'package:intl/intl.dart';
+import 'package:vibration/vibration.dart'; // Importa el paquete de vibración
 
 class NoticiasPage extends StatelessWidget {
+  void _vibrate() {
+    if (Vibration.hasVibrator() != null) {
+      Vibration.vibrate(
+          duration: 50); // Duración de la vibración en milisegundos
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final Color textColor = Theme.of(context).brightness == Brightness.dark
@@ -56,6 +64,7 @@ class NoticiasPage extends StatelessWidget {
                             context,
                             MaterialPageRoute(builder: (context) => ApodPage()),
                           );
+                          _vibrate(); // Activar vibración al tocar el botón
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -171,6 +180,7 @@ class NoticiasPage extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (context) => ListarNoticiaLectura()),
                         );
+                        _vibrate(); // Activar vibración al tocar el botón
                       },
                       child: Container(
                         decoration: BoxDecoration(

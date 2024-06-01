@@ -1,6 +1,7 @@
 import 'package:astro_app/models/proyecto_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart'; // Importa el paquete de vibración
 import 'dart:math';
 
 class TerminosPareadosJuegoScreen extends StatefulWidget {
@@ -40,11 +41,19 @@ class _TerminosPareadosJuegoScreenState
     });
   }
 
+  void _vibrate() {
+    if (Vibration.hasVibrator() != null) {
+      Vibration.vibrate(
+          duration: 50); // Duración de la vibración en milisegundos
+    }
+  }
+
   void _eliminarTerminosPareados(Term termino, Term definicion) {
     setState(() {
       _terminos.remove(termino);
       _definitions.remove(definicion);
     });
+    _vibrate(); // Activar vibración al emparejar correctamente
   }
 
   @override

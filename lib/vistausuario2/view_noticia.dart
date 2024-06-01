@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'package:astro_app/models/proyecto_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart'; // Importa el paquete de vibración
 import 'package:astro_app/vistausuario2/view_noticia_completa.dart';
 
 class ListarNoticiaLectura extends StatefulWidget {
@@ -14,6 +16,13 @@ class _ListarNoticiaLecturaState extends State<ListarNoticiaLectura> {
   final CollectionReference noticiaCollection =
       FirebaseFirestore.instance.collection('noticia');
   String _filtroTexto = '';
+
+  void _vibrate() {
+    if (Vibration.hasVibrator() != null) {
+      Vibration.vibrate(
+          duration: 50); // Duración de la vibración en milisegundos
+    }
+  }
 
   void _mostrarImagenAgrandada(String imagenURL) {
     showDialog(
@@ -130,6 +139,7 @@ class _ListarNoticiaLecturaState extends State<ListarNoticiaLectura> {
                         ),
                         leading: GestureDetector(
                           onTap: () {
+                            _vibrate(); // Activar vibración al tocar la imagen
                             if (noticia.imagenURL.isNotEmpty) {
                               _mostrarImagenAgrandada(noticia.imagenURL);
                             }
@@ -146,6 +156,13 @@ class _ListarNoticiaLecturaState extends State<ListarNoticiaLectura> {
                                     )
                                   : null,
                             ),
+                            child: noticia.imagenURL.isEmpty
+                                ? Icon(
+                                    Icons.image,
+                                    size: 50,
+                                    color: Colors.grey,
+                                  )
+                                : null,
                           ),
                         ),
                       ),

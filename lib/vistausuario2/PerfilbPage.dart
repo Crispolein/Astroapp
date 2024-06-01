@@ -7,26 +7,8 @@ import 'package:astro_app/vistausuario2/changepassword.dart';
 import 'package:astro_app/vistausuario2/privacidad.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:vibration/vibration.dart'; // Importa el paquete de vibración
 import 'dart:io';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Pagina de Usuario',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: Color(0xFF1C1C1E),
-      ),
-      home: PerfilbPage(),
-    );
-  }
-}
 
 class PerfilbPage extends StatefulWidget {
   @override
@@ -43,6 +25,13 @@ class _PerfilbPageState extends State<PerfilbPage> {
       setState(() {
         _image = File(pickedFile.path);
       });
+    }
+  }
+
+  void _vibrate() {
+    if (Vibration.hasVibrator() != null) {
+      Vibration.vibrate(
+          duration: 50); // Duración de la vibración en milisegundos
     }
   }
 
@@ -79,7 +68,10 @@ class _PerfilbPageState extends State<PerfilbPage> {
                         bottom: 0,
                         right: 0,
                         child: InkWell(
-                          onTap: _pickImage,
+                          onTap: () {
+                            _pickImage();
+                            _vibrate(); // Activar vibración al tocar el botón
+                          },
                           child: CircleAvatar(
                             radius: 15,
                             backgroundColor: Colors.orange,
@@ -115,6 +107,7 @@ class _PerfilbPageState extends State<PerfilbPage> {
                           MaterialPageRoute(
                               builder: (context) => EditarPerfil()),
                         );
+                        _vibrate(); // Activar vibración al tocar el botón
                       },
                     ),
                     ProfileItem(
@@ -126,6 +119,7 @@ class _PerfilbPageState extends State<PerfilbPage> {
                           MaterialPageRoute(
                               builder: (context) => LanguagePage()),
                         );
+                        _vibrate(); // Activar vibración al tocar el botón
                       },
                     ),
                     ProfileItem(
@@ -137,6 +131,7 @@ class _PerfilbPageState extends State<PerfilbPage> {
                           MaterialPageRoute(
                               builder: (context) => AjustesbPage()),
                         );
+                        _vibrate(); // Activar vibración al tocar el botón
                       },
                     ),
                   ],
@@ -154,6 +149,7 @@ class _PerfilbPageState extends State<PerfilbPage> {
                           MaterialPageRoute(
                               builder: (context) => PasswordCPage()),
                         );
+                        _vibrate(); // Activar vibración al tocar el botón
                       },
                     ),
                     ProfileItem(
@@ -165,6 +161,7 @@ class _PerfilbPageState extends State<PerfilbPage> {
                           MaterialPageRoute(
                               builder: (context) => PrivacyPolicyPage()),
                         );
+                        _vibrate(); // Activar vibración al tocar el botón
                       },
                     ),
                     ProfileItem(
@@ -175,6 +172,7 @@ class _PerfilbPageState extends State<PerfilbPage> {
                           context,
                           MaterialPageRoute(builder: (context) => AstroApp()),
                         );
+                        _vibrate(); // Activar vibración al tocar el botón
                       },
                     ),
                   ],
@@ -255,7 +253,10 @@ class ProfileItem extends StatelessWidget {
       leading: Icon(icon, color: Colors.orange),
       title: Text(text, style: TextStyle(fontSize: 16)),
       trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey),
-      onTap: onTap,
+      onTap: () {
+        onTap();
+        Vibration.vibrate(duration: 50); // Activar vibración al tocar el botón
+      },
     );
   }
 }

@@ -1,11 +1,19 @@
 import 'package:astro_app/models/proyecto_model.dart';
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart'; // Importa el paquete de vibración
 
 class NoticiaCompletaPage extends StatelessWidget {
   final Noticia noticia;
 
   const NoticiaCompletaPage({Key? key, required this.noticia})
       : super(key: key);
+
+  void _vibrate() {
+    if (Vibration.hasVibrator() != null) {
+      Vibration.vibrate(
+          duration: 50); // Duración de la vibración en milisegundos
+    }
+  }
 
   void _mostrarImagenAgrandada(BuildContext context, String imagenURL) {
     showDialog(
@@ -40,6 +48,7 @@ class NoticiaCompletaPage extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
+                _vibrate(); // Activar vibración al tocar la imagen
                 if (noticia.imagenURL.isNotEmpty) {
                   _mostrarImagenAgrandada(context, noticia.imagenURL);
                 }
