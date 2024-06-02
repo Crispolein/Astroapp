@@ -6,6 +6,7 @@ import 'package:astro_app/vistausuario2/admin/correo.dart';
 import 'package:astro_app/vistausuario2/admin/gestiondeperfiles.dart';
 import 'package:astro_app/vistausuario2/admin/theme.dart';
 import 'package:astro_app/vistausuario2/changepassword.dart';
+import 'package:astro_app/vistausuario2/idioma.dart';
 import 'package:astro_app/vistausuario2/privacidad.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';

@@ -110,6 +110,7 @@ flutter:
     - assets/images/cuartoMenguante7.jpg
     - assets/images/crecienteMenguante8.jpg
     - assets/images/luna.json
+    - assets/images/Hamster.json
     - assets/spacecraft.png
   # To add assets to your application, add an assets section, like this:
   # assets:

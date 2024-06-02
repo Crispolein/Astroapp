@@ -65,7 +65,7 @@ class _CategoriaPageState extends State<CategoriaPage> {
         : Colors.black26;
     final Color appBarColor = Theme.of(context).brightness == Brightness.dark
         ? Color(0xFF2C2C2E)
-        : Colors.purple;
+        : Colors.amberAccent;
 
     return AnimatedSwitcher(
       duration: Duration(milliseconds: 500),

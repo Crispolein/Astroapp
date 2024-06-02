@@ -4,6 +4,7 @@ import 'package:astro_app/pagina/usuario/editar_perfil.dart';
 import 'package:astro_app/vistausuario2/admin/theme.dart';
 import 'package:astro_app/vistausuario2/ajustesbPage.dart';
 import 'package:astro_app/vistausuario2/changepassword.dart';
+import 'package:astro_app/vistausuario2/idioma.dart';
 import 'package:astro_app/vistausuario2/privacidad.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -112,7 +113,7 @@ class _PerfilbPageState extends State<PerfilbPage> {
                     ),
                     ProfileItem(
                       icon: Icons.language,
-                      text: 'Lenguaje',
+                      text: 'Idiomas',
                       onTap: () {
                         Navigator.push(
                           context,
@@ -268,46 +269,6 @@ class PersonalDataPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Personal Data')),
       body: Center(child: Text('Personal Data Page')),
-    );
-  }
-}
-
-class LanguagePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Language')),
-      body: Center(child: Text('Language Page')),
-    );
-  }
-}
-
-class NotificationsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Notifications')),
-      body: Center(child: Text('Notifications Page')),
-    );
-  }
-}
-
-class PasswordPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Password')),
-      body: Center(child: Text('Password Page')),
-    );
-  }
-}
-
-class LogoutPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Log out')),
-      body: Center(child: Text('Log out Page')),
     );
   }
 }

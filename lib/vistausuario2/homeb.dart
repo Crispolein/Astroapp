@@ -5,7 +5,7 @@ import 'package:astro_app/vistausuario2/noticias.dart';
 import 'package:flutter/material.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:astro_app/vistausuario2/iss_map.dart';
-import 'package:vibration/vibration.dart'; // Importa el paquete de vibración
+import 'package:vibration/vibration.dart';
 
 class HomebPage extends StatefulWidget {
   @override
@@ -39,50 +39,44 @@ class _HomebPageState extends State<HomebPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkTheme = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor = isDarkTheme ? Colors.blueGrey : Colors.white;
+    final iconColor = isDarkTheme ? Colors.blueGrey[900] : Colors.brown[300];
+
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: FlashyTabBar(
         selectedIndex: _selectedIndex,
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: backgroundColor!,
         animationCurve: Curves.linear,
         animationDuration: Duration(milliseconds: 300),
         showElevation: true,
         onItemSelected: _onItemTapped,
         items: [
           FlashyTabBarItem(
-            icon: Icon(Icons.person,
-                size: 35, color: const Color.fromARGB(255, 0, 0, 0)),
+            icon: Icon(Icons.person, size: 35, color: iconColor),
             title: Text('Perfil',
-                style: TextStyle(
-                    color: const Color.fromARGB(255, 0, 0, 0), fontSize: 17)),
+                style: TextStyle(color: iconColor, fontSize: 17)),
           ),
           FlashyTabBarItem(
-            icon: Icon(Icons.home,
-                size: 35, color: const Color.fromARGB(255, 0, 0, 0)),
+            icon: Icon(Icons.home, size: 35, color: iconColor),
             title: Text('Inicio',
-                style: TextStyle(
-                    color: const Color.fromARGB(255, 0, 0, 0), fontSize: 17)),
+                style: TextStyle(color: iconColor, fontSize: 17)),
           ),
           FlashyTabBarItem(
-            icon: Icon(Icons.games,
-                size: 35, color: const Color.fromARGB(255, 0, 0, 0)),
+            icon: Icon(Icons.games, size: 35, color: iconColor),
             title: Text('Juegos',
-                style: TextStyle(
-                    color: const Color.fromARGB(255, 0, 0, 0), fontSize: 17)),
+                style: TextStyle(color: iconColor, fontSize: 17)),
           ),
           FlashyTabBarItem(
-            icon: Icon(Icons.brightness_2,
-                size: 35, color: const Color.fromARGB(255, 0, 0, 0)),
-            title: Text('Lunas',
-                style: TextStyle(
-                    color: const Color.fromARGB(255, 0, 0, 0), fontSize: 17)),
+            icon: Icon(Icons.brightness_2, size: 35, color: iconColor),
+            title:
+                Text('Lunas', style: TextStyle(color: iconColor, fontSize: 17)),
           ),
           FlashyTabBarItem(
-            icon: Icon(Icons.image,
-                size: 35, color: const Color.fromARGB(255, 0, 0, 0)),
+            icon: Icon(Icons.image, size: 35, color: iconColor),
             title: Text('ISS Info',
-                style: TextStyle(
-                    color: const Color.fromARGB(255, 0, 0, 0), fontSize: 17)),
+                style: TextStyle(color: iconColor, fontSize: 17)),
           ),
         ],
       ),
