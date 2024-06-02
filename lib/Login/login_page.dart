@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // Importa FontAwesome
+import 'package:url_launcher/url_launcher.dart'; // Importa url_launcher
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -20,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool flag = true;
+  double iconSpacing = 40.0; // Espacio entre los íconos ajustable
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +142,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
                       FadeInAnimation(
                         delay: 2.8,
@@ -187,14 +190,48 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(
                         height: 20,
                       ),
-                      const FadeInAnimation(
+                      FadeInAnimation(
                         delay: 2.4,
                         child: Padding(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                               top: 10, bottom: 10, right: 30, left: 30),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  _navigateToGoogle();
+                                },
+                                child: Icon(
+                                  FontAwesomeIcons.google,
+                                  size: 55,
+                                  color: Colors.red,
+                                ),
+                              ),
+                              SizedBox(width: iconSpacing), // Espacio ajustable
+                              GestureDetector(
+                                onTap: () {
+                                  _navigateToFacebook();
+                                },
+                                child: Icon(
+                                  FontAwesomeIcons.facebook,
+                                  size: 55,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                              SizedBox(width: iconSpacing), // Espacio ajustable
+                              GestureDetector(
+                                onTap: () {
+                                  _navigateToMicrosoft();
+                                },
+                                child: Icon(
+                                  FontAwesomeIcons.microsoft,
+                                  size: 55,
+                                  color: Colors.green,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -232,6 +269,33 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  void _navigateToGoogle() async {
+    const url = 'https://accounts.google.com/';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'No se pudo abrir $url';
+    }
+  }
+
+  void _navigateToFacebook() async {
+    const url = 'https://www.facebook.com/';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'No se pudo abrir $url';
+    }
+  }
+
+  void _navigateToMicrosoft() async {
+    const url = 'https://login.microsoftonline.com/';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'No se pudo abrir $url';
+    }
   }
 
   void _showErrorDialog(String message) {
