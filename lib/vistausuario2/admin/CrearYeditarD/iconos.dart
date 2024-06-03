@@ -31,7 +31,7 @@ class CategorydIcon extends StatelessWidget {
         );
       },
       child: Padding(
-        padding: const EdgeInsets.all(8.0), // Padding alrededor del ítem
+        padding: const EdgeInsets.all(28.0), // Padding alrededor del ítem
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -40,7 +40,7 @@ class CategorydIcon extends StatelessWidget {
                 color: Colors.white, // Color de fondo del icono
                 borderRadius: BorderRadius.circular(10), // Bordes redondeados
               ),
-              padding: EdgeInsets.all(16), // Padding dentro del contenedor
+              padding: EdgeInsets.all(18), // Padding dentro del contenedor
               child: Icon(item.icon,
                   color: Colors.purple, size: 30), // Icono del ítem
             ),

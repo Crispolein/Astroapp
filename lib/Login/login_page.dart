@@ -8,7 +8,8 @@ import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // Importa FontAwesome
-import 'package:url_launcher/url_launcher.dart'; // Importa url_launcher
+import 'package:url_launcher/url_launcher.dart';
+import 'package:icons_plus/icons_plus.dart'; // Importa url_launcher
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -203,10 +204,9 @@ class _LoginPageState extends State<LoginPage> {
                                 onTap: () {
                                   _navigateToGoogle();
                                 },
-                                child: Icon(
-                                  FontAwesomeIcons.google,
+                                child: Brand(
+                                  Brands.google,
                                   size: 55,
-                                  color: Colors.red,
                                 ),
                               ),
                               SizedBox(width: iconSpacing), // Espacio ajustable
@@ -214,10 +214,9 @@ class _LoginPageState extends State<LoginPage> {
                                 onTap: () {
                                   _navigateToFacebook();
                                 },
-                                child: Icon(
-                                  FontAwesomeIcons.facebook,
-                                  size: 55,
-                                  color: Colors.blue,
+                                child: Brand(
+                                  Brands.facebook,
+                                  size: 60,
                                 ),
                               ),
                               SizedBox(width: iconSpacing), // Espacio ajustable
@@ -225,10 +224,9 @@ class _LoginPageState extends State<LoginPage> {
                                 onTap: () {
                                   _navigateToMicrosoft();
                                 },
-                                child: Icon(
-                                  FontAwesomeIcons.microsoft,
+                                child: Brand(
+                                  Brands.microsoft,
                                   size: 55,
-                                  color: Colors.green,
                                 ),
                               ),
                             ],

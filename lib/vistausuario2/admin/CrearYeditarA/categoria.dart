@@ -5,6 +5,7 @@ import 'package:astro_app/vistausuario2/admin/CrearYeditarC/categoriaitem.dart';
 import 'package:astro_app/vistausuario2/admin/CrearYeditarD/categoriaitem.dart';
 import 'package:astro_app/vistausuario2/admin/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CategoriaadminPage extends StatefulWidget {
   @override
@@ -162,12 +163,12 @@ class CategorySection extends StatelessWidget {
                 ),
               ),
               child: GridView.count(
-                crossAxisCount: 3, // Número de columnas en la cuadrícula
+                crossAxisCount: 2, // Número de columnas en la cuadrícula
                 shrinkWrap: true, // Ajustar al contenido
                 physics:
                     NeverScrollableScrollPhysics(), // Deshabilitar el scroll
-                padding: const EdgeInsets.all(
-                    16), // Padding alrededor de la cuadrícula
+                padding: const EdgeInsets.only(
+                    top: 16), // Padding alrededor de la cuadrícula
                 children: items, // Ítems de la cuadrícula
               ),
             ),
@@ -183,7 +184,7 @@ class FacilCategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return CategoryIcon(
       item: CategoryItem(
-          icon: Icons.sentiment_satisfied,
+          icon: FontAwesomeIcons.add,
           label: 'Crear Quiz'), // Ítem de categoría fácil
     );
   }
@@ -194,7 +195,7 @@ class MedioCategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return CategoryIcon(
       item: CategoryItem(
-          icon: Icons.sentiment_neutral,
+          icon: FontAwesomeIcons.list,
           label: 'Listar Quiz'), // Ítem de categoría medio
     );
   }
@@ -229,7 +230,7 @@ class CategoryIcon extends StatelessWidget {
         );
       },
       child: Padding(
-        padding: const EdgeInsets.all(8.0), // Padding alrededor del ítem
+        padding: const EdgeInsets.all(28.0), // Padding alrededor del ítem
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -242,7 +243,7 @@ class CategoryIcon extends StatelessWidget {
               child: Icon(item.icon,
                   color: Colors.purple, size: 30), // Icono del ítem
             ),
-            SizedBox(height: 8), // Espacio entre el icono y el texto
+            SizedBox(height: 18), // Espacio entre el icono y el texto
             Text(
               item.label, // Texto del ítem
               style: TextStyle(color: Colors.white, fontSize: 14),

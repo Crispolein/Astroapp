@@ -102,30 +102,6 @@ class _AjustesadminPageState extends State<AjustesadminPage> {
                       setState(() {});
                     },
                   ),
-                  SizedBox(height: 16),
-                  ProfileItem(
-                    icon: Icons.color_lens,
-                    text: 'Color',
-                    onTap: () {
-                      // Acción al tocar el botón de color
-                    },
-                  ),
-                  SizedBox(height: 16),
-                  ProfileItem(
-                    icon: Icons.format_paint,
-                    text: 'Estilo de letra',
-                    onTap: () {
-                      // Acción al tocar el botón de estilo de letra
-                    },
-                  ),
-                  SizedBox(height: 16),
-                  ProfileItem(
-                    icon: Icons.headset_mic,
-                    text: 'Soporte',
-                    onTap: () {
-                      // Acción al tocar el botón de soporte
-                    },
-                  ),
                 ],
               ),
             ],

@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bcrypt/bcrypt.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SignupPage extends StatefulWidget {
@@ -352,9 +353,8 @@ class _SignupPageState extends State<SignupPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               IconButton(
-                                icon: const FaIcon(
-                                  FontAwesomeIcons.google,
-                                  color: Colors.red,
+                                icon: Brand(
+                                  Brands.google,
                                   size: 55,
                                 ),
                                 onPressed: () async {
@@ -367,9 +367,8 @@ class _SignupPageState extends State<SignupPage> {
                                 },
                               ),
                               IconButton(
-                                icon: const FaIcon(
-                                  FontAwesomeIcons.facebook,
-                                  color: Colors.blue,
+                                icon: Brand(
+                                  Brands.facebook,
                                   size: 55,
                                 ),
                                 onPressed: () async {
@@ -382,9 +381,8 @@ class _SignupPageState extends State<SignupPage> {
                                 },
                               ),
                               IconButton(
-                                icon: const FaIcon(
-                                  FontAwesomeIcons.microsoft,
-                                  color: Colors.green,
+                                icon: Brand(
+                                  Brands.microsoft,
                                   size: 55,
                                 ),
                                 onPressed: () async {

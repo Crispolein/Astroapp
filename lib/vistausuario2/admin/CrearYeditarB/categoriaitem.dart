@@ -1,5 +1,6 @@
 import 'package:astro_app/vistausuario2/admin/CrearYeditarB/iconos.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FacilbCategoryItem extends StatelessWidget {
   const FacilbCategoryItem({super.key});
@@ -8,7 +9,7 @@ class FacilbCategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return CategorybIcon(
       item: CategorybItem(
-          icon: Icons.sentiment_satisfied,
+          icon: FontAwesomeIcons.add,
           label: 'Crear Preguntas'), // Ítem de categoría fácil
     );
   }
@@ -19,7 +20,7 @@ class MediobCategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return CategorybIcon(
       item: CategorybItem(
-          icon: Icons.sentiment_neutral,
+          icon: FontAwesomeIcons.list,
           label: 'Listar Preguntas'), // Ítem de categoría medio
     );
   }
