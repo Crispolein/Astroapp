@@ -7,6 +7,8 @@ import 'package:go_router/go_router.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bcrypt/bcrypt.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -340,15 +342,61 @@ class _SignupPageState extends State<SignupPage> {
                       const SizedBox(
                         height: 20,
                       ),
-                      const FadeInAnimation(
+                      FadeInAnimation(
                         delay: 3.2,
                         child: Padding(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                               top: 10, bottom: 10, right: 30, left: 30),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [],
+                            children: [
+                              IconButton(
+                                icon: const FaIcon(
+                                  FontAwesomeIcons.google,
+                                  color: Colors.red,
+                                  size: 55,
+                                ),
+                                onPressed: () async {
+                                  final url = 'https://google.com';
+                                  if (await canLaunch(url)) {
+                                    await launch(url);
+                                  } else {
+                                    throw 'Could not launch $url';
+                                  }
+                                },
+                              ),
+                              IconButton(
+                                icon: const FaIcon(
+                                  FontAwesomeIcons.facebook,
+                                  color: Colors.blue,
+                                  size: 55,
+                                ),
+                                onPressed: () async {
+                                  final url = 'https://facebook.com';
+                                  if (await canLaunch(url)) {
+                                    await launch(url);
+                                  } else {
+                                    throw 'Could not launch $url';
+                                  }
+                                },
+                              ),
+                              IconButton(
+                                icon: const FaIcon(
+                                  FontAwesomeIcons.microsoft,
+                                  color: Colors.green,
+                                  size: 55,
+                                ),
+                                onPressed: () async {
+                                  final url = 'https://microsoft.com';
+                                  if (await canLaunch(url)) {
+                                    await launch(url);
+                                  } else {
+                                    throw 'Could not launch $url';
+                                  }
+                                },
+                              ),
+                            ],
                           ),
                         ),
                       ),
