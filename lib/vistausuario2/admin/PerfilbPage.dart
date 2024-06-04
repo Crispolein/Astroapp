@@ -1,11 +1,6 @@
 import 'package:astro_app/astroApp.dart';
-import 'package:astro_app/common/common.dart';
-import 'package:astro_app/router/router.dart';
 import 'package:astro_app/pagina/admin/editar_perfil_Admin.dart';
-import 'package:astro_app/vistausuario2/PerfilbPage.dart';
 import 'package:astro_app/vistausuario2/admin/ajustesbPage.dart';
-import 'package:astro_app/vistausuario2/admin/correo.dart';
-import 'package:astro_app/vistausuario2/admin/gestiondeperfiles.dart';
 import 'package:astro_app/vistausuario2/admin/theme.dart';
 import 'package:astro_app/vistausuario2/changepassword.dart';
 import 'package:astro_app/vistausuario2/idioma.dart';
@@ -172,30 +167,6 @@ class _PerfiladministradorPageState extends State<PerfiladministradorPage> {
                       },
                     ),
                     ProfileItem(
-                      icon: Icons.email,
-                      iconColor: iconColor,
-                      text: 'Casilla de Correo',
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CasillaDeCorreoPage()),
-                        );
-                      },
-                    ),
-                    ProfileItem(
-                      icon: Icons.policy,
-                      iconColor: iconColor,
-                      text: 'Gestión de Perfiles',
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => GestionDePerfilesPage()),
-                        );
-                      },
-                    ),
-                    ProfileItem(
                       icon: Icons.settings,
                       iconColor: iconColor,
                       text: 'Ajustes',
@@ -228,7 +199,7 @@ class _PerfiladministradorPageState extends State<PerfiladministradorPage> {
                     ProfileItem(
                       icon: Icons.policy,
                       iconColor: iconColor,
-                      text: 'Politica de Privadidad',
+                      text: 'Politica de Privacidad',
                       onTap: () {
                         Navigator.push(
                           context,

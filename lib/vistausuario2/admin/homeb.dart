@@ -1,11 +1,9 @@
 import 'package:astro_app/vistausuario2/admin/CrearYeditarA/categoria.dart';
 import 'package:astro_app/vistausuario2/admin/PerfilbPage.dart';
-import 'package:astro_app/vistausuario2/admin/luna.dart';
 import 'package:astro_app/vistausuario2/admin/Noticia/noticia.dart';
 import 'package:astro_app/vistausuario2/admin/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
-import 'package:astro_app/vistausuario2/admin/ApodPage.dart';
 
 class HomeadminPage extends StatefulWidget {
   @override
@@ -17,13 +15,10 @@ class _HomeadminPageState extends State<HomeadminPage> {
 
   final List<Widget> _pages = [
     PerfiladministradorPage(),
-    //PerfilbPage(),
     NoticiasadminPage(),
     CategoriaadminPage(),
-    FaselunaradminPage(),
-    ApodPage(),
   ];
-  
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -36,8 +31,10 @@ class _HomeadminPageState extends State<HomeadminPage> {
       animation: themeNotifier,
       builder: (context, _) {
         final bool isDarkMode = themeNotifier.value == ThemeMode.dark;
-        final Color backgroundColor = isDarkMode ? Colors.blueGrey : Colors.white;
-        final Color selectedColor = isDarkMode ? Colors.black : const Color.fromRGBO(165, 121, 68, 1);
+        final Color backgroundColor =
+            isDarkMode ? Colors.blueGrey : Colors.white;
+        final Color selectedColor =
+            isDarkMode ? Colors.black : const Color.fromRGBO(165, 121, 68, 1);
         final Color unselectedColor = isDarkMode ? Colors.grey : Colors.black;
 
         return MaterialApp(
@@ -63,23 +60,18 @@ class _HomeadminPageState extends State<HomeadminPage> {
               items: [
                 FlashyTabBarItem(
                   icon: Icon(Icons.person, size: 35, color: selectedColor),
-                  title: Text('Perfil', style: TextStyle(color: selectedColor, fontSize: 17)),
+                  title: Text('Perfil',
+                      style: TextStyle(color: selectedColor, fontSize: 17)),
                 ),
                 FlashyTabBarItem(
-                  icon: Icon(Icons.home, size: 35, color: selectedColor),
-                  title: Text('Inicio', style: TextStyle(color: selectedColor, fontSize: 17)),
+                  icon: Icon(Icons.article, size: 35, color: selectedColor),
+                  title: Text('Noticias',
+                      style: TextStyle(color: selectedColor, fontSize: 17)),
                 ),
                 FlashyTabBarItem(
                   icon: Icon(Icons.games, size: 35, color: selectedColor),
-                  title: Text('Juegos', style: TextStyle(color: selectedColor, fontSize: 17)),
-                ),
-                FlashyTabBarItem(
-                  icon: Icon(Icons.brightness_2, size: 35, color: selectedColor),
-                  title: Text('Lunas', style: TextStyle(color: selectedColor, fontSize: 17)),
-                ),
-                FlashyTabBarItem(
-                  icon: Icon(Icons.image, size: 35, color: selectedColor),
-                  title: Text('Imagen', style: TextStyle(color: selectedColor, fontSize: 17)),
+                  title: Text('Juegos',
+                      style: TextStyle(color: selectedColor, fontSize: 17)),
                 ),
               ],
             ),
