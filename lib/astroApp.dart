@@ -60,8 +60,6 @@ class _AstroAppState extends State<AstroApp> {
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => SignupPage()));
           }),
-          const SizedBox(height: 20),
-          _continueAsGuestButton(),
           const SizedBox(height: 10),
         ],
       ),
@@ -133,22 +131,6 @@ class _AstroAppState extends State<AstroApp> {
             color: Colors.black,
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _continueAsGuestButton() {
-    return TextButton(
-      onPressed: () {
-        _vibrate(); // Activar vibración al presionar el botón
-        // Acción para el botón "Continuar como invitado"
-      },
-      child: Text(
-        "",
-        style: TextStyle(
-            fontSize: 15,
-            fontFamily: "Urbanist",
-            color: Color.fromARGB(255, 104, 250, 223)),
       ),
     );
   }

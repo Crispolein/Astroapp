@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "1074500372330-3i6ms37f7m7k0b07cj6bd4tcckodh35h.apps.googleusercontent.com",
+          "client_id": "1074500372330-gd3mvb69jqk9vmjcntapbvl6iorjphdo.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.astroapp",
-            "certificate_hash": "b640aa412f79f6e1e2cb56804e96d6a52251ee3e"
+            "certificate_hash": "42660c10c6ca32689edec4b6778256a43d854f96"
           }
         },
         {

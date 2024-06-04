@@ -1,5 +1,9 @@
+import 'dart:developer' as developer;
+
+import 'package:astro_app/LoginGoogle.dart';
 import 'package:astro_app/common/common.dart';
 import 'package:astro_app/pagina/fade_animationtest.dart';
+import 'package:astro_app/vistausuario2/homeb.dart';
 import 'package:astro_app/widgets/custom_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +11,6 @@ import 'package:go_router/go_router.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bcrypt/bcrypt.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -358,12 +361,22 @@ class _SignupPageState extends State<SignupPage> {
                                   size: 55,
                                 ),
                                 onPressed: () async {
-                                  final url = 'https://google.com';
-                                  if (await canLaunch(url)) {
-                                    await launch(url);
-                                  } else {
-                                    throw 'Could not launch $url';
-                                  }
+                                  LoginGoogleUtils()
+                                      .signInWithGoogle()
+                                      .then((user) {
+                                    if (user != null) {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return HomebPage();
+                                          },
+                                        ),
+                                      );
+                                    } else {
+                                      developer.log(
+                                          "loginScreen-build()ERROR user viene nulo");
+                                    }
+                                  });
                                 },
                               ),
                               IconButton(

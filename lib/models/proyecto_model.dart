@@ -1,5 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+class Username {
+  final String id;
+  final String username;
+  Username({
+    required this.id,
+    required this.username,
+  });
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'username': username,
+    };
+  }
+
+  factory Username.fromMap(Map<String, dynamic> map) {
+    return Username(
+      id: map['id'],
+      username: map['username'],
+    );
+  }
+}
+
 class Usuarios {
   final String id;
   final String nombre;
