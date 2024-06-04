@@ -26,7 +26,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Correo de recuperación enviado')),
         );
-        GoRouter.of(context).pushNamed(Routers.otpverification.name);
+        Navigator.pop(context); // Redirige a la vista anterior
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error al enviar correo: $e')),

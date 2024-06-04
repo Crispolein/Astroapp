@@ -55,14 +55,14 @@ class _LoginPageState extends State<LoginPage> {
                     FadeInAnimation(
                       delay: 1.3,
                       child: Text(
-                        "Bienvenido devuelta",
+                        "Bienvenido de vuelta.",
                         style: Common().titelTheme,
                       ),
                     ),
                     FadeInAnimation(
                       delay: 1.6,
                       child: Text(
-                        "Ojala recuerdes esto:",
+                        "Ojalá recuerdes esto",
                         style: Common().titelTheme,
                       ),
                     ),

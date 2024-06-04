@@ -1,7 +1,6 @@
 import 'package:astro_app/models/proyecto_model.dart';
 import 'package:astro_app/Login/forget_password.dart';
 import 'package:astro_app/Login/new_password.dart';
-import 'package:astro_app/Login/otp_verification.dart';
 import 'package:astro_app/Login/password_changed.dart';
 import 'package:astro_app/router/router.dart';
 import 'package:astro_app/astroApp.dart';
@@ -50,13 +49,6 @@ final router = GoRouter(routes: [
     name: Routers.newpassword.name,
     pageBuilder: (context, state) {
       return const CupertinoPage(child: NewPasswordPage());
-    },
-  ),
-  GoRoute(
-    path: Routers.otpverification.path,
-    name: Routers.otpverification.name,
-    pageBuilder: (context, state) {
-      return const CupertinoPage(child: OtpVerificationPage());
     },
   ),
   GoRoute(

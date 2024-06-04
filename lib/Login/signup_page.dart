@@ -65,6 +65,14 @@ class _SignupPageState extends State<SignupPage> {
     }
   }
 
+  Future<void> sendEmailVerification(User user) async {
+    try {
+      await user.sendEmailVerification();
+    } catch (e) {
+      throw 'Error al enviar el correo de verificación: $e';
+    }
+  }
+
   String hashPassword(String password) {
     final String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
     return hashedPassword;
@@ -99,7 +107,7 @@ class _SignupPageState extends State<SignupPage> {
                     FadeInAnimation(
                       delay: 0.9,
                       child: Text(
-                        "Bienvenido! ",
+                        "¡Bienvenido!",
                         style: Common().titelTheme,
                       ),
                     ),
@@ -267,6 +275,8 @@ class _SignupPageState extends State<SignupPage> {
                                           _passwordController.text);
                                   User user = userCredential.user!;
 
+                                  await sendEmailVerification(user);
+
                                   final hashedPassword =
                                       hashPassword(_passwordController.text);
                                   final nuevoUsuario = {
@@ -286,7 +296,7 @@ class _SignupPageState extends State<SignupPage> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text(
-                                          'Te has registrado correctamente'),
+                                          'Te has registrado correctamente. Por favor, verifica tu correo.'),
                                     ),
                                   );
 

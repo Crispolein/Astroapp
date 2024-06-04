@@ -1,4 +1,6 @@
 import 'package:astro_app/astroApp.dart';
+import 'package:astro_app/common/common.dart';
+import 'package:astro_app/router/router.dart';
 import 'package:astro_app/pagina/admin/editar_perfil_Admin.dart';
 import 'package:astro_app/vistausuario2/PerfilbPage.dart';
 import 'package:astro_app/vistausuario2/admin/ajustesbPage.dart';
@@ -11,8 +13,13 @@ import 'package:astro_app/vistausuario2/privacidad.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -39,6 +46,33 @@ class PerfiladministradorPage extends StatefulWidget {
 
 class _PerfiladministradorPageState extends State<PerfiladministradorPage> {
   File? _image;
+  String? _correo;
+  String? _username;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      // Obtén el correo del usuario autenticado
+      setState(() {
+        _correo = user.email;
+      });
+
+      // Consulta Firestore para obtener el nombre de usuario
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('usuarios')
+          .doc(user.uid)
+          .get();
+      setState(() {
+        _username = userDoc['username'];
+      });
+    }
+  }
 
   Future<void> _pickImage() async {
     final pickedFile =
@@ -102,11 +136,11 @@ class _PerfiladministradorPageState extends State<PerfiladministradorPage> {
                 ),
                 SizedBox(height: 16),
                 Text(
-                  'Christian',
+                  _username ?? 'Cargando...',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  'UsuarioAdmin@gmail.com',
+                  _correo ?? 'Cargando...',
                   style: TextStyle(fontSize: 16, color: emailTextColor),
                 ),
                 SizedBox(height: 32),
