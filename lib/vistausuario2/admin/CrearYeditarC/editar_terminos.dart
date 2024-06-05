@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 class EditarTerminosPage extends StatefulWidget {
   final String categoria;
 
-  EditarTerminosPage({required this.categoria});
+  const EditarTerminosPage({required this.categoria})
+      : super(key: const Key(''));
 
   @override
   _EditarTerminosPageState createState() => _EditarTerminosPageState();
@@ -53,75 +54,109 @@ class _EditarTerminosPageState extends State<EditarTerminosPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Categoría: ${widget.categoria}'),
+        backgroundColor: Colors.teal,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (_terms.isNotEmpty)
-                Column(
-                  children: _terms.map((term) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Card(
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Términos y Definiciones',
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.teal,
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  if (_terms.isNotEmpty)
+                    Column(
+                      children: _terms.map((term) {
+                        return Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          elevation: 3,
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
                               children: [
-                                Text(
-                                  'Término: ${term['term']}',
-                                  style: TextStyle(fontSize: 16.0),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Término: ${term['term']}',
+                                        style: const TextStyle(
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5.0),
+                                      Text(
+                                        'Definición: ${term['definition']}',
+                                        style: const TextStyle(
+                                          fontSize: 16.0,
+                                          color: Colors.teal,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                Text(
-                                  'Definición: ${term['definition']}',
-                                  style: TextStyle(fontSize: 16.0),
+                                IconButton(
+                                  icon: const Icon(Icons.edit,
+                                      color: Colors.blue, size: 35.0),
+                                  onPressed: () async {
+                                    final editedValues = await _showEditDialog(
+                                      context,
+                                      term['term'],
+                                      term['definition'],
+                                    );
+                                    if (editedValues != null &&
+                                        editedValues['term'] != null &&
+                                        editedValues['definition'] != null) {
+                                      _editTerm(
+                                        term['id'],
+                                        editedValues['term']!,
+                                        editedValues['definition']!,
+                                      );
+                                    }
+                                  },
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.delete,
+                                      color: Colors.red, size: 35.0),
+                                  onPressed: () {
+                                    _deleteTerm(term['id']);
+                                  },
                                 ),
                               ],
                             ),
                           ),
-                          IconButton(
-                            icon: Icon(Icons.edit),
-                            color: Colors.blue,
-                            onPressed: () async {
-                              final editedValues = await _showEditDialog(
-                                context,
-                                term['term'],
-                                term['definition'],
-                              );
-                              if (editedValues != null &&
-                                  editedValues['term'] != null &&
-                                  editedValues['definition'] != null) {
-                                _editTerm(
-                                  term['id'],
-                                  editedValues['term']!,
-                                  editedValues['definition']!,
-                                );
-                              }
-                            },
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.delete),
-                            color: Colors.red,
-                            onPressed: () {
-                              _deleteTerm(term['id']);
-                            },
-                          ),
-                        ],
+                        );
+                      }).toList(),
+                    )
+                  else
+                    const Center(
+                      child: Text(
+                        'No hay términos para esta categoría',
+                        style: TextStyle(fontSize: 16.0),
                       ),
-                    );
-                  }).toList(),
-                )
-              else
-                Center(
-                  child: Text(
-                    'No hay términos para esta categoría',
-                    style: TextStyle(fontSize: 16.0),
-                  ),
-                ),
-            ],
+                    ),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -136,7 +171,7 @@ class _EditarTerminosPageState extends State<EditarTerminosPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Editar Término y Definición'),
+          title: const Text('Editar Término y Definición'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -144,28 +179,32 @@ class _EditarTerminosPageState extends State<EditarTerminosPage> {
                 controller: termController,
                 decoration: InputDecoration(
                   labelText: 'Término',
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
               TextFormField(
                 controller: definitionController,
                 decoration: InputDecoration(
                   labelText: 'Definición',
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
               ),
             ],
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Cancelar'),
+              child: const Text('Cancelar'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Guardar'),
+              child: const Text('Guardar'),
               onPressed: () {
                 Navigator.of(context).pop({
                   'term': termController.text,

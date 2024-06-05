@@ -16,67 +16,110 @@ class NuevaCategoria extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Agregar Categoria'),
+        title: const Text('Agregar Categoría'),
+        backgroundColor: Colors.teal,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextFormField(
-                controller: _categoriaController,
-                decoration: const InputDecoration(
-                  labelText: 'Categoria',
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Ingresar la categoria es obligatorio';
-                  }
-                  if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
-                    return 'Ingrese solo letras en la categoria';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    final nuevoCategoria = Categoria(
-                      id: '',
-                      categoria: _categoriaController.text,
-                    );
-
-                    final snapshot = await _categoriaCollection
-                        .where('categoria', isEqualTo: nuevoCategoria.categoria)
-                        .get();
-
-                    if (snapshot.docs.isEmpty) {
-                      final DocumentReference document =
-                          await _categoriaCollection.add({
-                        'categoria': nuevoCategoria.categoria,
-                      });
-                      final nuevoCategoriaConId = Categoria(
-                        id: document.id,
-                        categoria: nuevoCategoria.categoria,
-                      );
-                      // ignore: use_build_context_synchronously
-                      Navigator.pop(context, nuevoCategoriaConId);
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                              'Esta categoria ya existe, no se agregará un duplicado.'),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Card(
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Nueva Categoría',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.teal,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: _categoriaController,
+                      decoration: InputDecoration(
+                        labelText: 'Categoría',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                      );
-                    }
-                  }
-                },
-                child: const Text('Guardar'),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Ingresar la categoría es obligatorio';
+                        }
+                        if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+                          return 'Ingrese solo letras en la categoría';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            final nuevoCategoria = Categoria(
+                              id: '',
+                              categoria: _categoriaController.text,
+                            );
+
+                            final snapshot = await _categoriaCollection
+                                .where('categoria',
+                                    isEqualTo: nuevoCategoria.categoria)
+                                .get();
+
+                            if (snapshot.docs.isEmpty) {
+                              final DocumentReference document =
+                                  await _categoriaCollection.add({
+                                'categoria': nuevoCategoria.categoria,
+                              });
+                              final nuevoCategoriaConId = Categoria(
+                                id: document.id,
+                                categoria: nuevoCategoria.categoria,
+                              );
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context, nuevoCategoriaConId);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      'Esta categoría ya existe, no se agregará un duplicado.'),
+                                ),
+                              );
+                            }
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.teal,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 15),
+                        ),
+                        child: const Text(
+                          'Guardar',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color:
+                                Colors.white, // Cambia el color del texto aquí
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ],
+            ),
           ),
         ),
       ),

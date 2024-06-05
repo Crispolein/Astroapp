@@ -34,49 +34,67 @@ class _EditardQuizPageState extends State<EditardQuizPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Editar Imágenes de Memoria'),
+        title: const Text('Editar Imágenes de Memoria'),
+        backgroundColor: Colors.teal,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Categorías con Imágenes',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10.0),
-              if (_categorias.isNotEmpty)
-                Column(
-                  children: _categorias.map((category) {
-                    return Card(
-                      child: ListTile(
-                        title: Text(category),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  EditarImagenesPage(categoria: category),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  }).toList(),
-                )
-              else
-                Center(
-                  child: Text(
-                    'No hay categorías con imágenes',
-                    style: TextStyle(fontSize: 16.0),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Card(
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Categorías con Imágenes',
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.teal,
+                    ),
                   ),
-                ),
-            ],
+                  const SizedBox(height: 20.0),
+                  if (_categorias.isNotEmpty)
+                    Column(
+                      children: _categorias.map((category) {
+                        return Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: ListTile(
+                            title: Text(
+                              category,
+                              style: const TextStyle(fontSize: 18.0),
+                            ),
+                            trailing: const Icon(Icons.arrow_forward_ios),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditarImagenesPage(categoria: category),
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      }).toList(),
+                    )
+                  else
+                    const Center(
+                      child: Text(
+                        'No hay categorías con imágenes',
+                        style: TextStyle(fontSize: 16.0),
+                      ),
+                    ),
+                ],
+              ),
+            ),
           ),
         ),
       ),

@@ -82,55 +82,79 @@ class _EditarImagenesPageState extends State<EditarImagenesPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Categoría: ${widget.categoria}'),
+        backgroundColor: Colors.teal,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (_images.isNotEmpty)
-                Column(
-                  children: _images.map((image) {
-                    int index = _images.indexOf(image);
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: Row(
-                        children: [
-                          if (image['imageUrl'] != null)
-                            Image.network(
-                              image['imageUrl'],
-                              height: 100,
-                              width: 100,
-                            ),
-                          SizedBox(width: 10.0),
-                          IconButton(
-                            icon: Icon(Icons.image),
-                            color: Colors.blue,
-                            onPressed: () {
-                              _pickImage(index);
-                            },
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.delete),
-                            color: Colors.red,
-                            onPressed: () {
-                              _deleteImage(image['id'], index);
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
-                )
-              else
-                Center(
-                  child: Text(
-                    'No hay imágenes para esta categoría',
-                    style: TextStyle(fontSize: 16.0),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Card(
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Imágenes',
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.teal,
+                    ),
                   ),
-                ),
-            ],
+                  const SizedBox(height: 20.0),
+                  if (_images.isNotEmpty)
+                    Column(
+                      children: _images.map((image) {
+                        int index = _images.indexOf(image);
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          child: Row(
+                            children: [
+                              if (image['imageUrl'] != null)
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
+                                    image['imageUrl'],
+                                    height: 100,
+                                    width: 100,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              const SizedBox(width: 20.0),
+                              IconButton(
+                                icon: const Icon(Icons.image, size: 60.0),
+                                color: Colors.blue,
+                                onPressed: () {
+                                  _pickImage(index);
+                                },
+                              ),
+                              const SizedBox(width: 10.0),
+                              IconButton(
+                                icon: const Icon(Icons.delete, size: 60.0),
+                                color: Colors.red,
+                                onPressed: () {
+                                  _deleteImage(image['id'], index);
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    )
+                  else
+                    const Center(
+                      child: Text(
+                        'No hay imágenes para esta categoría',
+                        style: TextStyle(fontSize: 16.0),
+                      ),
+                    ),
+                ],
+              ),
+            ),
           ),
         ),
       ),

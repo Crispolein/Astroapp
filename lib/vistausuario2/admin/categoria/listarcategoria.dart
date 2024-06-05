@@ -18,10 +18,12 @@ class _ListaCategoriasState extends State<ListaCategorias> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Categorias'),
+        title: const Text('Categorías'),
+        backgroundColor: Colors.teal,
         actions: [
           IconButton(
-            icon: const Icon(Icons.add),
+            icon: const Icon(Icons.add,
+                size: 40), // Agrandando el ícono de agregar
             onPressed: () async {
               final newCategory = await Navigator.push(
                 context,
@@ -40,8 +42,11 @@ class _ListaCategoriasState extends State<ListaCategorias> {
             padding: const EdgeInsets.all(16.0),
             child: TextField(
               controller: _searchController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Buscar',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 suffixIcon: Icon(Icons.search),
               ),
               onChanged: (value) {
@@ -69,26 +74,44 @@ class _ListaCategoriasState extends State<ListaCategorias> {
                   itemBuilder: (context, index) {
                     final category = filteredCategories[index];
 
-                    return ListTile(
-                      title: Text(category['categoria']),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () async {
-                          final updatedCategory = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EditarCategoria(
-                                categoria: Categoria(
-                                  id: category.id,
-                                  categoria: category['categoria'],
-                                ),
-                              ),
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 8.0),
+                      child: Card(
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: ListTile(
+                          title: Text(
+                            category['categoria'],
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight
+                                  .w600, // Cambiar el estilo del texto
+                              color: Colors.teal,
                             ),
-                          );
-                          if (updatedCategory != null) {
-                            setState(() {});
-                          }
-                        },
+                          ),
+                          trailing: IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () async {
+                              final updatedCategory = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EditarCategoria(
+                                    categoria: Categoria(
+                                      id: category.id,
+                                      categoria: category['categoria'],
+                                    ),
+                                  ),
+                                ),
+                              );
+                              if (updatedCategory != null) {
+                                setState(() {});
+                              }
+                            },
+                          ),
+                        ),
                       ),
                     );
                   },

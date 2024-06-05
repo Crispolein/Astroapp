@@ -127,153 +127,180 @@ class _CrearImagenesPageState extends State<CrearImagenesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Crear Imágenes de Memoria'),
+        title: const Text('Crear Imágenes de Memoria'),
+        backgroundColor: Colors.teal,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Imágenes',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Column(
-                children: List.generate(_imageFiles.length, (index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: Row(
-                      children: [
-                        if (_imageFiles[index] != null)
-                          Image.file(
-                            _imageFiles[index]!,
-                            height: 100,
-                            width: 100,
-                          ),
-                        if (_imageFiles[index] == null)
-                          Container(
-                            height: 100,
-                            width: 100,
-                            color: Colors.grey[300],
-                            child: Icon(Icons.image, size: 50),
-                          ),
-                        SizedBox(width: 10.0),
-                        IconButton(
-                          icon: Icon(Icons.image),
-                          color: Colors.blue,
-                          onPressed: () {
-                            _pickImage(index);
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.remove_circle),
-                          color: Colors.red,
-                          onPressed: () {
-                            _removeImageSlot(index);
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                }),
-              ),
-              SizedBox(height: 10.0),
-              Text(
-                'Categoría',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Row(
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Card(
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Autocomplete<String>(
-                      optionsBuilder: (TextEditingValue textEditingValue) {
-                        if (textEditingValue.text.isEmpty) {
-                          return const Iterable<String>.empty();
-                        }
-                        return _categorias.where((String option) {
-                          return option
-                              .toLowerCase()
-                              .contains(textEditingValue.text.toLowerCase());
-                        });
-                      },
-                      onSelected: (String selection) {
-                        setState(() {
-                          _categoriaSeleccionada = selection;
-                        });
-                      },
-                      fieldViewBuilder: (BuildContext context,
-                          TextEditingController fieldTextEditingController,
-                          FocusNode fieldFocusNode,
-                          VoidCallback onFieldSubmitted) {
-                        return TextFormField(
-                          controller: fieldTextEditingController,
-                          focusNode: fieldFocusNode,
-                          decoration: InputDecoration(
-                            labelText: 'Categoría',
-                            border: OutlineInputBorder(),
-                          ),
-                        );
-                      },
+                  const Text(
+                    'Imágenes',
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.teal,
                     ),
                   ),
-                  IconButton(
-                    icon: Icon(Icons.add),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ListaCategorias(),
+                  const SizedBox(height: 10.0),
+                  Column(
+                    children: List.generate(_imageFiles.length, (index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: Row(
+                          children: [
+                            if (_imageFiles[index] != null)
+                              Image.file(
+                                _imageFiles[index]!,
+                                height: 100,
+                                width: 100,
+                                fit: BoxFit.cover,
+                              ),
+                            if (_imageFiles[index] == null)
+                              Container(
+                                height: 100,
+                                width: 100,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[300],
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: const Icon(Icons.image, size: 50),
+                              ),
+                            const SizedBox(width: 20.0),
+                            IconButton(
+                              icon: const Icon(Icons.image, size: 50.0),
+                              color: Colors.blue,
+                              onPressed: () {
+                                _pickImage(index);
+                              },
+                            ),
+                            const SizedBox(width: 10.0),
+                            IconButton(
+                              icon: const Icon(Icons.remove_circle, size: 50.0),
+                              color: Colors.red,
+                              onPressed: () {
+                                _removeImageSlot(index);
+                              },
+                            ),
+                          ],
                         ),
-                      ).then((value) {
-                        _cargarCategorias();
-                      });
-                    },
+                      );
+                    }),
+                  ),
+                  const SizedBox(height: 20.0),
+                  const Text(
+                    'Categoría',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.teal,
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Autocomplete<String>(
+                          optionsBuilder: (TextEditingValue textEditingValue) {
+                            if (textEditingValue.text.isEmpty) {
+                              return const Iterable<String>.empty();
+                            }
+                            return _categorias.where((String option) {
+                              return option.toLowerCase().contains(
+                                  textEditingValue.text.toLowerCase());
+                            });
+                          },
+                          onSelected: (String selection) {
+                            setState(() {
+                              _categoriaSeleccionada = selection;
+                            });
+                          },
+                          fieldViewBuilder: (BuildContext context,
+                              TextEditingController fieldTextEditingController,
+                              FocusNode fieldFocusNode,
+                              VoidCallback onFieldSubmitted) {
+                            return TextFormField(
+                              controller: fieldTextEditingController,
+                              focusNode: fieldFocusNode,
+                              decoration: InputDecoration(
+                                labelText: 'Categoría',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.add,
+                            size: 30.0, color: Colors.teal),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ListaCategorias(),
+                            ),
+                          ).then((value) {
+                            _cargarCategorias();
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20.0),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: _addImageSlot,
+                      child: const Text(
+                        'Agregar Imagen',
+                        style: TextStyle(fontSize: 16.0, color: Colors.white),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 15),
+                        backgroundColor: Colors.teal,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 30.0),
+                  Center(
+                    child: SizedBox(
+                      width: 200.0,
+                      height: 50.0,
+                      child: ElevatedButton(
+                        onPressed: _saveImages,
+                        child: const Text(
+                          'Guardar Imágenes',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            color: Colors.white,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.teal,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
-              SizedBox(height: 10.0),
-              Center(
-                child: ElevatedButton(
-                  onPressed: _addImageSlot,
-                  child: Text('Agregar Imagen'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.purple,
-                  ),
-                ),
-              ),
-              SizedBox(height: 30.0),
-              Center(
-                child: SizedBox(
-                  width: 200.0,
-                  height: 50.0,
-                  child: ElevatedButton(
-                    onPressed: _saveImages,
-                    child: Text(
-                      'Guardar Imágenes',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        color: Colors.white,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.amber,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),

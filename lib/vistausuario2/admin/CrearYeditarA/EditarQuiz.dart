@@ -23,7 +23,6 @@ class _EditarQuizPageState extends State<EditarQuizPage> {
   late TextEditingController _respuesta2Controller;
   late TextEditingController _respuesta3Controller;
   late TextEditingController _respuesta4Controller;
-  late TextEditingController _categoriaController;
   String? _respuestaCorrecta;
   String? _dificultad;
   File? _imagenFile;
@@ -108,248 +107,274 @@ class _EditarQuizPageState extends State<EditarQuizPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Editar Quiz'),
+        title: const Text('Editar Quiz'),
+        backgroundColor: Colors.teal,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Pregunta',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                TextFormField(
-                  controller: _preguntaController,
-                  decoration: InputDecoration(
-                    hintText: 'Introduce tu pregunta...',
-                    border: OutlineInputBorder(),
-                  ),
-                  maxLines: null,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor, introduce una pregunta';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 20.0),
-                Text(
-                  'Agregar Imagen',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton.icon(
-                    onPressed: _seleccionarImagen,
-                    icon: Icon(
-                      Icons.image,
-                      size: 70.0,
-                    ),
-                    label: Text('Seleccionar Imagen'),
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.all(90.0),
-                      backgroundColor: Colors.purple,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      textStyle: TextStyle(fontSize: 27.0),
-                    ),
-                  ),
-                ),
-                if (_imagenFile != null) ...[
-                  SizedBox(height: 10.0),
-                  Image.file(_imagenFile!),
-                ],
-                SizedBox(height: 10.0),
-                Text(
-                  'Opcional',
-                  style: TextStyle(
-                    fontSize: 12.0,
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                Text(
-                  'Opciones',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                Container(
-                  padding: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Column(
-                    children: [
-                      _buildOptionField('Opción 1', _respuesta1Controller),
-                      _buildOptionField('Opción 2', _respuesta2Controller),
-                      _buildOptionField('Opción 3', _respuesta3Controller),
-                      _buildOptionField('Opción 4', _respuesta4Controller),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                Text(
-                  'Opción Correcta',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                DropdownButtonFormField<String>(
-                  value: _respuestaCorrecta,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
-                  items: [
-                    _respuesta1Controller.text,
-                    _respuesta2Controller.text,
-                    _respuesta3Controller.text,
-                    _respuesta4Controller.text,
-                  ].map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _respuestaCorrecta = value;
-                    });
-                  },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor, selecciona la opción correcta';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 20.0),
-                Text(
-                  'Dificultad',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                DropdownButtonFormField<String>(
-                  value: _dificultad,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
-                  items: ['Fácil', 'Medio', 'Difícil'].map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _dificultad = value;
-                    });
-                  },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor, selecciona una dificultad';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 20.0),
-                Row(
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Card(
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Autocomplete<String>(
-                        optionsBuilder: (TextEditingValue textEditingValue) {
-                          if (textEditingValue.text.isEmpty) {
-                            return const Iterable<String>.empty();
-                          }
-                          return _categorias.where((String option) {
-                            return option
-                                .toLowerCase()
-                                .contains(textEditingValue.text.toLowerCase());
-                          });
-                        },
-                        onSelected: (String selection) {
-                          _categoriaSeleccionada = selection;
-                        },
-                        fieldViewBuilder: (BuildContext context,
-                            TextEditingController fieldTextEditingController,
-                            FocusNode fieldFocusNode,
-                            VoidCallback onFieldSubmitted) {
-                          return TextFormField(
-                            controller: fieldTextEditingController,
-                            focusNode: fieldFocusNode,
-                            decoration: InputDecoration(
-                              labelText: 'Categoría',
-                              border: OutlineInputBorder(),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Por favor, selecciona una categoría';
-                              }
-                              return null;
-                            },
-                          );
-                        },
+                    const Text(
+                      'Pregunta',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.teal,
                       ),
                     ),
-                    IconButton(
-                      icon: Icon(Icons.add),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ListaCategorias(),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: _preguntaController,
+                      decoration: InputDecoration(
+                        hintText: 'Introduce tu pregunta...',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      maxLines: null,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, introduce una pregunta';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'Agregar Imagen',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.teal,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Center(
+                      child: ElevatedButton.icon(
+                        onPressed: _seleccionarImagen,
+                        icon: const Icon(
+                          Icons.image,
+                          size: 80,
+                        ),
+                        label: const Text('Seleccionar Imagen'),
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 15),
+                          backgroundColor: Colors.teal,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                        ).then((value) {
-                          _cargarCategorias();
+                          textStyle: const TextStyle(fontSize: 23),
+                        ),
+                      ),
+                    ),
+                    if (_imagenFile != null) ...[
+                      const SizedBox(height: 10),
+                      Image.file(_imagenFile!),
+                    ],
+                    const SizedBox(height: 20),
+                    const Text(
+                      'Opcional',
+                      style: TextStyle(
+                        fontSize: 12,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'Opciones',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.teal,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      padding: const EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Column(
+                        children: [
+                          _buildOptionField('Opción 1', _respuesta1Controller),
+                          _buildOptionField('Opción 2', _respuesta2Controller),
+                          _buildOptionField('Opción 3', _respuesta3Controller),
+                          _buildOptionField('Opción 4', _respuesta4Controller),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'Opción Correcta',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.teal,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    DropdownButtonFormField<String>(
+                      value: _respuestaCorrecta,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      items: [
+                        _respuesta1Controller.text,
+                        _respuesta2Controller.text,
+                        _respuesta3Controller.text,
+                        _respuesta4Controller.text,
+                      ].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          _respuestaCorrecta = value;
                         });
                       },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, selecciona la opción correcta';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'Dificultad',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.teal,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    DropdownButtonFormField<String>(
+                      value: _dificultad,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      items: ['Fácil', 'Medio', 'Difícil'].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          _dificultad = value;
+                        });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, selecciona una dificultad';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Autocomplete<String>(
+                            optionsBuilder:
+                                (TextEditingValue textEditingValue) {
+                              if (textEditingValue.text.isEmpty) {
+                                return const Iterable<String>.empty();
+                              }
+                              return _categorias.where((String option) {
+                                return option.toLowerCase().contains(
+                                    textEditingValue.text.toLowerCase());
+                              });
+                            },
+                            onSelected: (String selection) {
+                              _categoriaSeleccionada = selection;
+                            },
+                            fieldViewBuilder: (BuildContext context,
+                                TextEditingController
+                                    fieldTextEditingController,
+                                FocusNode fieldFocusNode,
+                                VoidCallback onFieldSubmitted) {
+                              return TextFormField(
+                                controller: fieldTextEditingController,
+                                focusNode: fieldFocusNode,
+                                decoration: InputDecoration(
+                                  labelText: 'Categoría',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Por favor, selecciona una categoría';
+                                  }
+                                  return null;
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.add),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ListaCategorias(),
+                              ),
+                            ).then((value) {
+                              _cargarCategorias();
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: _guardarCambios,
+                        child: const Padding(
+                          padding: EdgeInsets.all(15.0),
+                          child: Text(
+                            'Guardar Cambios',
+                            style:
+                                TextStyle(fontSize: 18.0, color: Colors.white),
+                          ),
+                        ),
+                        style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                          ),
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Colors.teal),
+                        ),
+                      ),
                     ),
                   ],
                 ),
-                SizedBox(height: 20.0),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _guardarCambios,
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Text(
-                        'Guardar Cambios',
-                        style: TextStyle(fontSize: 18.0, color: Colors.purple),
-                      ),
-                    ),
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.amber),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),
@@ -358,23 +383,28 @@ class _EditarQuizPageState extends State<EditarQuizPage> {
   }
 
   Widget _buildOptionField(String labelText, TextEditingController controller) {
-    return TextFormField(
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: labelText,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: labelText,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        onChanged: (value) {
+          setState(() {
+            _respuestaCorrecta = null;
+          });
+        },
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Por favor, introduce $labelText';
+          }
+          return null;
+        },
       ),
-      onChanged: (value) {
-        setState(() {
-          // Update the dropdown menu items whenever an option is changed
-          _respuestaCorrecta = null;
-        });
-      },
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Por favor, introduce $labelText';
-        }
-        return null;
-      },
     );
   }
 }
@@ -389,73 +419,97 @@ class _ListarQuizPageState extends State<ListarQuizPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Listar Quizzes'),
+        title: const Text('Listar Quizzes'),
+        backgroundColor: Colors.teal,
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('quizzes').snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
-          }
+      body: Padding(
+        padding: const EdgeInsets.only(top: 20.0), // Espacio adicional
+        child: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance.collection('quizzes').snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-          final quizzes = snapshot.data!.docs
-              .map((doc) => Quiz.fromMap(doc.data() as Map<String, dynamic>))
-              .toList();
+            final quizzes = snapshot.data!.docs
+                .map((doc) => Quiz.fromMap(doc.data() as Map<String, dynamic>))
+                .toList();
 
-          return ListView.builder(
-            itemCount: quizzes.length,
-            itemBuilder: (context, index) {
-              final quiz = quizzes[index];
-              return Card(
-                margin: EdgeInsets.all(10.0),
-                child: ListTile(
-                  leading: quiz.imagenURL != null
-                      ? GestureDetector(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (_) => AlertDialog(
-                                content: Image.network(quiz.imagenURL!),
+            return ListView.builder(
+              itemCount: quizzes.length,
+              itemBuilder: (context, index) {
+                final quiz = quizzes[index];
+                return Card(
+                  margin: const EdgeInsets.all(10.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  elevation: 5,
+                  child: ListTile(
+                    leading: quiz.imagenURL != null
+                        ? GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (_) => AlertDialog(
+                                  content: Image.network(quiz.imagenURL!),
+                                ),
+                              );
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.network(
+                                quiz.imagenURL!,
+                                width: 50,
+                                height: 50,
+                                fit: BoxFit.cover,
                               ),
+                            ),
+                          )
+                        : const Icon(Icons.image_not_supported),
+                    title: Text(
+                      quiz.pregunta,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      'Respuesta Correcta: ${quiz.respuestaCorrecta}',
+                      style: const TextStyle(color: Colors.grey),
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.edit, color: Colors.teal),
+                          iconSize: 30.0, // Tamaño del icono de editar
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditarQuizPage(quiz: quiz)),
                             );
                           },
-                          child: Image.network(quiz.imagenURL!,
-                              width: 50, height: 50, fit: BoxFit.cover),
-                        )
-                      : Icon(Icons.image_not_supported),
-                  title: Text(quiz.pregunta),
-                  subtitle:
-                      Text('Respuesta Correcta: ${quiz.respuestaCorrecta}'),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.edit),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    EditarQuizPage(quiz: quiz)),
-                          );
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: () async {
-                          await FirebaseFirestore.instance
-                              .collection('quizzes')
-                              .doc(quiz.id)
-                              .delete();
-                        },
-                      ),
-                    ],
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.delete, color: Colors.red),
+                          iconSize: 30.0, // Tamaño del icono de eliminar
+                          onPressed: () async {
+                            await FirebaseFirestore.instance
+                                .collection('quizzes')
+                                .doc(quiz.id)
+                                .delete();
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
-          );
-        },
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }

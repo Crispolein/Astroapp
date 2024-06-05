@@ -34,49 +34,73 @@ class _EditarcQuizPageState extends State<EditarcQuizPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Editar Quiz de Pareados'),
+        title: const Text('Editar Quiz de Pareados'),
+        backgroundColor: Colors.teal,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Categorías con Términos',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10.0),
-              if (_categorias.isNotEmpty)
-                Column(
-                  children: _categorias.map((category) {
-                    return Card(
-                      child: ListTile(
-                        title: Text(category),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  EditarTerminosPage(categoria: category),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  }).toList(),
-                )
-              else
-                Center(
-                  child: Text(
-                    'No hay categorías con términos',
-                    style: TextStyle(fontSize: 16.0),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Card(
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Categorías con Términos',
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.teal,
+                    ),
                   ),
-                ),
-            ],
+                  const SizedBox(height: 10.0),
+                  if (_categorias.isNotEmpty)
+                    Column(
+                      children: _categorias.map((category) {
+                        return Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          elevation: 3,
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          child: ListTile(
+                            title: Text(
+                              category,
+                              style: const TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            trailing: const Icon(Icons.arrow_forward,
+                                color: Colors.teal),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditarTerminosPage(categoria: category),
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      }).toList(),
+                    )
+                  else
+                    const Center(
+                      child: Text(
+                        'No hay categorías con términos',
+                        style: TextStyle(fontSize: 16.0),
+                      ),
+                    ),
+                ],
+              ),
+            ),
           ),
         ),
       ),

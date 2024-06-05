@@ -69,7 +69,6 @@ class _CrearcQuizPageState extends State<CrearcQuizPage> {
       String termText = _termControllers[i].text.trim();
       String definitionText = _definitionControllers[i].text.trim();
 
-      // Verifica si los campos no están vacíos
       if (termText.isEmpty || definitionText.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
@@ -117,156 +116,188 @@ class _CrearcQuizPageState extends State<CrearcQuizPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Crear Quiz de Pareados'),
+        title: const Text('Crear Quiz de Pareados'),
+        backgroundColor: Colors.teal,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Términos y Definiciones',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Column(
-                children: List.generate(_termControllers.length, (index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            controller: _termControllers[index],
-                            decoration: InputDecoration(
-                              hintText: 'Introduce el término...',
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 10.0),
-                        Expanded(
-                          child: TextFormField(
-                            controller: _definitionControllers[index],
-                            decoration: InputDecoration(
-                              hintText: 'Introduce la definición...',
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.remove_circle),
-                          color: Colors.red,
-                          onPressed: () {
-                            _removeTermDefinitionPair(index);
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                }),
-              ),
-              SizedBox(height: 10.0),
-              Text(
-                'Categoría',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Row(
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Card(
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Autocomplete<String>(
-                      optionsBuilder: (TextEditingValue textEditingValue) {
-                        if (textEditingValue.text.isEmpty) {
-                          return const Iterable<String>.empty();
-                        }
-                        return _categorias.where((String option) {
-                          return option
-                              .toLowerCase()
-                              .contains(textEditingValue.text.toLowerCase());
-                        });
-                      },
-                      onSelected: (String selection) {
-                        _categoriaSeleccionada = selection;
-                      },
-                      fieldViewBuilder: (BuildContext context,
-                          TextEditingController fieldTextEditingController,
-                          FocusNode fieldFocusNode,
-                          VoidCallback onFieldSubmitted) {
-                        return TextFormField(
-                          controller: fieldTextEditingController,
-                          focusNode: fieldFocusNode,
-                          decoration: InputDecoration(
-                            labelText: 'Categoría',
-                            border: OutlineInputBorder(),
-                          ),
-                          onChanged: (value) {
-                            if (_categorias.contains(value)) {
-                              setState(() {
-                                _categoriaSeleccionada = value;
-                              });
-                            }
-                          },
-                        );
-                      },
+                  const Text(
+                    'Términos y Definiciones',
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.teal,
                     ),
                   ),
-                  IconButton(
-                    icon: Icon(Icons.add),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ListaCategorias(),
+                  const SizedBox(height: 10.0),
+                  Column(
+                    children: List.generate(_termControllers.length, (index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                controller: _termControllers[index],
+                                decoration: InputDecoration(
+                                  hintText: 'Introduce el término...',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10.0),
+                            Expanded(
+                              child: TextFormField(
+                                controller: _definitionControllers[index],
+                                decoration: InputDecoration(
+                                  hintText: 'Introduce la definición...',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.remove_circle),
+                              color: Colors.red,
+                              iconSize: 30.0,
+                              onPressed: () {
+                                _removeTermDefinitionPair(index);
+                              },
+                            ),
+                          ],
                         ),
-                      ).then((value) {
-                        _cargarCategorias();
-                      });
-                    },
+                      );
+                    }),
+                  ),
+                  const SizedBox(height: 10.0),
+                  const Text(
+                    'Categoría',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.teal,
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Autocomplete<String>(
+                          optionsBuilder: (TextEditingValue textEditingValue) {
+                            if (textEditingValue.text.isEmpty) {
+                              return const Iterable<String>.empty();
+                            }
+                            return _categorias.where((String option) {
+                              return option.toLowerCase().contains(
+                                  textEditingValue.text.toLowerCase());
+                            });
+                          },
+                          onSelected: (String selection) {
+                            _categoriaSeleccionada = selection;
+                          },
+                          fieldViewBuilder: (BuildContext context,
+                              TextEditingController fieldTextEditingController,
+                              FocusNode fieldFocusNode,
+                              VoidCallback onFieldSubmitted) {
+                            return TextFormField(
+                              controller: fieldTextEditingController,
+                              focusNode: fieldFocusNode,
+                              decoration: InputDecoration(
+                                labelText: 'Categoría',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              onChanged: (value) {
+                                if (_categorias.contains(value)) {
+                                  setState(() {
+                                    _categoriaSeleccionada = value;
+                                  });
+                                }
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.add, color: Colors.teal),
+                        iconSize: 30.0,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ListaCategorias(),
+                            ),
+                          ).then((value) {
+                            _cargarCategorias();
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20.0),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: _addTermDefinitionPair,
+                      child: const Text(
+                        'Agregar Término y Definición',
+                        style: TextStyle(
+                          fontSize: 21.0, // Tamaño de texto más grande
+                          color: Colors.white, // Color de texto diferente
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.teal,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        textStyle: const TextStyle(
+                            fontSize: 22), // Tamaño de texto más grande
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 30.0),
+                  Center(
+                    child: SizedBox(
+                      width: 200.0,
+                      height: 50.0,
+                      child: ElevatedButton(
+                        onPressed: _saveTerms,
+                        child: const Text(
+                          'Guardar Quiz',
+                          style: TextStyle(
+                            fontSize: 22.0,
+                            color: Colors.white,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.teal,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
-              SizedBox(height: 10.0),
-              Center(
-                child: ElevatedButton(
-                  onPressed: _addTermDefinitionPair,
-                  child: Text('Agregar Término y Definición'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.purple,
-                  ),
-                ),
-              ),
-              SizedBox(height: 30.0),
-              Center(
-                child: SizedBox(
-                  width: 200.0,
-                  height: 50.0,
-                  child: ElevatedButton(
-                    onPressed: _saveTerms,
-                    child: Text(
-                      'Guardar Quiz',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        color: Colors.white,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.amber,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
