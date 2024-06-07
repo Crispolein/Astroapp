@@ -4,19 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:convert';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MoonPhaseViewer(),
-    );
-  }
-}
-
 class MoonPhaseViewer extends StatefulWidget {
   @override
   _MoonPhaseViewerState createState() => _MoonPhaseViewerState();
@@ -24,7 +11,7 @@ class MoonPhaseViewer extends StatefulWidget {
 
 class _MoonPhaseViewerState extends State<MoonPhaseViewer> {
   Map<String, dynamic> moonPhases = {};
-  int currentDayIndex = 0;
+  DateTime currentDate = DateTime.now();
   int year = DateTime.now().year;
   int month = DateTime.now().month;
 
@@ -41,7 +28,6 @@ class _MoonPhaseViewerState extends State<MoonPhaseViewer> {
       final data = json.decode(response.body);
       setState(() {
         moonPhases = data['phase'];
-        currentDayIndex = DateTime.now().day - 1;
       });
     } else {
       throw Exception('Failed to load moon phases');
@@ -50,16 +36,22 @@ class _MoonPhaseViewerState extends State<MoonPhaseViewer> {
 
   void nextDay() {
     setState(() {
-      if (currentDayIndex < moonPhases.length - 1) {
-        currentDayIndex++;
+      currentDate = currentDate.add(Duration(days: 1));
+      if (currentDate.month != month) {
+        month = currentDate.month;
+        year = currentDate.year;
+        fetchMoonPhases();
       }
     });
   }
 
   void previousDay() {
     setState(() {
-      if (currentDayIndex > 0) {
-        currentDayIndex--;
+      currentDate = currentDate.subtract(Duration(days: 1));
+      if (currentDate.month != month) {
+        month = currentDate.month;
+        year = currentDate.year;
+        fetchMoonPhases();
       }
     });
   }
@@ -112,7 +104,7 @@ class _MoonPhaseViewerState extends State<MoonPhaseViewer> {
                       onPressed: previousDay,
                     ),
                     Text(
-                      formatDate(DateTime(year, month, currentDayIndex + 1)),
+                      formatDate(currentDate),
                       style: TextStyle(fontSize: 20),
                     ),
                     IconButton(
@@ -122,16 +114,16 @@ class _MoonPhaseViewerState extends State<MoonPhaseViewer> {
                   ],
                 ),
                 SizedBox(height: 20),
-                moonPhases[currentDayIndex.toString()] != null
+                moonPhases[currentDate.day.toString()] != null
                     ? SvgPicture.string(
-                        moonPhases[currentDayIndex.toString()]['svg'],
+                        moonPhases[currentDate.day.toString()]['svg'],
                         height: 100,
                         width: 100,
                       )
                     : Container(),
                 SizedBox(height: 20),
                 Text(
-                  'Creciente: ${moonPhases[currentDayIndex.toString()]['lighting']}%',
+                  'Creciente: ${moonPhases[currentDate.day.toString()]['lighting']}%',
                   style: TextStyle(fontSize: 20),
                 ),
                 SizedBox(height: 20),
