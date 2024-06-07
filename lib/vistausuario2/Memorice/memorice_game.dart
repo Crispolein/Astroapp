@@ -14,8 +14,7 @@ class MemoriceGameScreen extends StatefulWidget {
   _MemoriceGameScreenState createState() => _MemoriceGameScreenState();
 }
 
-class _MemoriceGameScreenState extends State<MemoriceGameScreen>
-    with SingleTickerProviderStateMixin {
+class _MemoriceGameScreenState extends State<MemoriceGameScreen> {
   List<Map<String, dynamic>> _imagePairs = [];
   List<Map<String, dynamic>> _shuffledImagePairs = [];
   List<bool> _revealed = [];
@@ -24,25 +23,17 @@ class _MemoriceGameScreenState extends State<MemoriceGameScreen>
   late Timer _timer;
   int _timeElapsed = 0;
   bool _gameCompleted = false;
-  late AnimationController _controller;
-  late Animation<double> _animation;
 
   @override
   void initState() {
     super.initState();
     _loadImages();
     _startTimer();
-    _controller = AnimationController(
-      duration: Duration(milliseconds: 500),
-      vsync: this,
-    );
-    _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
   }
 
   @override
   void dispose() {
     _timer.cancel();
-    _controller.dispose();
     super.dispose();
   }
 
@@ -235,113 +226,40 @@ class _MemoriceGameScreenState extends State<MemoriceGameScreen>
     return Scaffold(
       appBar: AppBar(
         title: Text('Memorice'),
-        backgroundColor: Colors.teal,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Tiempo: $_timeElapsed s',
-                style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+      body: Column(
+        children: [
+          Text('Tiempo: $_timeElapsed s'),
+          Expanded(
+            child: GridView.builder(
+              padding: const EdgeInsets.all(16.0),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisSpacing: 8.0,
+                crossAxisSpacing: 8.0,
               ),
-            ),
-            Expanded(
-              child: GridView.builder(
-                padding: const EdgeInsets.all(16.0),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 12.0,
-                  crossAxisSpacing: 12.0,
-                ),
-                itemCount: _shuffledImagePairs.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () => _onCardTapped(index),
-                    child: AnimatedSwitcher(
-                      duration: Duration(milliseconds: 500),
-                      transitionBuilder:
-                          (Widget child, Animation<double> animation) {
-                        return RotationYTransition(
-                          turns: animation,
-                          child: child,
-                        );
-                      },
-                      child: _revealed[index]
-                          ? Container(
-                              key: ValueKey(true),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16.0),
-                                color: Colors.grey[300],
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black26,
-                                    blurRadius: 4.0,
-                                    offset: Offset(2, 2),
-                                  ),
-                                ],
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(16.0),
-                                child: Image.network(
-                                  _shuffledImagePairs[index]['imageUrl'],
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                ),
-                              ),
-                            )
-                          : Container(
-                              key: ValueKey(false),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16.0),
-                                color: Colors.teal,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black26,
-                                    blurRadius: 4.0,
-                                    offset: Offset(2, 2),
-                                  ),
-                                ],
-                              ),
-                              child: Center(
-                                child: Icon(
-                                  Icons.image,
-                                  size: 50,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
+              itemCount: _shuffledImagePairs.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () => _onCardTapped(index),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      color: Colors.grey[300],
                     ),
-                  );
-                },
-              ),
+                    child: _revealed[index]
+                        ? Image.network(
+                            _shuffledImagePairs[index]['imageUrl'],
+                            fit: BoxFit.cover,
+                          )
+                        : Center(child: Icon(Icons.image, size: 50)),
+                  ),
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-    );
-  }
-}
-
-class RotationYTransition extends AnimatedWidget {
-  final Widget child;
-  final Animation<double> turns;
-
-  RotationYTransition({required this.turns, required this.child})
-      : super(listenable: turns);
-
-  @override
-  Widget build(BuildContext context) {
-    final angle = turns.value * 3.1415926535897932;
-    final transform = Matrix4.rotationY(angle);
-
-    return Transform(
-      transform: transform,
-      alignment: Alignment.center,
-      child: child,
     );
   }
 }

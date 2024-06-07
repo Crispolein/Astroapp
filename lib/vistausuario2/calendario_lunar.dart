@@ -94,17 +94,10 @@ class _LunarCalendarState extends State<LunarCalendar> {
     List<Widget> weekDayWidgets = weekdays
         .map((day) => Container(
               decoration: BoxDecoration(
-                color: Colors.teal,
-                borderRadius: BorderRadius.circular(4.0),
+                border: Border.all(color: Colors.black),
               ),
-              margin: EdgeInsets.all(2.0),
-              padding: EdgeInsets.all(8.0),
               child: Center(
-                child: Text(
-                  day,
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
+                child: Text(day),
               ),
             ))
         .toList();

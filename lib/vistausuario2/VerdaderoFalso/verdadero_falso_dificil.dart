@@ -86,10 +86,9 @@ class _VerdaderoFalsoDificilScreenState
     return Scaffold(
       appBar: AppBar(
         title: Text('Verdadero o Falso - Dificil'),
-        backgroundColor: Colors.teal,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             if (currentQuestion.imagenURL != null)
@@ -100,70 +99,49 @@ class _VerdaderoFalsoDificilScreenState
             Expanded(
               flex: 2,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     currentQuestion.pregunta,
-                    textAlign: TextAlign.center,
                     style:
-                        TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 40.0),
+                  SizedBox(height: 20.0),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       ElevatedButton(
                         onPressed:
                             _isAnswered ? null : () => _checkAnswer(true),
-                        child: Text(
-                          'Verdadero',
-                          style: TextStyle(fontSize: 18.0),
-                        ),
+                        child: Text('Verdadero'),
                         style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
                           backgroundColor: _isAnswered
                               ? currentQuestion.respuestaCorrecta
                                   ? Colors.green
                                   : Colors.red
-                              : Colors.teal,
-                          minimumSize: Size(140, 60),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
+                              : null,
                         ),
                       ),
                       ElevatedButton(
                         onPressed:
                             _isAnswered ? null : () => _checkAnswer(false),
-                        child: Text(
-                          'Falso',
-                          style: TextStyle(fontSize: 18.0),
-                        ),
+                        child: Text('Falso'),
                         style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
                           backgroundColor: _isAnswered
                               ? !currentQuestion.respuestaCorrecta
                                   ? Colors.green
                                   : Colors.red
-                              : Colors.teal,
-                          minimumSize: Size(140, 60),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
+                              : null,
                         ),
                       ),
                     ],
                   ),
                   if (_isAnswered)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: Text(
-                        _isCorrect ? '¡Correcto!' : 'Incorrecto',
-                        style: TextStyle(
-                          color: _isCorrect ? Colors.green : Colors.red,
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    Text(
+                      _isCorrect ? '¡Correcto!' : 'Incorrecto',
+                      style: TextStyle(
+                        color: _isCorrect ? Colors.green : Colors.red,
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                 ],

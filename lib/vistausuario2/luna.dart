@@ -89,42 +89,36 @@ class _MoonPhaseViewerState extends State<MoonPhaseViewer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false, // Remove the back arrow
-        title: Padding(
-          padding: const EdgeInsets.only(top: 30.0), // Lower the title
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: Icon(Icons.arrow_left),
-                onPressed: previousDay,
-              ),
-              Spacer(), // To push the title to the center
-              Text('Fase Lunar'),
-              Spacer(), // To push the arrow to the right
-              IconButton(
-                icon: Icon(Icons.arrow_right),
-                onPressed: nextDay,
-              ),
-            ],
-          ),
-        ),
+        title: Text('Fase Lunar de Hoy'),
       ),
       body: moonPhases.isEmpty
           ? Center(child: CircularProgressIndicator())
           : Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  formatDate(currentDate),
-                  style: TextStyle(fontSize: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.arrow_left),
+                      onPressed: previousDay,
+                    ),
+                    Text(
+                      formatDate(currentDate),
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.arrow_right),
+                      onPressed: nextDay,
+                    ),
+                  ],
                 ),
                 SizedBox(height: 20),
                 moonPhases[currentDate.day.toString()] != null
                     ? SvgPicture.string(
                         moonPhases[currentDate.day.toString()]['svg'],
-                        height: 250, // Increased height
-                        width: 250, // Increased width
+                        height: 100,
+                        width: 100,
                       )
                     : Container(),
                 SizedBox(height: 20),
@@ -133,32 +127,16 @@ class _MoonPhaseViewerState extends State<MoonPhaseViewer> {
                   style: TextStyle(fontSize: 20),
                 ),
                 SizedBox(height: 20),
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                LunarCalendar(year: year, month: month)),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 24.0, vertical: 12.0),
-                      child: Text(
-                        'Calendario Lunar',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.teal,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                  ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              LunarCalendar(year: year, month: month)),
+                    );
+                  },
+                  child: Text('Calendario Lunar'),
                 ),
               ],
             ),

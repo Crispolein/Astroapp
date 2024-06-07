@@ -39,61 +39,29 @@ class _CategoriaSeleccionScreenState extends State<CategoriaSeleccionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (_categorias.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Seleccionar Categoría'),
+        ),
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Seleccionar Categoría'),
-        backgroundColor: Colors.teal,
+        title: Text('Seleccionar Categoría'),
       ),
-      body: Center(
-        child: _categorias.isEmpty
-            ? const CircularProgressIndicator()
-            : Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Card(
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Categorías Disponibles',
-                          style: TextStyle(
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.teal,
-                          ),
-                        ),
-                        const SizedBox(height: 20.0),
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: _categorias.length,
-                            itemBuilder: (context, index) {
-                              return Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                child: ListTile(
-                                  title: Text(
-                                    _categorias[index],
-                                    style: const TextStyle(fontSize: 18.0),
-                                  ),
-                                  trailing: const Icon(Icons.arrow_forward_ios),
-                                  onTap: () =>
-                                      _seleccionarCategoria(_categorias[index]),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+      body: ListView.builder(
+        itemCount: _categorias.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(_categorias[index]),
+            onTap: () => _seleccionarCategoria(_categorias[index]),
+          );
+        },
       ),
     );
   }
