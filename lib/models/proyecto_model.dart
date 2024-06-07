@@ -327,6 +327,8 @@ class Ranking {
     required this.level,
   });
 
+  get username => null;
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
