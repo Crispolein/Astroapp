@@ -83,14 +83,18 @@ class _TerminosPareadosJuegoScreenState
 
   void _guardarPuntaje() async {
     if (_currentUser != null) {
-      await FirebaseFirestore.instance.collection('rankings').add({
-        'userId': _currentUser!.uid,
-        'username': _currentUser!.displayName ?? 'Desconocido',
-        'score': _score,
-        'game': 'TerminosPareados',
-        'level': widget.categoria,
-        'timestamp': FieldValue.serverTimestamp(),
-      });
+      final newRanking = Ranking(
+        id: FirebaseFirestore.instance.collection('rankings').doc().id,
+        userId: _currentUser!.uid,
+        score: _score,
+        game: 'Terms',
+        level: widget.categoria,
+      );
+
+      await FirebaseFirestore.instance
+          .collection('rankings')
+          .doc(newRanking.id)
+          .set(newRanking.toMap());
     }
   }
 

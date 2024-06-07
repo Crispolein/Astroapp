@@ -14,7 +14,7 @@ class RankingCategoriaScreen extends StatefulWidget {
 
 class _RankingCategoriaScreenState extends State<RankingCategoriaScreen> {
   User? _currentUser;
-  List<Ranking> _rankings = [];
+  List<Map<String, dynamic>> _rankings = [];
   int _userPosition = -1;
   bool _isLoading = true;
   String _errorMessage = '';
@@ -45,19 +45,35 @@ class _RankingCategoriaScreenState extends State<RankingCategoriaScreen> {
         return;
       }
 
-      List<Ranking> rankings = [];
+      List<Map<String, dynamic>> rankings = [];
       for (var doc in querySnapshot.docs) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-        Ranking ranking = Ranking.fromMap(data);
-        rankings.add(ranking);
+        String userId = data['userId'];
+
+        // Obtener el username correspondiente al userId
+        DocumentSnapshot userDoc = await FirebaseFirestore.instance
+            .collection('usuarios')
+            .doc(userId)
+            .get();
+
+        if (userDoc.exists) {
+          Map<String, dynamic> userData =
+              userDoc.data() as Map<String, dynamic>;
+          String username = userData['username'];
+          rankings.add({
+            'username': username,
+            'score': data['score'],
+            'userId': userId,
+          });
+        }
       }
 
       setState(() {
         _rankings = rankings;
 
         // Encontrar la posición del usuario actual en el ranking
-        _userPosition = rankings
-                .indexWhere((ranking) => ranking.userId == _currentUser?.uid) +
+        _userPosition = rankings.indexWhere(
+                (ranking) => ranking['userId'] == _currentUser?.uid) +
             1;
         print('Posición del usuario en ${widget.categoria}: $_userPosition');
       });
@@ -99,13 +115,12 @@ class _RankingCategoriaScreenState extends State<RankingCategoriaScreen> {
                       child: ListView.builder(
                         itemCount: _rankings.length,
                         itemBuilder: (context, index) {
-                          Ranking ranking = _rankings[index];
+                          var ranking = _rankings[index];
                           return ListTile(
-                            title: Text(
-                                '${ranking.username} (Juego: ${ranking.game}, Nivel: ${ranking.level})'),
-                            subtitle: Text('Puntuación: ${ranking.score}'),
+                            title: Text('${ranking['username']}'),
+                            subtitle: Text('Puntuación: ${ranking['score']}'),
                             trailing: Text('#${index + 1}'),
-                            tileColor: ranking.userId == _currentUser?.uid
+                            tileColor: ranking['userId'] == _currentUser?.uid
                                 ? Colors.yellowAccent
                                 : null,
                           );

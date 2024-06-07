@@ -28,14 +28,20 @@ class _CategoriasJugadasScreenState extends State<CategoriasJugadasScreen> {
 
   Future<void> _fetchCategoriasJugadas() async {
     try {
-      DocumentSnapshot doc = await FirebaseFirestore.instance
-          .collection('jugadas')
-          .doc(_currentUser!.uid)
+      // Obtener todas las categorías (niveles) que tienen ranking para el juego 'Term'
+      final snapshot = await FirebaseFirestore.instance
+          .collection('rankings')
+          .where('userId', isEqualTo: _currentUser!.uid)
+          .where('game', isEqualTo: 'Terms')
           .get();
 
-      if (doc.exists) {
+      if (snapshot.docs.isNotEmpty) {
         setState(() {
-          _categoriasJugadas = List<String>.from(doc['categorias']);
+          _categoriasJugadas = snapshot.docs
+              .where((doc) => doc.data().containsKey('level'))
+              .map((doc) => doc['level'] as String)
+              .toSet()
+              .toList(); // Convertir a Set para eliminar duplicados y luego a List
         });
       } else {
         print('No se encontraron categorías jugadas');
@@ -71,15 +77,17 @@ class _CategoriasJugadasScreenState extends State<CategoriasJugadasScreen> {
           ? Center(child: CircularProgressIndicator())
           : _errorMessage.isNotEmpty
               ? Center(child: Text(_errorMessage))
-              : ListView.builder(
-                  itemCount: _categoriasJugadas.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(_categoriasJugadas[index]),
-                      onTap: () => _verRanking(_categoriasJugadas[index]),
-                    );
-                  },
-                ),
+              : _categoriasJugadas.isEmpty
+                  ? Center(child: Text('No se encontraron categorías jugadas'))
+                  : ListView.builder(
+                      itemCount: _categoriasJugadas.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(_categoriasJugadas[index]),
+                          onTap: () => _verRanking(_categoriasJugadas[index]),
+                        );
+                      },
+                    ),
     );
   }
 }
