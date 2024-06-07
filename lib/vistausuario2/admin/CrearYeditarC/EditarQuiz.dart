@@ -9,6 +9,7 @@ class EditarcQuizPage extends StatefulWidget {
 
 class _EditarcQuizPageState extends State<EditarcQuizPage> {
   List<String> _categorias = [];
+  String _searchText = '';
 
   @override
   void initState() {
@@ -32,6 +33,11 @@ class _EditarcQuizPageState extends State<EditarcQuizPage> {
 
   @override
   Widget build(BuildContext context) {
+    final filteredCategories = _categorias
+        .where((category) =>
+            category.toLowerCase().contains(_searchText.toLowerCase()))
+        .toList();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Editar Quiz de Pareados'),
@@ -59,9 +65,21 @@ class _EditarcQuizPageState extends State<EditarcQuizPage> {
                     ),
                   ),
                   const SizedBox(height: 10.0),
-                  if (_categorias.isNotEmpty)
+                  TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Buscar categoría',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        _searchText = value;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 10.0),
+                  if (filteredCategories.isNotEmpty)
                     Column(
-                      children: _categorias.map((category) {
+                      children: filteredCategories.map((category) {
                         return Card(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),

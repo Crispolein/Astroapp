@@ -13,6 +13,7 @@ class EditarTerminosPage extends StatefulWidget {
 
 class _EditarTerminosPageState extends State<EditarTerminosPage> {
   List<Map<String, dynamic>> _terms = [];
+  String _searchText = '';
 
   @override
   void initState() {
@@ -51,6 +52,14 @@ class _EditarTerminosPageState extends State<EditarTerminosPage> {
 
   @override
   Widget build(BuildContext context) {
+    final filteredTerms = _terms.where((term) {
+      final termLower = term['term'].toLowerCase();
+      final definitionLower = term['definition'].toLowerCase();
+      final searchLower = _searchText.toLowerCase();
+      return termLower.contains(searchLower) ||
+          definitionLower.contains(searchLower);
+    }).toList();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Categoría: ${widget.categoria}'),
@@ -78,9 +87,21 @@ class _EditarTerminosPageState extends State<EditarTerminosPage> {
                     ),
                   ),
                   const SizedBox(height: 10.0),
-                  if (_terms.isNotEmpty)
+                  TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Buscar término o definición',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        _searchText = value;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 10.0),
+                  if (filteredTerms.isNotEmpty)
                     Column(
-                      children: _terms.map((term) {
+                      children: filteredTerms.map((term) {
                         return Card(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),

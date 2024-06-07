@@ -182,6 +182,9 @@ class _EditarQuizPageState extends State<EditarQuizPage> {
                     if (_imagenFile != null) ...[
                       const SizedBox(height: 10),
                       Image.file(_imagenFile!),
+                    ] else if (widget.quiz.imagenURL != null) ...[
+                      const SizedBox(height: 10),
+                      Image.network(widget.quiz.imagenURL!),
                     ],
                     const SizedBox(height: 20),
                     const Text(
@@ -404,112 +407,6 @@ class _EditarQuizPageState extends State<EditarQuizPage> {
           }
           return null;
         },
-      ),
-    );
-  }
-}
-
-class ListarQuizPage extends StatefulWidget {
-  @override
-  _ListarQuizPageState createState() => _ListarQuizPageState();
-}
-
-class _ListarQuizPageState extends State<ListarQuizPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Listar Quizzes'),
-        backgroundColor: Colors.teal,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 20.0), // Espacio adicional
-        child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('quizzes').snapshots(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return const Center(child: CircularProgressIndicator());
-            }
-
-            final quizzes = snapshot.data!.docs
-                .map((doc) => Quiz.fromMap(doc.data() as Map<String, dynamic>))
-                .toList();
-
-            return ListView.builder(
-              itemCount: quizzes.length,
-              itemBuilder: (context, index) {
-                final quiz = quizzes[index];
-                return Card(
-                  margin: const EdgeInsets.all(10.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  elevation: 5,
-                  child: ListTile(
-                    leading: quiz.imagenURL != null
-                        ? GestureDetector(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (_) => AlertDialog(
-                                  content: Image.network(quiz.imagenURL!),
-                                ),
-                              );
-                            },
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: Image.network(
-                                quiz.imagenURL!,
-                                width: 50,
-                                height: 50,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          )
-                        : const Icon(Icons.image_not_supported),
-                    title: Text(
-                      quiz.pregunta,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      'Respuesta Correcta: ${quiz.respuestaCorrecta}',
-                      style: const TextStyle(color: Colors.grey),
-                    ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.edit, color: Colors.teal),
-                          iconSize: 30.0, // Tamaño del icono de editar
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      EditarQuizPage(quiz: quiz)),
-                            );
-                          },
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.delete, color: Colors.red),
-                          iconSize: 30.0, // Tamaño del icono de eliminar
-                          onPressed: () async {
-                            await FirebaseFirestore.instance
-                                .collection('quizzes')
-                                .doc(quiz.id)
-                                .delete();
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            );
-          },
-        ),
       ),
     );
   }

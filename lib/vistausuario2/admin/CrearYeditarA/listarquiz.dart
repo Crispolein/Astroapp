@@ -1,21 +1,37 @@
-import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:astro_app/models/proyecto_model.dart';
-import 'package:astro_app/vistausuario2/admin/CrearYeditarB/editartruefalse.dart';
+import 'package:astro_app/vistausuario2/admin/CrearYeditarA/EditarQuiz.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
-class ListarTrueFalsePage extends StatefulWidget {
+class ListarQuizPage extends StatefulWidget {
   @override
-  _ListarTrueFalsePageState createState() => _ListarTrueFalsePageState();
+  _ListarQuizPageState createState() => _ListarQuizPageState();
 }
 
-class _ListarTrueFalsePageState extends State<ListarTrueFalsePage> {
+class _ListarQuizPageState extends State<ListarQuizPage> {
   String _searchText = '';
+  List<String> _categories = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCategories();
+  }
+
+  Future<void> _loadCategories() async {
+    final snapshot =
+        await FirebaseFirestore.instance.collection('categoria').get();
+    setState(() {
+      _categories =
+          snapshot.docs.map((doc) => doc['categoria'] as String).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Listar Preguntas de V/F'),
+        title: const Text('Listar Quizzes'),
         backgroundColor: Colors.teal,
       ),
       body: Padding(
@@ -38,36 +54,35 @@ class _ListarTrueFalsePageState extends State<ListarTrueFalsePage> {
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
-                    .collection('truefalse')
+                    .collection('quizzes')
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return const Center(child: CircularProgressIndicator());
                   }
 
-                  final questions = snapshot.data!.docs
-                      .map((doc) => TrueFalseQuestion.fromMap(
-                          doc.data() as Map<String, dynamic>))
-                      .where((question) {
+                  final quizzes = snapshot.data!.docs
+                      .map((doc) =>
+                          Quiz.fromMap(doc.data() as Map<String, dynamic>))
+                      .where((quiz) {
                     final searchLower = _searchText.toLowerCase();
-                    final matchesCategory = question.categoria
-                            ?.toLowerCase()
-                            .contains(searchLower) ??
-                        false;
+                    final matchesCategory =
+                        quiz.categoria?.toLowerCase().contains(searchLower) ??
+                            false;
                     final matchesQuestion =
-                        question.pregunta.toLowerCase().contains(searchLower);
-                    final matchesCorrectAnswer =
-                        (question.respuestaCorrecta ? 'verdadero' : 'falso')
-                            .contains(searchLower);
+                        quiz.pregunta.toLowerCase().contains(searchLower);
+                    final matchesCorrectAnswer = quiz.respuestaCorrecta
+                        .toLowerCase()
+                        .contains(searchLower);
                     return matchesCategory ||
                         matchesQuestion ||
                         matchesCorrectAnswer;
                   }).toList();
 
                   return ListView.builder(
-                    itemCount: questions.length,
+                    itemCount: quizzes.length,
                     itemBuilder: (context, index) {
-                      final question = questions[index];
+                      final quiz = quizzes[index];
                       return Card(
                         margin: const EdgeInsets.all(10.0),
                         shape: RoundedRectangleBorder(
@@ -75,21 +90,20 @@ class _ListarTrueFalsePageState extends State<ListarTrueFalsePage> {
                         ),
                         elevation: 5,
                         child: ListTile(
-                          leading: question.imagenURL != null
+                          leading: quiz.imagenURL != null
                               ? GestureDetector(
                                   onTap: () {
                                     showDialog(
                                       context: context,
                                       builder: (_) => AlertDialog(
-                                        content:
-                                            Image.network(question.imagenURL!),
+                                        content: Image.network(quiz.imagenURL!),
                                       ),
                                     );
                                   },
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(8.0),
                                     child: Image.network(
-                                      question.imagenURL!,
+                                      quiz.imagenURL!,
                                       width: 50,
                                       height: 50,
                                       fit: BoxFit.cover,
@@ -98,13 +112,13 @@ class _ListarTrueFalsePageState extends State<ListarTrueFalsePage> {
                                 )
                               : const Icon(Icons.image_not_supported),
                           title: Text(
-                            question.pregunta,
+                            quiz.pregunta,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           subtitle: Text(
-                            'Respuesta Correcta: ${question.respuestaCorrecta ? 'Verdadero' : 'Falso'}',
+                            'Respuesta Correcta: ${quiz.respuestaCorrecta}',
                             style: const TextStyle(color: Colors.grey),
                           ),
                           trailing: Row(
@@ -113,25 +127,24 @@ class _ListarTrueFalsePageState extends State<ListarTrueFalsePage> {
                               IconButton(
                                 icon:
                                     const Icon(Icons.edit, color: Colors.teal),
-                                iconSize: 40.0, // Tamaño del icono de editar
+                                iconSize: 30.0, // Tamaño del icono de editar
                                 onPressed: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => EditarTrueFalsePage(
-                                          question: question),
-                                    ),
+                                        builder: (context) =>
+                                            EditarQuizPage(quiz: quiz)),
                                   );
                                 },
                               ),
                               IconButton(
                                 icon:
                                     const Icon(Icons.delete, color: Colors.red),
-                                iconSize: 40.0, // Tamaño del icono de eliminar
+                                iconSize: 30.0, // Tamaño del icono de eliminar
                                 onPressed: () async {
                                   await FirebaseFirestore.instance
-                                      .collection('truefalse')
-                                      .doc(question.id)
+                                      .collection('quizzes')
+                                      .doc(quiz.id)
                                       .delete();
                                 },
                               ),

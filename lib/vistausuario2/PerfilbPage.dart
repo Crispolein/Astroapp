@@ -1,6 +1,6 @@
 import 'package:astro_app/astroApp.dart';
-import 'package:astro_app/pagina/usuario/ajustes.dart';
 import 'package:astro_app/pagina/usuario/editar_perfil.dart';
+import 'package:astro_app/vistausuario2/admin/ajustesbPage.dart';
 import 'package:astro_app/vistausuario2/admin/theme.dart';
 import 'package:astro_app/vistausuario2/ajustesbPage.dart';
 import 'package:astro_app/vistausuario2/changepassword.dart';
@@ -8,8 +8,31 @@ import 'package:astro_app/vistausuario2/idioma.dart';
 import 'package:astro_app/vistausuario2/privacidad.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:vibration/vibration.dart'; // Importa el paquete de vibración
 import 'dart:io';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Pagina de Usuario',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: Color(0xFF1C1C1E),
+      ),
+      home: PerfilbPage(),
+    );
+  }
+}
 
 class PerfilbPage extends StatefulWidget {
   @override
@@ -18,6 +41,35 @@ class PerfilbPage extends StatefulWidget {
 
 class _PerfilbPageState extends State<PerfilbPage> {
   File? _image;
+  String? _correo;
+  String? _username;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      // Obtén el correo del usuario autenticado
+      setState(() {
+        _correo = user.email;
+      });
+
+      // Consulta Firestore para obtener el nombre de usuario
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('usuarios')
+          .doc(user.uid)
+          .get();
+      if (userDoc.exists) {
+        setState(() {
+          _username = userDoc['username'];
+        });
+      }
+    }
+  }
 
   Future<void> _pickImage() async {
     final pickedFile =
@@ -26,13 +78,6 @@ class _PerfilbPageState extends State<PerfilbPage> {
       setState(() {
         _image = File(pickedFile.path);
       });
-    }
-  }
-
-  void _vibrate() {
-    if (Vibration.hasVibrator() != null) {
-      Vibration.vibrate(
-          duration: 50); // Duración de la vibración en milisegundos
     }
   }
 
@@ -45,6 +90,9 @@ class _PerfilbPageState extends State<PerfilbPage> {
             Theme.of(context).brightness == Brightness.dark
                 ? Colors.grey[300]!
                 : const Color.fromARGB(255, 3, 2, 2);
+        final Color iconColor = Theme.of(context).brightness == Brightness.dark
+            ? Colors.amber
+            : Colors.black;
 
         return Scaffold(
           backgroundColor: themeNotifier.value == ThemeMode.dark
@@ -69,10 +117,7 @@ class _PerfilbPageState extends State<PerfilbPage> {
                         bottom: 0,
                         right: 0,
                         child: InkWell(
-                          onTap: () {
-                            _pickImage();
-                            _vibrate(); // Activar vibración al tocar el botón
-                          },
+                          onTap: _pickImage,
                           child: CircleAvatar(
                             radius: 15,
                             backgroundColor: Colors.orange,
@@ -88,12 +133,12 @@ class _PerfilbPageState extends State<PerfilbPage> {
                 ),
                 SizedBox(height: 16),
                 Text(
-                  'Sanzana',
+                  _username ?? 'Cargando...',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  'UsuarioNormal@gmail.com',
-                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                  _correo ?? 'Cargando...',
+                  style: TextStyle(fontSize: 16, color: emailTextColor),
                 ),
                 SizedBox(height: 32),
                 ProfileSection(
@@ -101,6 +146,7 @@ class _PerfilbPageState extends State<PerfilbPage> {
                   children: [
                     ProfileItem(
                       icon: Icons.person,
+                      iconColor: iconColor,
                       text: 'Datos Personales',
                       onTap: () {
                         Navigator.push(
@@ -108,23 +154,23 @@ class _PerfilbPageState extends State<PerfilbPage> {
                           MaterialPageRoute(
                               builder: (context) => EditarPerfil()),
                         );
-                        _vibrate(); // Activar vibración al tocar el botón
                       },
                     ),
                     ProfileItem(
                       icon: Icons.language,
-                      text: 'Idiomas',
+                      iconColor: iconColor,
+                      text: 'Lenguaje',
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => LanguagePage()),
                         );
-                        _vibrate(); // Activar vibración al tocar el botón
                       },
                     ),
                     ProfileItem(
                       icon: Icons.settings,
+                      iconColor: iconColor,
                       text: 'Ajustes',
                       onTap: () {
                         Navigator.push(
@@ -132,7 +178,6 @@ class _PerfilbPageState extends State<PerfilbPage> {
                           MaterialPageRoute(
                               builder: (context) => AjustesbPage()),
                         );
-                        _vibrate(); // Activar vibración al tocar el botón
                       },
                     ),
                   ],
@@ -143,6 +188,7 @@ class _PerfilbPageState extends State<PerfilbPage> {
                   children: [
                     ProfileItem(
                       icon: Icons.lock,
+                      iconColor: iconColor,
                       text: 'Contraseña',
                       onTap: () {
                         Navigator.push(
@@ -150,30 +196,29 @@ class _PerfilbPageState extends State<PerfilbPage> {
                           MaterialPageRoute(
                               builder: (context) => PasswordCPage()),
                         );
-                        _vibrate(); // Activar vibración al tocar el botón
                       },
                     ),
                     ProfileItem(
                       icon: Icons.policy,
-                      text: 'Politica de Privadidad',
+                      iconColor: iconColor,
+                      text: 'Politica de Privacidad',
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => PrivacyPolicyPage()),
                         );
-                        _vibrate(); // Activar vibración al tocar el botón
                       },
                     ),
                     ProfileItem(
                       icon: Icons.logout,
+                      iconColor: iconColor,
                       text: 'Cerrar Sesion',
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => AstroApp()),
                         );
-                        _vibrate(); // Activar vibración al tocar el botón
                       },
                     ),
                   ],
@@ -238,12 +283,14 @@ class ProfileSection extends StatelessWidget {
 
 class ProfileItem extends StatelessWidget {
   final IconData icon;
+  final Color iconColor;
   final String text;
   final VoidCallback onTap;
 
   const ProfileItem({
     Key? key,
     required this.icon,
+    required this.iconColor,
     required this.text,
     required this.onTap,
   }) : super(key: key);
@@ -251,24 +298,10 @@ class ProfileItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(icon, color: Colors.orange),
-      title: Text(text, style: TextStyle(fontSize: 16)),
+      leading: Icon(icon, color: iconColor),
+      title: Text(text),
       trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey),
-      onTap: () {
-        onTap();
-        Vibration.vibrate(duration: 50); // Activar vibración al tocar el botón
-      },
-    );
-  }
-}
-
-// Asegúrate de definir las siguientes clases con el contenido de tus vistas:
-class PersonalDataPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Personal Data')),
-      body: Center(child: Text('Personal Data Page')),
+      onTap: onTap,
     );
   }
 }

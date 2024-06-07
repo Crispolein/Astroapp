@@ -3,7 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:async'; // Import for Timer
+import 'dart:async';
 
 class ISSData extends StatefulWidget {
   @override
@@ -13,13 +13,12 @@ class ISSData extends StatefulWidget {
 class _ISSDataState extends State<ISSData> {
   LatLng _issPosition = LatLng(0, 0);
   MapController _mapController = MapController();
-  Timer? _timer; // Add a timer for periodic updates
+  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
     _fetchISSData();
-    // Start the timer for updating every 5 seconds
     _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
       _fetchISSData();
     });
@@ -27,7 +26,7 @@ class _ISSDataState extends State<ISSData> {
 
   @override
   void dispose() {
-    _timer?.cancel(); // Cancel the timer when the widget is disposed
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -43,16 +42,15 @@ class _ISSDataState extends State<ISSData> {
             double.parse(data['iss_position']['latitude']),
             double.parse(data['iss_position']['longitude']),
           );
-          // Move the map to the new position
+
+          // ignore: deprecated_member_use
           _mapController.move(_issPosition, _mapController.zoom);
         });
       } else {
-        // Log an error if the request was not successful
         print(
             'Error fetching ISS data: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
-      // Catch and log any network errors
       print('Network error fetching ISS data: $e');
     }
   }
@@ -62,7 +60,7 @@ class _ISSDataState extends State<ISSData> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('International Space Station Tracker'),
-        automaticallyImplyLeading: false, // Remove the back arrow
+        automaticallyImplyLeading: false,
       ),
       body: FlutterMap(
         mapController: _mapController,

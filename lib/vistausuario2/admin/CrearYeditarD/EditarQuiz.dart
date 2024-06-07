@@ -9,6 +9,7 @@ class EditardQuizPage extends StatefulWidget {
 
 class _EditardQuizPageState extends State<EditardQuizPage> {
   List<String> _categorias = [];
+  String _searchText = '';
 
   @override
   void initState() {
@@ -32,6 +33,11 @@ class _EditardQuizPageState extends State<EditardQuizPage> {
 
   @override
   Widget build(BuildContext context) {
+    final filteredCategories = _categorias
+        .where((category) =>
+            category.toLowerCase().contains(_searchText.toLowerCase()))
+        .toList();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Editar Imágenes de Memoria'),
@@ -59,9 +65,21 @@ class _EditardQuizPageState extends State<EditardQuizPage> {
                     ),
                   ),
                   const SizedBox(height: 20.0),
-                  if (_categorias.isNotEmpty)
+                  TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Buscar categoría',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        _searchText = value;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 10.0),
+                  if (filteredCategories.isNotEmpty)
                     Column(
-                      children: _categorias.map((category) {
+                      children: filteredCategories.map((category) {
                         return Card(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),

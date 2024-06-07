@@ -93,7 +93,8 @@ class _AddNoticiaState extends State<AddNoticia> {
         iconTheme: IconThemeData(color: Colors.purple),
         backgroundColor: Colors.amber,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
+        // Aquí se añade el SingleChildScrollView
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,

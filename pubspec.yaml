@@ -72,7 +72,7 @@ dependencies:
   url_launcher: ^6.0.9
   icons_plus: ^5.0.0
   google_sign_in: ^6.2.1
-
+  table_calendar: ^3.0.0
 
 
 dev_dependencies:

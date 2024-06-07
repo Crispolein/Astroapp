@@ -19,7 +19,7 @@ class _HomebPageState extends State<HomebPage> {
     PerfilbPage(),
     NoticiasPage(),
     CategoriaPage(),
-    user.FaseLunarPage(),
+    user.MoonPhaseViewer(),
     ISSData(),
   ];
 

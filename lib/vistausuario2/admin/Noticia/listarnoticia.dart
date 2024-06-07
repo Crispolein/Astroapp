@@ -1,6 +1,7 @@
 import 'package:astro_app/models/proyecto_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:astro_app/vistausuario2/admin/Noticia/editarnoticia.dart';
 
 class ListarNoticia extends StatefulWidget {
   const ListarNoticia({Key? key, required String elemento}) : super(key: key);
@@ -30,6 +31,49 @@ class _ListarNoticiaState extends State<ListarNoticia> {
           ),
         );
       },
+    );
+  }
+
+  void _eliminarNoticia(String noticiaId) async {
+    await noticiaCollection.doc(noticiaId).delete();
+    setState(() {});
+  }
+
+  void _confirmarEliminacion(String noticiaId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirmar eliminación'),
+          content: Text('¿Estás seguro de que deseas eliminar esta noticia?'),
+          actions: [
+            TextButton(
+              child: Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Eliminar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _eliminarNoticia(noticiaId);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _editarNoticia(Noticia noticia) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditarNoticiaPage(
+          noticia: noticia,
+        ),
+      ),
     );
   }
 
@@ -116,12 +160,6 @@ class _ListarNoticiaState extends State<ListarNoticia> {
                             style: const TextStyle(fontSize: 16),
                           ),
                           SizedBox(height: 8),
-                          Text(
-                            noticia.descripcion,
-                            style: const TextStyle(fontSize: 14),
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                          ),
                         ],
                       ),
                       leading: GestureDetector(
@@ -143,6 +181,23 @@ class _ListarNoticiaState extends State<ListarNoticia> {
                                 : null,
                           ),
                         ),
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.edit),
+                            onPressed: () {
+                              _editarNoticia(noticia);
+                            },
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () {
+                              _confirmarEliminacion(noticia.id);
+                            },
+                          ),
+                        ],
                       ),
                     ),
                   );
