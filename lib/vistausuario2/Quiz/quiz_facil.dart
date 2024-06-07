@@ -67,7 +67,7 @@ class _QuizFacilScreenState extends State<QuizFacilScreen> {
     });
   }
 
-  @override
+ @override
   Widget build(BuildContext context) {
     if (_quizzes.isEmpty) {
       return Scaffold(
@@ -88,7 +88,7 @@ class _QuizFacilScreenState extends State<QuizFacilScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Quiz Fácil'),
+        title: Text('Quiz Facil'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -105,21 +105,37 @@ class _QuizFacilScreenState extends State<QuizFacilScreen> {
                 children: [
                   Text(
                     currentQuiz.pregunta,
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 24.0, // Tamaño del texto de la pregunta
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   SizedBox(height: 20.0),
-                  GridView.count(
-                    crossAxisCount: 2,
+                  Spacer(),
+                  GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 10.0,
+                      crossAxisSpacing: 10.0,
+                      childAspectRatio: 1, // Ajustar el tamaño de los botones
+                    ),
                     shrinkWrap: true,
-                    crossAxisSpacing: 10.0,
-                    mainAxisSpacing: 10.0,
-                    children: answers.map((answer) {
+                    itemCount: answers.length,
+                    itemBuilder: (context, index) {
+                      String answer = answers[index];
                       return ElevatedButton(
                         onPressed:
                             _isAnswered ? null : () => _checkAnswer(answer),
-                        child: Text(answer),
+                        child: Text(
+                          answer,
+                          style: TextStyle(
+                              fontSize:
+                                  25.0), // Tamaño del texto en los botones
+                        ),
                         style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
                           backgroundColor: _isAnswered
                               ? answer == currentQuiz.respuestaCorrecta
                                   ? Colors.green
@@ -127,8 +143,11 @@ class _QuizFacilScreenState extends State<QuizFacilScreen> {
                               : null,
                         ),
                       );
-                    }).toList(),
+                    },
                   ),
+                  SizedBox(
+                      height:
+                          40.0), // Ajustar este valor para mover los botones más abajo
                   if (_isAnswered)
                     Text(
                       _isCorrect ? '¡Correcto!' : 'Incorrecto',
@@ -147,3 +166,4 @@ class _QuizFacilScreenState extends State<QuizFacilScreen> {
     );
   }
 }
+

@@ -66,9 +66,10 @@ class _TerminosPareadosJuegoScreenState
     if (_terminos.isEmpty || _definitions.isEmpty) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Términos Pareados'),
+          title: const Text('Términos Pareados'),
+          backgroundColor: Colors.teal,
         ),
-        body: Center(
+        body: const Center(
           child: CircularProgressIndicator(),
         ),
       );
@@ -76,30 +77,37 @@ class _TerminosPareadosJuegoScreenState
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Términos Pareados'),
+        title: const Text('Términos Pareados'),
+        backgroundColor: Colors.teal,
       ),
       body: Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Row(
           children: [
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: _terminos.map((termino) {
-                  return Draggable<Term>(
-                    data: termino,
-                    child: _buildCard(termino.term),
-                    feedback: Material(
-                      child: _buildCard(termino.term),
-                      elevation: 4.0,
-                    ),
-                    childWhenDragging:
-                        _buildCard(termino.term, Colors.grey.shade200),
-                    onDragEnd: (details) {
-                      if (!details.wasAccepted) {
-                        _vibrateOnIncorrect(); // Vibración para emparejamiento incorrecto
-                      }
-                    },
+                  return Column(
+                    children: [
+                      Draggable<Term>(
+                        data: termino,
+                        child: _buildLeftCard(termino.term),
+                        feedback: Material(
+                          child: _buildLeftCard(
+                              termino.term, Colors.teal.shade100),
+                          elevation: 4.0,
+                        ),
+                        childWhenDragging:
+                            _buildLeftCard(termino.term, Colors.grey.shade200),
+                        onDragEnd: (details) {
+                          if (!details.wasAccepted) {
+                            _vibrateOnIncorrect(); // Vibración para emparejamiento incorrecto
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 16.0), // Espacio entre botones
+                    ],
                   );
                 }).toList(),
               ),
@@ -108,17 +116,24 @@ class _TerminosPareadosJuegoScreenState
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: _definitions.map((definition) {
-                  return DragTarget<Term>(
-                    onAccept: (receivedTerm) {
-                      if (receivedTerm.definition == definition.definition) {
-                        _eliminarTerminosPareados(receivedTerm, definition);
-                      } else {
-                        _vibrateOnIncorrect(); // Vibración para emparejamiento incorrecto
-                      }
-                    },
-                    builder: (context, candidateData, rejectedData) {
-                      return _buildCard(definition.definition);
-                    },
+                  return Column(
+                    children: [
+                      DragTarget<Term>(
+                        onAccept: (receivedTerm) {
+                          if (receivedTerm.definition ==
+                              definition.definition) {
+                            _eliminarTerminosPareados(receivedTerm, definition);
+                          } else {
+                            _vibrateOnIncorrect(); // Vibración para emparejamiento incorrecto
+                          }
+                        },
+                        builder: (context, candidateData, rejectedData) {
+                          return _buildRightCard(
+                              definition.definition, Colors.teal.shade50);
+                        },
+                      ),
+                      const SizedBox(height: 16.0), // Espacio entre botones
+                    ],
                   );
                 }).toList(),
               ),
@@ -129,20 +144,45 @@ class _TerminosPareadosJuegoScreenState
     );
   }
 
-  Widget _buildCard(String text, [Color color = Colors.white]) {
+  Widget _buildLeftCard(String text, [Color color = Colors.teal]) {
     return Card(
       elevation: 4.0,
-      margin: EdgeInsets.symmetric(vertical: 8.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
       color: color,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 18.0),
+      child: Container(
+        width: 135, // Ajusta el ancho
+        height: 120, // Ajusta el alto
+        child: Center(
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 18.0, color: Colors.white),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRightCard(String text, [Color color = Colors.white]) {
+    return Card(
+      elevation: 4.0,
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      color: color,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Container(
+        width: 135, // Ajusta el ancho
+        height: 120, // Ajusta el alto
+        child: Center(
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 18.0, color: Colors.teal),
+          ),
         ),
       ),
     );

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:astro_app/models/proyecto_model.dart';
-import 'package:vibration/vibration.dart'; // Importa el paquete de vibración
+import 'package:vibration/vibration.dart';
 
 class QuizMedioScreen extends StatefulWidget {
   @override
@@ -37,13 +37,13 @@ class _QuizMedioScreenState extends State<QuizMedioScreen> {
 
   void _vibrateOnCorrect() {
     if (Vibration.hasVibrator() != null) {
-      Vibration.vibrate(pattern: [0, 100, 50, 100]); // Patrón para acierto
+      Vibration.vibrate(pattern: [0, 100, 50, 100]);
     }
   }
 
   void _vibrateOnIncorrect() {
     if (Vibration.hasVibrator() != null) {
-      Vibration.vibrate(pattern: [0, 200, 50, 200]); // Patrón para error
+      Vibration.vibrate(pattern: [0, 200, 50, 200]);
     }
   }
 
@@ -54,9 +54,9 @@ class _QuizMedioScreenState extends State<QuizMedioScreen> {
     });
 
     if (_isCorrect) {
-      _vibrateOnCorrect(); // Vibración para acierto
+      _vibrateOnCorrect();
     } else {
-      _vibrateOnIncorrect(); // Vibración para error
+      _vibrateOnIncorrect();
     }
 
     Timer(Duration(seconds: 2), () {
@@ -105,21 +105,37 @@ class _QuizMedioScreenState extends State<QuizMedioScreen> {
                 children: [
                   Text(
                     currentQuiz.pregunta,
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 24.0, // Tamaño del texto de la pregunta
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   SizedBox(height: 20.0),
-                  GridView.count(
-                    crossAxisCount: 2,
+                  Spacer(),
+                  GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 10.0,
+                      crossAxisSpacing: 10.0,
+                      childAspectRatio: 1, // Ajustar el tamaño de los botones
+                    ),
                     shrinkWrap: true,
-                    crossAxisSpacing: 10.0,
-                    mainAxisSpacing: 10.0,
-                    children: answers.map((answer) {
+                    itemCount: answers.length,
+                    itemBuilder: (context, index) {
+                      String answer = answers[index];
                       return ElevatedButton(
                         onPressed:
                             _isAnswered ? null : () => _checkAnswer(answer),
-                        child: Text(answer),
+                        child: Text(
+                          answer,
+                          style: TextStyle(
+                              fontSize:
+                                  25.0), // Tamaño del texto en los botones
+                        ),
                         style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
                           backgroundColor: _isAnswered
                               ? answer == currentQuiz.respuestaCorrecta
                                   ? Colors.green
@@ -127,8 +143,11 @@ class _QuizMedioScreenState extends State<QuizMedioScreen> {
                               : null,
                         ),
                       );
-                    }).toList(),
+                    },
                   ),
+                  SizedBox(
+                      height:
+                          40.0), // Ajustar este valor para mover los botones más abajo
                   if (_isAnswered)
                     Text(
                       _isCorrect ? '¡Correcto!' : 'Incorrecto',
