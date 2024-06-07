@@ -1,11 +1,15 @@
 import 'package:astro_app/vistausuario2/Memorice/memorice_dificl.dart';
+import 'package:astro_app/vistausuario2/Memorice/memorice_ranking.dart';
 import 'package:astro_app/vistausuario2/Quiz/quiz_dificil.dart';
 import 'package:astro_app/vistausuario2/Quiz/quiz_facil.dart';
 import 'package:astro_app/vistausuario2/Quiz/quiz_medio.dart';
+import 'package:astro_app/vistausuario2/Quiz/ranking_quiz.dart';
 import 'package:astro_app/vistausuario2/TerminosPareados/categorias.dart';
+import 'package:astro_app/vistausuario2/TerminosPareados/categorias_jugadas.dart';
 import 'package:astro_app/vistausuario2/VerdaderoFalso/verdadero_falso_dificil.dart';
 import 'package:astro_app/vistausuario2/VerdaderoFalso/verdadero_falso_facil.dart';
 import 'package:astro_app/vistausuario2/VerdaderoFalso/verdadero_falso_medio.dart';
+import 'package:astro_app/vistausuario2/VerdaderoFalso/verdadero_falso_ranking.dart';
 import 'package:astro_app/vistausuario2/admin/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:astro_app/vistausuario2/Memorice/memorice_facil.dart';
@@ -341,14 +345,14 @@ class CategoryIcon extends StatelessWidget {
             targetScreen = QuizMedioScreen();
           } else if (item.label == 'Difícil') {
             targetScreen = QuizDificilScreen();
+          } else if (item.label == 'Ranking') {
+            targetScreen = RankingScreen();
           }
         } else if (item.category == 'TerminosPareados') {
           if (item.label == 'Jugar') {
-            targetScreen =
-                CategoriaSeleccionScreen(); // Nueva pantalla del juego de términos pareados
+            targetScreen = CategoriaSeleccionScreen();
           } else if (item.label == 'Ranking') {
-            targetScreen =
-                CategoryDetailPage(label: 'Ranking de Términos Pareados');
+            targetScreen = CategoriasJugadasScreen();
           }
         } else if (item.category == 'VerdaderoFalso') {
           if (item.label == 'Fácil') {
@@ -357,6 +361,8 @@ class CategoryIcon extends StatelessWidget {
             targetScreen = VerdaderoFalsoMedioScreen();
           } else if (item.label == 'Difícil') {
             targetScreen = VerdaderoFalsoDificilScreen();
+          } else if (item.label == 'Ranking') {
+            targetScreen = VerdaderoFalsoRankingScreen();
           }
         } else if (item.category == 'Memorice') {
           if (item.label == 'Fácil') {
@@ -365,6 +371,8 @@ class CategoryIcon extends StatelessWidget {
             targetScreen = MemoriceMedioScreen();
           } else if (item.label == 'Difícil') {
             targetScreen = MemoriceDificilScreen();
+          } else if (item.label == 'Ranking') {
+            targetScreen = MemoriceRankingScreen();
           }
         }
 

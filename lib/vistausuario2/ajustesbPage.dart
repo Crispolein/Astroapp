@@ -1,8 +1,7 @@
 import 'package:astro_app/vistausuario2/admin/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'settings_manager.dart'; // Importa la clase SettingsManager
+import 'settings_manager.dart';
 
 class AjustesbPage extends StatefulWidget {
   @override
@@ -14,13 +13,13 @@ class _AjustesbPageState extends State<AjustesbPage> {
   bool _recordatorioEnabled = false;
   bool _sonidoEnabled = false;
   bool _modoNocturnoEnabled = false;
-  Color _appBarColor = Colors.transparent; // Initial transparent color
+  Color _appBarColor = Colors.transparent;
 
   void _toggleTheme() {
     setState(() {
       _modoNocturnoEnabled = !_modoNocturnoEnabled;
       themeNotifier.toggleTheme();
-      _updateAppBarColor(); // Update AppBar color based on theme change
+      _updateAppBarColor();
       SettingsManager.setModoNocturnoEnabled(
           _modoNocturnoEnabled); // Save setting
     });
