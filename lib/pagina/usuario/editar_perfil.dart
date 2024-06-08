@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EditarPerfil extends StatefulWidget {
   @override
@@ -8,44 +10,79 @@ class EditarPerfil extends StatefulWidget {
 }
 
 class _EditarPerfilState extends State<EditarPerfil> {
-  String _nombre = '';
-  String _apellido = '';
-  String _nombreUsuario = '';
-  String _correo = '';
-  File? _image; // Lista de edades del 1 al 100
+  final _nombreController = TextEditingController();
+  final _apellidoController = TextEditingController();
+  final _nombreUsuarioController = TextEditingController();
+  final _correoController = TextEditingController();
+  File? _image;
+  String _usernameError = '';
+  bool _isUsernameValid = true; // Inicializamos en true
+  String? _originalUsername;
 
-  // Función para guardar los cambios en el perfil
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      setState(() {
+        _correoController.text = user.email ?? '';
+      });
+
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('usuarios')
+          .doc(user.uid)
+          .get();
+      if (userDoc.exists) {
+        setState(() {
+          _nombreController.text = userDoc['nombre'] ?? '';
+          _apellidoController.text = userDoc['apellido'] ?? '';
+          _nombreUsuarioController.text = userDoc['username'] ?? '';
+          _originalUsername = userDoc['username'];
+        });
+      }
+    }
+  }
+
   void _guardarCambios() {
-    // Aquí podrías guardar los cambios en tu backend o base de datos
-    // Puedes usar los valores de _nombre, _correo, _edad, _descripcion
-    // y realizar las acciones necesarias para actualizar el perfil.
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      FirebaseFirestore.instance.collection('usuarios').doc(user.uid).update({
+        'nombre': _nombreController.text,
+        'apellido': _apellidoController.text,
+        'username': _nombreUsuarioController.text,
+      }).then((_) {
+        Navigator.pop(context, 'Los cambios se guardaron correctamente');
+      });
+    }
   }
 
-  // Función para seleccionar una foto de la galería
-  // Función para seleccionar una foto de la galería
-  Future<void> _seleccionarFoto() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No se seleccionó ninguna imagen.');
-      }
-    });
-  }
+  Future<void> _verificarNombreUsuario() async {
+    if (_nombreUsuarioController.text == _originalUsername) {
+      // Si el nombre de usuario es el mismo que el original, es válido
+      setState(() {
+        _usernameError = '';
+        _isUsernameValid = true;
+      });
+    } else {
+      final result = await FirebaseFirestore.instance
+          .collection('usuarios')
+          .where('username', isEqualTo: _nombreUsuarioController.text)
+          .get();
 
-  // Función para tomar una foto nueva
-  Future<void> _tomarFoto() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No se tomó ninguna foto.');
-      }
-    });
+      setState(() {
+        if (result.docs.isNotEmpty) {
+          _usernameError = 'El nombre de usuario ya existe';
+          _isUsernameValid = false;
+        } else {
+          _usernameError = 'El nombre de usuario está disponible';
+          _isUsernameValid = true;
+        }
+      });
+    }
   }
 
   @override
@@ -63,76 +100,12 @@ class _EditarPerfilState extends State<EditarPerfil> {
       appBar: AppBar(
         title: Text('Editar Perfil', style: TextStyle(color: textColor)),
         backgroundColor: appBarColor,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.save, color: textColor),
-            onPressed: _guardarCambios,
-          ),
-        ],
       ),
       backgroundColor: backgroundColor,
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: ListView(
           children: <Widget>[
-            Center(
-              child: GestureDetector(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('Editar Foto de Perfil'),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: <Widget>[
-                              ListTile(
-                                leading: Icon(Icons.photo_library),
-                                title: Text('Seleccionar de la galería'),
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                  _seleccionarFoto();
-                                },
-                              ),
-                              ListTile(
-                                leading: Icon(Icons.camera_alt),
-                                title: Text('Tomar una foto'),
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                  _tomarFoto();
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-                child: Container(
-                  width: 150,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.grey[300],
-                  ),
-                  child: _image != null
-                      ? ClipOval(
-                          child: Image.file(
-                            _image!,
-                            fit: BoxFit.cover,
-                            width: 150,
-                            height: 150,
-                          ),
-                        )
-                      : Icon(
-                          Icons.camera_alt,
-                          size: 70,
-                          color: Colors.grey[700],
-                        ),
-                ),
-              ),
-            ),
             SizedBox(height: 16.0),
             Container(
               decoration: BoxDecoration(
@@ -148,18 +121,13 @@ class _EditarPerfilState extends State<EditarPerfil> {
                 ],
               ),
               child: TextFormField(
+                controller: _nombreController,
                 decoration: InputDecoration(
                   labelText: 'Nombre',
                   border: OutlineInputBorder(),
                   labelStyle: TextStyle(color: textColor),
                 ),
                 style: TextStyle(color: textColor),
-                initialValue: _nombre,
-                onChanged: (value) {
-                  setState(() {
-                    _nombre = value;
-                  });
-                },
               ),
             ),
             SizedBox(height: 16.0),
@@ -177,18 +145,13 @@ class _EditarPerfilState extends State<EditarPerfil> {
                 ],
               ),
               child: TextFormField(
+                controller: _apellidoController,
                 decoration: InputDecoration(
                   labelText: 'Apellido',
                   border: OutlineInputBorder(),
                   labelStyle: TextStyle(color: textColor),
                 ),
                 style: TextStyle(color: textColor),
-                initialValue: _apellido,
-                onChanged: (value) {
-                  setState(() {
-                    _apellido = value;
-                  });
-                },
               ),
             ),
             SizedBox(height: 16.0),
@@ -206,17 +169,18 @@ class _EditarPerfilState extends State<EditarPerfil> {
                 ],
               ),
               child: TextFormField(
+                controller: _nombreUsuarioController,
                 decoration: InputDecoration(
                   labelText: 'Nombre de Usuario',
                   border: OutlineInputBorder(),
                   labelStyle: TextStyle(color: textColor),
+                  suffixIcon: _isUsernameValid
+                      ? Icon(Icons.check, color: Colors.green)
+                      : Icon(Icons.clear, color: Colors.red),
                 ),
                 style: TextStyle(color: textColor),
-                initialValue: _nombreUsuario,
                 onChanged: (value) {
-                  setState(() {
-                    _nombreUsuario = value;
-                  });
+                  _verificarNombreUsuario();
                 },
               ),
             ),
@@ -235,26 +199,32 @@ class _EditarPerfilState extends State<EditarPerfil> {
                 ],
               ),
               child: TextFormField(
+                controller: _correoController,
                 decoration: InputDecoration(
                   labelText: 'Correo',
                   border: OutlineInputBorder(),
                   labelStyle: TextStyle(color: textColor),
                 ),
                 style: TextStyle(color: textColor),
-                initialValue: _correo,
-                onChanged: (value) {
-                  setState(() {
-                    _correo = value;
-                  });
-                },
+                readOnly: true,
               ),
             ),
+            if (_usernameError.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  _usernameError,
+                  style: TextStyle(
+                    color: _isUsernameValid ? Colors.green : Colors.red,
+                  ),
+                ),
+              ),
             SizedBox(height: 30.0),
             Center(
               child: SizedBox(
                 width: 250,
                 child: ElevatedButton(
-                  onPressed: _guardarCambios,
+                  onPressed: _isUsernameValid ? _guardarCambios : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: buttonColor,
                     shape: RoundedRectangleBorder(

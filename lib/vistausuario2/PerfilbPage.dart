@@ -1,6 +1,5 @@
 import 'package:astro_app/astroApp.dart';
 import 'package:astro_app/pagina/usuario/editar_perfil.dart';
-import 'package:astro_app/vistausuario2/admin/ajustesbPage.dart';
 import 'package:astro_app/vistausuario2/admin/theme.dart';
 import 'package:astro_app/vistausuario2/ajustesbPage.dart';
 import 'package:astro_app/vistausuario2/changepassword.dart';
@@ -43,6 +42,7 @@ class _PerfilbPageState extends State<PerfilbPage> {
   File? _image;
   String? _correo;
   String? _username;
+  String? _photoURL;
 
   @override
   void initState() {
@@ -58,7 +58,7 @@ class _PerfilbPageState extends State<PerfilbPage> {
         _correo = user.email;
       });
 
-      // Consulta Firestore para obtener el nombre de usuario
+      // Consulta Firestore para obtener el nombre de usuario y la URL de la foto
       DocumentSnapshot userDoc = await FirebaseFirestore.instance
           .collection('usuarios')
           .doc(user.uid)
@@ -66,18 +66,9 @@ class _PerfilbPageState extends State<PerfilbPage> {
       if (userDoc.exists) {
         setState(() {
           _username = userDoc['username'];
+          _photoURL = userDoc['photoURL'];
         });
       }
-    }
-  }
-
-  Future<void> _pickImage() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _image = File(pickedFile.path);
-      });
     }
   }
 
@@ -103,32 +94,15 @@ class _PerfilbPageState extends State<PerfilbPage> {
             child: Column(
               children: [
                 Center(
-                  child: Stack(
-                    children: [
-                      CircleAvatar(
-                        radius: 80,
-                        backgroundImage: _image != null
-                            ? FileImage(_image!)
+                  child: CircleAvatar(
+                    radius: 80,
+                    backgroundImage: _image != null
+                        ? FileImage(_image!)
+                        : (_photoURL != null && _photoURL!.isNotEmpty
+                            ? NetworkImage(_photoURL!)
                             : NetworkImage(
                                 'https://upload.wikimedia.org/wikipedia/en/thumb/a/a3/Starbucks_Corporation_Logo_2011.svg/1200px-Starbucks_Corporation_Logo_2011.svg.png',
-                              ) as ImageProvider,
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: InkWell(
-                          onTap: _pickImage,
-                          child: CircleAvatar(
-                            radius: 15,
-                            backgroundColor: Colors.orange,
-                            child: Icon(
-                              Icons.add,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                              )) as ImageProvider,
                   ),
                 ),
                 SizedBox(height: 16),

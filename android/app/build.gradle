@@ -52,6 +52,10 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        manifestPlaceholders = [
+            applicationName      : "io.flutter.app.FlutterApplication",
+            appAuthRedirectScheme: "com.example.astroapp"]
+    
     }
 
     buildTypes {

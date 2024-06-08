@@ -1,14 +1,16 @@
+import 'package:astro_app/Login/user_3eros.dart';
 import 'package:astro_app/common/common.dart';
 import 'package:astro_app/router/router.dart';
 import 'package:astro_app/pagina/fade_animationtest.dart';
+import 'package:astro_app/vistausuario2/homeb.dart';
 import 'package:astro_app/widgets/custom_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:icons_plus/icons_plus.dart'; // Importa url_launcher
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -96,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                         delay: 2.2,
                         child: TextFormField(
                           controller: passwordController,
-                          obscureText: flag ? true : false,
+                          obscureText: flag,
                           decoration: InputDecoration(
                             contentPadding: const EdgeInsets.all(18),
                             hintText: "Ingresa tu contraseña",
@@ -106,8 +108,14 @@ class _LoginPageState extends State<LoginPage> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             suffixIcon: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(Icons.remove_red_eye_outlined),
+                              onPressed: () {
+                                setState(() {
+                                  flag = !flag;
+                                });
+                              },
+                              icon: Icon(
+                                flag ? Icons.visibility_off : Icons.visibility,
+                              ),
                             ),
                           ),
                           validator: (value) {
@@ -201,30 +209,10 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  _navigateToGoogle();
+                                  _signInWithGoogle();
                                 },
                                 child: Brand(
                                   Brands.google,
-                                  size: 55,
-                                ),
-                              ),
-                              SizedBox(width: iconSpacing), // Espacio ajustable
-                              GestureDetector(
-                                onTap: () {
-                                  _navigateToFacebook();
-                                },
-                                child: Brand(
-                                  Brands.facebook,
-                                  size: 60,
-                                ),
-                              ),
-                              SizedBox(width: iconSpacing), // Espacio ajustable
-                              GestureDetector(
-                                onTap: () {
-                                  _navigateToMicrosoft();
-                                },
-                                child: Brand(
-                                  Brands.microsoft,
                                   size: 55,
                                 ),
                               ),
@@ -268,30 +256,61 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _navigateToGoogle() async {
-    const url = 'https://accounts.google.com/';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'No se pudo abrir $url';
-    }
-  }
+  void _signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser != null) {
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
 
-  void _navigateToFacebook() async {
-    const url = 'https://www.facebook.com/';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'No se pudo abrir $url';
-    }
-  }
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
 
-  void _navigateToMicrosoft() async {
-    const url = 'https://login.microsoftonline.com/';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'No se pudo abrir $url';
+        UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithCredential(credential);
+        User? user = userCredential.user;
+        if (user != null) {
+          final userId = user.uid;
+          final userDoc = await FirebaseFirestore.instance
+              .collection('usuarios')
+              .doc(userId)
+              .get();
+
+          if (!userDoc.exists) {
+            // Crear nuevo documento para el usuario
+            await FirebaseFirestore.instance
+                .collection('usuarios')
+                .doc(userId)
+                .set({
+              'id': userId,
+              'nombre': user.displayName ?? '',
+              'apellido':
+                  '', // O puedes dividir user.displayName para obtener nombre y apellido
+              'username': '',
+              'correo': user.email ?? '',
+              'password':
+                  '', // No es necesario almacenar la contraseña para Google login
+              'permisos': 0,
+              'photoURL': user.photoURL ?? '',
+            });
+          }
+
+          final username = userDoc.data()?['username'] ?? '';
+          if (username.isEmpty) {
+            // Redirigir a la página para que elija un nombre de usuario
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => SetUsernamePage(userId: userId)));
+          } else {
+            // El usuario ya tiene un nombre de usuario asignado, redirigir a la página de inicio
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => HomebPage()));
+          }
+        }
+      }
+    } catch (e) {
+      _showErrorDialog('Error al iniciar sesión con Google: $e');
     }
   }
 

@@ -1,6 +1,4 @@
-import 'dart:developer' as developer;
-
-import 'package:astro_app/LoginGoogle.dart';
+import 'package:astro_app/Login/user_3eros.dart';
 import 'package:astro_app/common/common.dart';
 import 'package:astro_app/pagina/fade_animationtest.dart';
 import 'package:astro_app/vistausuario2/homeb.dart';
@@ -12,7 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bcrypt/bcrypt.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -76,6 +74,66 @@ class _SignupPageState extends State<SignupPage> {
   String hashPassword(String password) {
     final String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
     return hashedPassword;
+  }
+
+  Future<void> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser!.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      User? user = userCredential.user;
+      if (user != null) {
+        final userId = user.uid;
+        final userName = user.displayName ?? '';
+        final userEmail = user.email ?? '';
+        final userPhotoUrl = user.photoURL ?? '';
+
+        final userDoc = await FirebaseFirestore.instance
+            .collection('usuarios')
+            .doc(userId)
+            .get();
+
+        if (!userDoc.exists) {
+          // Crear nuevo documento para el usuario
+          await FirebaseFirestore.instance
+              .collection('usuarios')
+              .doc(userId)
+              .set({
+            'id': userId,
+            'nombre': userName,
+            'apellido':
+                '', // O puedes dividir userName para obtener nombre y apellido
+            'username': '',
+            'correo': userEmail,
+            'password':
+                '', // No es necesario almacenar la contraseña para Google login
+            'permisos': 0,
+            'photoURL': userPhotoUrl,
+          });
+        }
+
+        final username = userDoc.data()?['username'] ?? '';
+        if (username.isEmpty) {
+          // Redirigir a la página para que elija un nombre de usuario
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => SetUsernamePage(userId: userId)));
+        } else {
+          // El usuario ya tiene un nombre de usuario asignado, redirigir a la página de inicio
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => HomebPage()));
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -366,57 +424,11 @@ class _SignupPageState extends State<SignupPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               IconButton(
-                                icon: Brand(
-                                  Brands.google,
-                                  size: 55,
-                                ),
-                                onPressed: () async {
-                                  LoginGoogleUtils()
-                                      .signInWithGoogle()
-                                      .then((user) {
-                                    if (user != null) {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            return HomebPage();
-                                          },
-                                        ),
-                                      );
-                                    } else {
-                                      developer.log(
-                                          "loginScreen-build()ERROR user viene nulo");
-                                    }
-                                  });
-                                },
-                              ),
-                              IconButton(
-                                icon: Brand(
-                                  Brands.facebook,
-                                  size: 55,
-                                ),
-                                onPressed: () async {
-                                  final url = 'https://facebook.com';
-                                  if (await canLaunch(url)) {
-                                    await launch(url);
-                                  } else {
-                                    throw 'Could not launch $url';
-                                  }
-                                },
-                              ),
-                              IconButton(
-                                icon: Brand(
-                                  Brands.microsoft,
-                                  size: 55,
-                                ),
-                                onPressed: () async {
-                                  final url = 'https://microsoft.com';
-                                  if (await canLaunch(url)) {
-                                    await launch(url);
-                                  } else {
-                                    throw 'Could not launch $url';
-                                  }
-                                },
-                              ),
+                                  icon: Brand(
+                                    Brands.google,
+                                    size: 55,
+                                  ),
+                                  onPressed: signInWithGoogle),
                             ],
                           ),
                         ),
