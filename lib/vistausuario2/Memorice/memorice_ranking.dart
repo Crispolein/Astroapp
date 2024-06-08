@@ -28,7 +28,6 @@ class _MemoriceRankingScreenState extends State<MemoriceRankingScreen> {
     super.initState();
     _currentUser = FirebaseAuth.instance.currentUser;
     if (_currentUser == null) {
-      // Manejar el caso donde el usuario no está autenticado
       print('Usuario no autenticado');
     } else {
       print('Usuario autenticado: ${_currentUser?.uid}');
@@ -87,8 +86,6 @@ class _MemoriceRankingScreenState extends State<MemoriceRankingScreen> {
 
         setState(() {
           _rankings[level] = rankings;
-
-          // Encontrar la posición del usuario actual en el ranking
           _userPositions[level] = rankings.indexWhere(
                   (ranking) => ranking.username == _currentUsername) +
               1;
@@ -120,6 +117,8 @@ class _MemoriceRankingScreenState extends State<MemoriceRankingScreen> {
               Tab(text: 'Medio'),
               Tab(text: 'Difícil'),
             ],
+            indicatorColor: Colors.white,
+            labelStyle: TextStyle(fontSize: 18),
           ),
         ),
         body: _isLoading
@@ -150,7 +149,11 @@ class _MemoriceRankingScreenState extends State<MemoriceRankingScreen> {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             userPositionText,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.teal,
+            ),
           ),
         ),
         Expanded(
@@ -158,16 +161,45 @@ class _MemoriceRankingScreenState extends State<MemoriceRankingScreen> {
             itemCount: rankings.length,
             itemBuilder: (context, index) {
               Ranking ranking = rankings[index];
-              String userName = ranking.username ??
-                  'Desconocido'; // Usar directamente el username del ranking
+              String userName = ranking.username ?? 'Desconocido';
 
-              return ListTile(
-                title: Text(userName),
-                subtitle: Text('Puntuación: ${ranking.score}'),
-                trailing: Text('#${index + 1}'),
-                tileColor: ranking.username == _currentUsername
-                    ? Colors.yellowAccent
-                    : null,
+              return Card(
+                margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                elevation: 4.0,
+                child: ListTile(
+                  title: Text(
+                    userName,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+                  ),
+                  subtitle: Text(
+                    'Puntuación: ${ranking.score}',
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 16,
+                    ),
+                  ),
+                  trailing: Text(
+                    '#${index + 1}',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  tileColor: ranking.username == _currentUsername
+                      ? Colors.yellowAccent.withOpacity(0.5)
+                      : Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                ),
               );
             },
           ),
@@ -187,8 +219,7 @@ class Ranking {
   factory Ranking.fromMap(Map<String, dynamic> data) {
     return Ranking(
       userId: data['userId'] ?? '',
-      username: data['username'] ??
-          'Desconocido', // Asegurar que el username no sea null
+      username: data['username'] ?? 'Desconocido',
       score: data['score'] ?? 0,
     );
   }

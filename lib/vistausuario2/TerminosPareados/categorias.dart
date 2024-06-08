@@ -37,32 +37,53 @@ class _CategoriaSeleccionScreenState extends State<CategoriaSeleccionScreen> {
     );
   }
 
-  @override
+ @override
   Widget build(BuildContext context) {
-    if (_categorias.isEmpty) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text('Seleccionar Categoría'),
-        ),
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Seleccionar Categoría'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('Seleccionar Categoría',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            Icon(Icons.category, size: 28),
+          ],
+        ),
+        backgroundColor: Colors.teal,
       ),
-      body: ListView.builder(
-        itemCount: _categorias.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(_categorias[index]),
-            onTap: () => _seleccionarCategoria(_categorias[index]),
-          );
-        },
-      ),
+      body: _categorias.isEmpty
+          ? Center(child: CircularProgressIndicator())
+          : Padding(
+              padding: const EdgeInsets.only(
+                  top: 20.0), // Añadir espacio debajo del AppBar
+              child: ListView.builder(
+                itemCount: _categorias.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    margin: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+                    elevation: 3,
+                    child: ListTile(
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      title: Text(
+                        _categorias[index],
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.teal,
+                        ),
+                      ),
+                      trailing:
+                          Icon(Icons.arrow_forward_ios, color: Colors.teal),
+                      onTap: () => _seleccionarCategoria(_categorias[index]),
+                    ),
+                  );
+                },
+              ),
+            ),
     );
   }
 }

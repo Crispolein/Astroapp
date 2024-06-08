@@ -102,17 +102,39 @@ class _TerminosPareadosJuegoScreenState
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('¡Juego Terminado!'),
-        content: Text('Tu puntaje final es $_score puntos.'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pop(); // Volver a la pantalla anterior
-            },
-            child: Text('Aceptar'),
-          ),
-        ],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        title: Row(
+          children: [
+            Icon(Icons.celebration, color: Colors.teal),
+            SizedBox(width: 10),
+            Text('¡Juego Terminado!'),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Tu puntaje final es $_score puntos.',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop(); // Volver a la pantalla anterior
+              },
+              child: Text('Aceptar'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.teal,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -120,8 +142,20 @@ class _TerminosPareadosJuegoScreenState
   void _mostrarAlertaError() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Respuesta incorrecta, se descontaron puntos.'),
+        content: Row(
+          children: [
+            Icon(Icons.error, color: Colors.white),
+            SizedBox(width: 10),
+            Expanded(
+                child: Text('Respuesta incorrecta, se descontaron puntos.')),
+          ],
+        ),
         backgroundColor: Colors.red,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        margin: EdgeInsets.all(10),
       ),
     );
   }
@@ -131,9 +165,10 @@ class _TerminosPareadosJuegoScreenState
     if (_terminos.isEmpty || _definitions.isEmpty) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Términos Pareados'),
+          title: const Text('Términos Pareados'),
+          backgroundColor: Colors.teal,
         ),
-        body: Center(
+        body: const Center(
           child: CircularProgressIndicator(),
         ),
       );
@@ -141,58 +176,77 @@ class _TerminosPareadosJuegoScreenState
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Términos Pareados'),
+        title: const Text('Términos Pareados'),
+        backgroundColor: Colors.teal,
       ),
       body: Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
             Text('Puntaje: $_score', style: TextStyle(fontSize: 24.0)),
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: _terminos.map((termino) {
-                      return Draggable<Term>(
-                        data: termino,
-                        child: _buildCard(termino.term),
-                        feedback: Material(
-                          child: _buildCard(termino.term),
-                          elevation: 4.0,
-                        ),
-                        childWhenDragging:
-                            _buildCard(termino.term, Colors.grey.shade200),
-                        onDragEnd: (details) {
-                          if (!details.wasAccepted) {
-                            _descontarPuntajePorError(); // Descontar puntaje si no fue aceptado
-                          }
-                        },
-                      );
-                    }).toList(),
+            SizedBox(height: 20.0),
+            Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: _terminos.map((termino) {
+                        return Column(
+                          children: [
+                            Draggable<Term>(
+                              data: termino,
+                              child: _buildLeftCard(termino.term),
+                              feedback: Material(
+                                child: _buildLeftCard(
+                                    termino.term, Colors.teal.shade100),
+                                elevation: 4.0,
+                              ),
+                              childWhenDragging: _buildLeftCard(
+                                  termino.term, Colors.grey.shade200),
+                              onDragEnd: (details) {
+                                if (!details.wasAccepted) {
+                                  _descontarPuntajePorError(); // Descontar puntaje si no fue aceptado
+                                }
+                              },
+                            ),
+                            const SizedBox(
+                                height: 16.0), // Espacio entre botones
+                          ],
+                        );
+                      }).toList(),
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: _definitions.map((definition) {
-                      return DragTarget<Term>(
-                        onAccept: (receivedTerm) {
-                          if (receivedTerm.definition ==
-                              definition.definition) {
-                            _eliminarTerminosPareados(receivedTerm, definition);
-                          } else {
-                            _descontarPuntajePorError(); // Descontar puntaje por error
-                          }
-                        },
-                        builder: (context, candidateData, rejectedData) {
-                          return _buildCard(definition.definition);
-                        },
-                      );
-                    }).toList(),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: _definitions.map((definition) {
+                        return Column(
+                          children: [
+                            DragTarget<Term>(
+                              onAccept: (receivedTerm) {
+                                if (receivedTerm.definition ==
+                                    definition.definition) {
+                                  _eliminarTerminosPareados(
+                                      receivedTerm, definition);
+                                } else {
+                                  _descontarPuntajePorError(); // Descontar puntaje por error
+                                }
+                              },
+                              builder: (context, candidateData, rejectedData) {
+                                return _buildRightCard(
+                                    definition.definition, Colors.teal.shade50);
+                              },
+                            ),
+                            const SizedBox(
+                                height: 16.0), // Espacio entre botones
+                          ],
+                        );
+                      }).toList(),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
@@ -200,27 +254,44 @@ class _TerminosPareadosJuegoScreenState
     );
   }
 
-  Widget _buildCard(String text, [Color color = Colors.white]) {
-    return Container(
-      width: double.infinity,
-      height: 100, // Altura fija para todas las tarjetas
-      constraints:
-          BoxConstraints(maxWidth: 200), // Ancho fijo para todas las tarjetas
-      child: Card(
-        elevation: 4.0,
-        margin: EdgeInsets.symmetric(vertical: 8.0),
-        color: color,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
+  Widget _buildLeftCard(String text, [Color color = Colors.teal]) {
+    return Card(
+      elevation: 4.0,
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      color: color,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Container(
+        width: 135, // Ajusta el ancho
+        height: 120, // Ajusta el alto
+        child: Center(
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 18.0, color: Colors.white),
+          ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Center(
-            child: Text(
-              text,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18.0),
-            ),
+      ),
+    );
+  }
+
+  Widget _buildRightCard(String text, [Color color = Colors.white]) {
+    return Card(
+      elevation: 4.0,
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      color: color,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Container(
+        width: 135, // Ajusta el ancho
+        height: 120, // Ajusta el alto
+        child: Center(
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 18.0, color: Colors.teal),
           ),
         ),
       ),

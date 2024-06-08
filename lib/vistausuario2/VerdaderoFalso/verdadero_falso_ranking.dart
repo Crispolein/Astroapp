@@ -29,19 +29,12 @@ class _VerdaderoFalsoRankingScreenState
   void initState() {
     super.initState();
     _currentUser = FirebaseAuth.instance.currentUser;
-    if (_currentUser == null) {
-      // Manejar el caso donde el usuario no está autenticado
-      print('Usuario no autenticado');
-    } else {
-      print('Usuario autenticado: ${_currentUser?.uid}');
-    }
     _fetchRankings();
   }
 
   Future<void> _fetchRankings() async {
     try {
       for (String level in ['Facil', 'Medio', 'Difícil']) {
-        print('Fetching rankings for level: $level');
         QuerySnapshot querySnapshot = await FirebaseFirestore.instance
             .collection('rankings')
             .where('game', isEqualTo: 'TrueFalse')
@@ -49,15 +42,9 @@ class _VerdaderoFalsoRankingScreenState
             .orderBy('score', descending: true)
             .get();
 
-        if (querySnapshot.docs.isEmpty) {
-          print('No se encontraron rankings para el nivel $level');
-          continue;
-        }
-
         Map<String, Ranking> uniqueRankings = {};
         for (var doc in querySnapshot.docs) {
           Ranking ranking = Ranking.fromMap(doc.data() as Map<String, dynamic>);
-          // Solo conservar el puntaje más alto de cada usuario
           if (!uniqueRankings.containsKey(ranking.userId) ||
               uniqueRankings[ranking.userId]!.score < ranking.score) {
             uniqueRankings[ranking.userId] = ranking;
@@ -65,10 +52,8 @@ class _VerdaderoFalsoRankingScreenState
         }
 
         List<Ranking> rankings = uniqueRankings.values.toList();
-        rankings.sort((a, b) => b.score
-            .compareTo(a.score)); // Ordenar nuevamente después de filtrar
+        rankings.sort((a, b) => b.score.compareTo(a.score));
 
-        // Obtener nombres de usuario
         for (Ranking ranking in rankings) {
           DocumentSnapshot userDoc = await FirebaseFirestore.instance
               .collection('usuarios')
@@ -77,25 +62,19 @@ class _VerdaderoFalsoRankingScreenState
 
           if (userDoc.exists) {
             _userNames[ranking.userId] = userDoc['username'];
-            print('Usuario obtenido: ${userDoc.id} - ${userDoc['username']}');
           } else {
             _userNames[ranking.userId] = 'Desconocido';
-            print('Usuario no encontrado: ${ranking.userId}');
           }
         }
 
         setState(() {
           _rankings[level] = rankings;
-
-          // Encontrar la posición del usuario actual en el ranking
           _userPositions[level] = rankings.indexWhere(
                   (ranking) => ranking.userId == _currentUser?.uid) +
               1;
-          print('Posición del usuario en $level: ${_userPositions[level]}');
         });
       }
     } catch (e) {
-      print('Error al obtener los rankings: $e');
       setState(() {
         _errorMessage = 'Error al obtener los rankings: $e';
       });
@@ -113,11 +92,13 @@ class _VerdaderoFalsoRankingScreenState
       child: Scaffold(
         appBar: AppBar(
           title: Text('Rankings de Verdadero o Falso'),
+          centerTitle: true,
           bottom: TabBar(
+            indicatorColor: Colors.white,
             tabs: [
-              Tab(text: 'Facil'),
-              Tab(text: 'Medio'),
-              Tab(text: 'Difícil'),
+              Tab(child: Text('Facil', style: TextStyle(fontSize: 18))),
+              Tab(child: Text('Medio', style: TextStyle(fontSize: 18))),
+              Tab(child: Text('Difícil', style: TextStyle(fontSize: 18))),
             ],
           ),
         ),
@@ -149,7 +130,11 @@ class _VerdaderoFalsoRankingScreenState
           padding: const EdgeInsets.all(8.0),
           child: Text(
             userPositionText,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.teal,
+            ),
           ),
         ),
         Expanded(
@@ -159,13 +144,43 @@ class _VerdaderoFalsoRankingScreenState
               Ranking ranking = rankings[index];
               String userName = _userNames[ranking.userId] ?? 'Desconocido';
 
-              return ListTile(
-                title: Text(userName),
-                subtitle: Text('Puntuación: ${ranking.score}'),
-                trailing: Text('#${index + 1}'),
-                tileColor: ranking.userId == _currentUser?.uid
-                    ? Colors.yellowAccent
-                    : null,
+              return Card(
+                margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                elevation: 4.0,
+                child: ListTile(
+                  title: Text(
+                    userName,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+                  ),
+                  subtitle: Text(
+                    'Puntuación: ${ranking.score}',
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 16,
+                    ),
+                  ),
+                  trailing: Text(
+                    '#${index + 1}',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  tileColor: ranking.userId == _currentUser?.uid
+                      ? Colors.yellowAccent.withOpacity(0.5)
+                      : Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                ),
               );
             },
           ),
@@ -185,8 +200,7 @@ class Ranking {
   factory Ranking.fromMap(Map<String, dynamic> data) {
     return Ranking(
       userId: data['userId'] ?? '',
-      username: data['username'] ??
-          'Desconocido', // Asegurar que el username no sea null
+      username: data['username'] ?? 'Desconocido',
       score: data['score'] ?? 0,
     );
   }

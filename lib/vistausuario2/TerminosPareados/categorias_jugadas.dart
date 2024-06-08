@@ -60,26 +60,69 @@ class _CategoriasJugadasScreenState extends State<CategoriasJugadasScreen> {
     );
   }
 
-  @override
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Categorías Jugadas'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('Categorías Jugadas',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            Icon(Icons.category, size: 28),
+          ],
+        ),
+        backgroundColor: Colors.teal,
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : _errorMessage.isNotEmpty
-              ? Center(child: Text(_errorMessage))
+              ? Center(
+                  child: Text(
+                    _errorMessage,
+                    style: TextStyle(fontSize: 18, color: Colors.red),
+                    textAlign: TextAlign.center,
+                  ),
+                )
               : _categoriasJugadas.isEmpty
-                  ? Center(child: Text('No se encontraron categorías jugadas'))
-                  : ListView.builder(
-                      itemCount: _categoriasJugadas.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(_categoriasJugadas[index]),
-                          onTap: () => _verRanking(_categoriasJugadas[index]),
-                        );
-                      },
+                  ? Center(
+                      child: Text(
+                        'No se encontraron categorías jugadas',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(
+                          top: 20.0), // Añadir espacio debajo del AppBar
+                      child: ListView.builder(
+                        itemCount: _categoriasJugadas.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            margin: EdgeInsets.symmetric(
+                                vertical: 6, horizontal: 12),
+                            elevation: 3,
+                            child: ListTile(
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 20),
+                              title: Text(
+                                _categoriasJugadas[index],
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: Colors.teal,
+                                ),
+                              ),
+                              trailing: Icon(Icons.arrow_forward_ios,
+                                  color: Colors.teal),
+                              onTap: () =>
+                                  _verRanking(_categoriasJugadas[index]),
+                            ),
+                          );
+                        },
+                      ),
                     ),
     );
   }

@@ -194,27 +194,55 @@ class _QuizFacilScreenState extends State<QuizFacilScreen> {
     );
   }
 
-  void _showGameOverDialog() {
+void _showGameOverDialog() {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Fin del juego'),
-        content: Text(
-            'Has respondido todas las preguntas. Puntuación final: $_score'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context); // Regresar a la pantalla anterior
-            },
-            child: Text('OK'),
-          ),
-        ],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        title: Row(
+          children: [
+            Icon(Icons.celebration, color: Colors.teal),
+            SizedBox(width: 10),
+            Text('¡Juego Terminado!'),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Has respondido todas las preguntas.',
+              style: TextStyle(fontSize: 18),
+            ),
+            Text(
+              'Puntuación final: $_score puntos.',
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.teal),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop(); // Volver a la pantalla anterior
+              },
+              child: Text('Aceptar'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.teal,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  @override
+@override
   Widget build(BuildContext context) {
     if (_quizzes.isEmpty) {
       return Scaffold(
@@ -229,19 +257,56 @@ class _QuizFacilScreenState extends State<QuizFacilScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Quiz Fácil'),
+        title:
+            Text('               Racha: $_streak', textAlign: TextAlign.center),
+        backgroundColor: Colors.teal,
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
+            crossAxisAlignment:
+                CrossAxisAlignment.center, // Centrar contenido horizontalmente
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Tiempo restante: $_timeLeft',
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                  Text(
+                    'Puntuación: $_score',
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                ],
+              ),
               if (currentQuiz.imagenURL != null)
-                Image.network(currentQuiz.imagenURL!),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.network(currentQuiz.imagenURL!),
+                    ),
+                  ),
+                ),
               SizedBox(height: 20),
               Text(
                 currentQuiz.pregunta,
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
               ),
               SizedBox(height: 20.0),
               GridView.count(
@@ -249,41 +314,44 @@ class _QuizFacilScreenState extends State<QuizFacilScreen> {
                 shrinkWrap: true,
                 crossAxisSpacing: 10.0,
                 mainAxisSpacing: 10.0,
+                childAspectRatio: 1.7, // Ajuste de aspecto para encoger botones
                 children: answers.map((answer) {
                   return ElevatedButton(
                     onPressed: _isAnswered ? null : () => _checkAnswer(answer),
-                    child: Text(answer),
+                    child: Text(
+                      answer,
+                      style: TextStyle(
+                          fontSize: 24.0,
+                          color: Colors.white), // Tamaño de texto reducido
+                      textAlign: TextAlign.center,
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: _isAnswered
                           ? answer == currentQuiz.respuestaCorrecta
                               ? Colors.green
                               : Colors.red
-                          : null,
+                          : Colors.teal,
+                      padding: EdgeInsets.symmetric(
+                          vertical: 8.0), // Padding reducido
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
                     ),
                   );
                 }).toList(),
               ),
               if (_isAnswered)
-                Text(
-                  _isCorrect ? '¡Correcto!' : 'Incorrecto',
-                  style: TextStyle(
-                    color: _isCorrect ? Colors.green : Colors.red,
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: Text(
+                    _isCorrect ? '¡Correcto!' : 'Incorrecto',
+                    style: TextStyle(
+                      color: _isCorrect ? Colors.green : Colors.red,
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              Text(
-                'Tiempo restante: $_timeLeft',
-                style: TextStyle(fontSize: 20.0),
-              ),
-              Text(
-                'Puntuación: $_score',
-                style: TextStyle(fontSize: 20.0),
-              ),
-              Text(
-                'Racha: $_streak',
-                style: TextStyle(fontSize: 20.0),
-              ),
             ],
           ),
         ),

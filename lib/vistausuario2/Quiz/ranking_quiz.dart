@@ -157,13 +157,46 @@ class _RankingScreenState extends State<RankingScreen> {
               Ranking ranking = rankings[index];
               String userName = _userNames[ranking.userId] ?? 'Desconocido';
 
-              return ListTile(
-                title: Text(userName),
-                subtitle: Text('Puntuación: ${ranking.score}'),
-                trailing: Text('#${index + 1}'),
-                tileColor: ranking.userId == _currentUser?.uid
-                    ? Colors.yellowAccent
-                    : null,
+              return Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                margin: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+                elevation: 3,
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.teal,
+                    child: Text(
+                      '#${index + 1}',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  title: Text(
+                    userName,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors
+                            .black), // Color negro para el nombre de usuario
+                  ),
+                  subtitle: Text(
+                    'Puntuación: ${ranking.score}',
+                    style: TextStyle(
+                        color: Colors
+                            .black), // Color negro para el texto de la puntuación
+                  ),
+                  trailing: Icon(
+                    ranking.userId == _currentUser?.uid
+                        ? Icons.star
+                        : Icons.person,
+                    color: ranking.userId == _currentUser?.uid
+                        ? Colors.amber
+                        : Colors.grey,
+                  ),
+                  tileColor: ranking.userId == _currentUser?.uid
+                      ? Colors.yellowAccent.withOpacity(0.3)
+                      : Colors.white,
+                ),
               );
             },
           ),
