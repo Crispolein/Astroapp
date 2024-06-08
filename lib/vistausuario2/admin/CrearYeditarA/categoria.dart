@@ -1,5 +1,4 @@
 import 'package:astro_app/vistausuario2/admin/CrearYeditarA/crearquiz.dart';
-import 'package:astro_app/vistausuario2/admin/CrearYeditarA/EditarQuiz.dart';
 import 'package:astro_app/vistausuario2/admin/CrearYeditarA/listarquiz.dart';
 import 'package:astro_app/vistausuario2/admin/CrearYeditarB/categoriaitem.dart';
 import 'package:astro_app/vistausuario2/admin/CrearYeditarC/categoriaitem.dart';

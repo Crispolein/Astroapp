@@ -1,5 +1,4 @@
 import 'package:astro_app/vistausuario2/admin/Noticia/agregarnoticia.dart';
-import 'package:astro_app/vistausuario2/admin/Noticia/editarnoticia.dart';
 import 'package:astro_app/vistausuario2/admin/Noticia/listarnoticia.dart';
 import 'package:flutter/material.dart';
 

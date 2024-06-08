@@ -6,7 +6,6 @@ import 'package:astro_app/vistausuario2/changepassword.dart';
 import 'package:astro_app/vistausuario2/idioma.dart';
 import 'package:astro_app/vistausuario2/privacidad.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -64,9 +63,13 @@ class _PerfilbPageState extends State<PerfilbPage> {
           .doc(user.uid)
           .get();
       if (userDoc.exists) {
+        final userData = userDoc.data()
+            as Map<String, dynamic>?; // Convertir el documento a un mapa
         setState(() {
-          _username = userDoc['username'];
-          _photoURL = userDoc['photoURL'];
+          _username = userData?['username'] ?? '';
+          _photoURL = userData?.containsKey('photoURL') == true
+              ? userData!['photoURL']
+              : null;
         });
       }
     }
@@ -122,12 +125,18 @@ class _PerfilbPageState extends State<PerfilbPage> {
                       icon: Icons.person,
                       iconColor: iconColor,
                       text: 'Datos Personales',
-                      onTap: () {
-                        Navigator.push(
+                      onTap: () async {
+                        final result = await Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => EditarPerfil()),
                         );
+                        if (result != null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(result)),
+                          );
+                          _loadUserData(); // Refresca los datos después de editar el perfil
+                        }
                       },
                     ),
                     ProfileItem(

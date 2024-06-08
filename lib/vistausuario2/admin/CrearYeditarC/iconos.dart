@@ -1,6 +1,5 @@
 import 'package:astro_app/vistausuario2/admin/CrearYeditarC/EditarQuiz.dart';
 import 'package:astro_app/vistausuario2/admin/CrearYeditarC/crearquiz.dart';
-import 'package:astro_app/vistausuario2/admin/CrearYeditarC/personalizarquiz.dart';
 import 'package:flutter/material.dart';
 
 class CategorycIcon extends StatelessWidget {

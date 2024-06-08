@@ -2,7 +2,6 @@ import 'package:astro_app/common/common.dart';
 import 'package:astro_app/router/router.dart';
 import 'package:astro_app/pagina/fade_animationtest.dart';
 import 'package:astro_app/widgets/custom_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
