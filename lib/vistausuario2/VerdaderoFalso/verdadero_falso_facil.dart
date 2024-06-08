@@ -35,7 +35,7 @@ class _VerdaderoFalsoFacilScreenState extends State<VerdaderoFalsoFacilScreen> {
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('truefalse')
-          .where('dificultad', isEqualTo: 'Fácil')
+          .where('dificultad', isEqualTo: 'Facil')
           .get();
 
       List<TrueFalseQuestion> questions = querySnapshot.docs
@@ -123,7 +123,7 @@ class _VerdaderoFalsoFacilScreenState extends State<VerdaderoFalsoFacilScreen> {
         userId: _currentUser!.uid,
         score: _score,
         game: 'TrueFalse', // Puedes cambiarlo según el tipo de juego
-        level: 'Fácil', // Cambiar según el nivel de dificultad actual
+        level: 'Facil', // Cambiar según el nivel de dificultad actual
       );
 
       await FirebaseFirestore.instance

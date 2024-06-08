@@ -44,12 +44,25 @@ class _RankingCategoriaScreenState extends State<RankingCategoriaScreen> {
         return;
       }
 
-      List<Map<String, dynamic>> rankings = [];
+      Map<String, Map<String, dynamic>> userHighScores = {};
+
       for (var doc in querySnapshot.docs) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
         String userId = data['userId'];
+        int score = data['score'];
 
-        // Obtener el username correspondiente al userId
+        if (!userHighScores.containsKey(userId) ||
+            userHighScores[userId]!['score'] < score) {
+          userHighScores[userId] = {
+            'score': score,
+            'userId': userId,
+          };
+        }
+      }
+
+      List<Map<String, dynamic>> rankings = [];
+
+      for (var userId in userHighScores.keys) {
         DocumentSnapshot userDoc = await FirebaseFirestore.instance
             .collection('usuarios')
             .doc(userId)
@@ -61,11 +74,13 @@ class _RankingCategoriaScreenState extends State<RankingCategoriaScreen> {
           String username = userData['username'];
           rankings.add({
             'username': username,
-            'score': data['score'],
+            'score': userHighScores[userId]!['score'],
             'userId': userId,
           });
         }
       }
+
+      rankings.sort((a, b) => b['score'].compareTo(a['score']));
 
       setState(() {
         _rankings = rankings;

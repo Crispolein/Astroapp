@@ -10,7 +10,6 @@ class CategoriasJugadasScreen extends StatefulWidget {
 }
 
 class _CategoriasJugadasScreenState extends State<CategoriasJugadasScreen> {
-  User? _currentUser;
   List<String> _categoriasJugadas = [];
   bool _isLoading = true;
   String _errorMessage = '';
@@ -18,20 +17,14 @@ class _CategoriasJugadasScreenState extends State<CategoriasJugadasScreen> {
   @override
   void initState() {
     super.initState();
-    _currentUser = FirebaseAuth.instance.currentUser;
-    if (_currentUser == null) {
-      print('Usuario no autenticado');
-    } else {
-      _fetchCategoriasJugadas();
-    }
+    _fetchCategoriasJugadas();
   }
 
   Future<void> _fetchCategoriasJugadas() async {
     try {
-      // Obtener todas las categorías (niveles) que tienen ranking para el juego 'Term'
+      // Obtener todas las categorías (niveles) que tienen ranking para el juego 'Terms'
       final snapshot = await FirebaseFirestore.instance
           .collection('rankings')
-          .where('userId', isEqualTo: _currentUser!.uid)
           .where('game', isEqualTo: 'Terms')
           .get();
 
@@ -41,7 +34,7 @@ class _CategoriasJugadasScreenState extends State<CategoriasJugadasScreen> {
               .where((doc) => doc.data().containsKey('level'))
               .map((doc) => doc['level'] as String)
               .toSet()
-              .toList(); // Convertir a Set para eliminar duplicados y luego a List
+              .toList();
         });
       } else {
         print('No se encontraron categorías jugadas');
