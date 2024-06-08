@@ -1,4 +1,3 @@
-import 'package:astro_app/models/proyecto_model.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:astro_app/vistausuario2/homeb.dart';
