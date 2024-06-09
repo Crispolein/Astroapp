@@ -83,28 +83,38 @@ class _ListarNoticiaState extends State<ListarNoticia> {
       appBar: AppBar(
         title: const Text('Noticias'),
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(40.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Filtrar por título o categoría',
-                      prefixIcon: const Icon(Icons.search),
-                      fillColor: Colors.white,
-                      filled: true,
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        _filtroTexto = value;
-                      });
-                    },
+          preferredSize: const Size.fromHeight(80.0),
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+            child: Material(
+              elevation: 5.0,
+              borderRadius: BorderRadius.circular(30.0),
+              child: TextField(
+                style: TextStyle(
+                    color: Colors.black), // Color del texto al escribir
+                decoration: InputDecoration(
+                  hintText: 'Filtrar por título o categoría',
+                  hintStyle: TextStyle(
+                      color: Colors
+                          .grey), // Color del texto cuando no se ha escrito nada
+                  prefixIcon: const Icon(Icons.search, color: Colors.black),
+                  fillColor: Colors.white,
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    borderSide: BorderSide.none,
                   ),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
                 ),
+                onChanged: (value) {
+                  setState(() {
+                    _filtroTexto = value;
+                  });
+                },
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -146,6 +156,12 @@ class _ListarNoticiaState extends State<ListarNoticia> {
                     timestamp: noticiaData['timestamp'] ?? Timestamp.now(),
                   );
                   return Card(
+                    elevation: 5,
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
                     child: ListTile(
                       title: Text(
                         noticia.titulo,
@@ -186,13 +202,13 @@ class _ListarNoticiaState extends State<ListarNoticia> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(
-                            icon: Icon(Icons.edit),
+                            icon: Icon(Icons.edit, color: Colors.blue),
                             onPressed: () {
                               _editarNoticia(noticia);
                             },
                           ),
                           IconButton(
-                            icon: Icon(Icons.delete),
+                            icon: Icon(Icons.delete, color: Colors.red),
                             onPressed: () {
                               _confirmarEliminacion(noticia.id);
                             },

@@ -18,8 +18,7 @@ class _ListarNoticiaLecturaState extends State<ListarNoticiaLectura> {
 
   void _vibrate() {
     if (Vibration.hasVibrator() != null) {
-      Vibration.vibrate(
-          duration: 50); // Duración de la vibración en milisegundos
+      Vibration.vibrate(duration: 50); // Duración de la vibración en milisegundos
     }
   }
 
@@ -35,7 +34,7 @@ class _ListarNoticiaLecturaState extends State<ListarNoticiaLectura> {
             child: Container(
               width: MediaQuery.of(context).size.width * 0.8,
               height: MediaQuery.of(context).size.height * 0.6,
-              child: Image.network(imagenURL),
+              child: Image.network(imagenURL, fit: BoxFit.cover),
             ),
           ),
         );
@@ -47,30 +46,30 @@ class _ListarNoticiaLecturaState extends State<ListarNoticiaLectura> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Noticias'),
+        title: const Text('Noticias', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.teal,
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(40.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Filtrar por título o categoría',
-                      prefixIcon: const Icon(Icons.search),
-                      fillColor: Colors.white,
-                      filled: true,
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        _filtroTexto = value;
-                      });
-                    },
-                  ),
+          preferredSize: const Size.fromHeight(50.0),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Filtrar por título o categoría',
+                prefixIcon: const Icon(Icons.search, color: Colors.teal),
+                fillColor: Colors.white,
+                filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: BorderSide.none,
                 ),
+                contentPadding: EdgeInsets.zero,
               ),
-            ],
+              onChanged: (value) {
+                setState(() {
+                  _filtroTexto = value;
+                });
+              },
+            ),
           ),
         ),
       ),
@@ -96,10 +95,8 @@ class _ListarNoticiaLecturaState extends State<ListarNoticiaLectura> {
                   categoria.toLowerCase().contains(_filtroTexto.toLowerCase());
             }).toList();
 
-            return ListView.separated(
+            return ListView.builder(
                 itemCount: noticiaDocs.length,
-                separatorBuilder: (BuildContext context, int index) =>
-                    const Divider(),
                 itemBuilder: (context, index) {
                   final noticiaDoc = noticiaDocs[index];
                   final noticiaData = noticiaDoc.data() as Map<String, dynamic>;
@@ -121,48 +118,70 @@ class _ListarNoticiaLecturaState extends State<ListarNoticiaLectura> {
                       );
                     },
                     child: Card(
-                      child: ListTile(
-                        title: Text(
-                          noticia.titulo,
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        subtitle: Column(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                      elevation: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Categoría: ${noticia.categoria}',
-                              style: const TextStyle(fontSize: 16),
+                            GestureDetector(
+                              onTap: () {
+                                _vibrate(); // Activar vibración al tocar la imagen
+                                if (noticia.imagenURL.isNotEmpty) {
+                                  _mostrarImagenAgrandada(noticia.imagenURL);
+                                }
+                              },
+                              child: Container(
+                                width: 80,
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: noticia.imagenURL.isNotEmpty
+                                      ? DecorationImage(
+                                          image: NetworkImage(noticia.imagenURL),
+                                          fit: BoxFit.cover,
+                                        )
+                                      : null,
+                                ),
+                                child: noticia.imagenURL.isEmpty
+                                    ? Icon(
+                                        Icons.image,
+                                        size: 50,
+                                        color: Colors.grey,
+                                      )
+                                    : null,
+                              ),
+                            ),
+                            SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    noticia.titulo,
+                                    style: const TextStyle(
+                                        fontSize: 18, fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Categoría: ${noticia.categoria}',
+                                    style: const TextStyle(fontSize: 16, color: Colors.teal),
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    noticia.descripcion,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(fontSize: 14, color: Colors.grey),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
-                        ),
-                        leading: GestureDetector(
-                          onTap: () {
-                            _vibrate(); // Activar vibración al tocar la imagen
-                            if (noticia.imagenURL.isNotEmpty) {
-                              _mostrarImagenAgrandada(noticia.imagenURL);
-                            }
-                          },
-                          child: Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: noticia.imagenURL.isNotEmpty
-                                  ? DecorationImage(
-                                      image: NetworkImage(noticia.imagenURL),
-                                      fit: BoxFit.cover,
-                                    )
-                                  : null,
-                            ),
-                            child: noticia.imagenURL.isEmpty
-                                ? Icon(
-                                    Icons.image,
-                                    size: 50,
-                                    color: Colors.grey,
-                                  )
-                                : null,
-                          ),
                         ),
                       ),
                     ),

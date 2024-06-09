@@ -175,7 +175,7 @@ class _VerdaderoFalsoRankingScreenState
                     ),
                   ),
                   tileColor: ranking.userId == _currentUser?.uid
-                      ? Colors.yellowAccent.withOpacity(0.5)
+                      ? Colors.yellow
                       : Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),

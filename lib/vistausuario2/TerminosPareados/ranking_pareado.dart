@@ -103,7 +103,7 @@ class _RankingCategoriaScreenState extends State<RankingCategoriaScreen> {
     }
   }
 
- @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -185,7 +185,7 @@ class _RankingCategoriaScreenState extends State<RankingCategoriaScreen> {
                                 ),
                                 tileColor:
                                     ranking['userId'] == _currentUser?.uid
-                                        ? Colors.yellowAccent.withOpacity(0.3)
+                                        ? Colors.yellow
                                         : Colors.white,
                               ),
                             );

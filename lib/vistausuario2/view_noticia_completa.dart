@@ -27,7 +27,7 @@ class NoticiaCompletaPage extends StatelessWidget {
             child: Container(
               width: MediaQuery.of(context).size.width * 0.8,
               height: MediaQuery.of(context).size.height * 0.6,
-              child: Image.network(imagenURL),
+              child: Image.network(imagenURL, fit: BoxFit.cover),
             ),
           ),
         );
@@ -39,52 +39,68 @@ class NoticiaCompletaPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(noticia.titulo),
+        title: Text(noticia.titulo,
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.teal,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            GestureDetector(
-              onTap: () {
-                _vibrate(); // Activar vibración al tocar la imagen
-                if (noticia.imagenURL.isNotEmpty) {
-                  _mostrarImagenAgrandada(context, noticia.imagenURL);
-                }
-              },
-              child: Container(
-                width: double.infinity,
-                height: 200,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  image: noticia.imagenURL.isNotEmpty
-                      ? DecorationImage(
-                          image: NetworkImage(noticia.imagenURL),
-                          fit: BoxFit.cover,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  _vibrate(); // Activar vibración al tocar la imagen
+                  if (noticia.imagenURL.isNotEmpty) {
+                    _mostrarImagenAgrandada(context, noticia.imagenURL);
+                  }
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 250,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 10,
+                        spreadRadius: 5,
+                        offset: Offset(0, 5),
+                      ),
+                    ],
+                    image: noticia.imagenURL.isNotEmpty
+                        ? DecorationImage(
+                            image: NetworkImage(noticia.imagenURL),
+                            fit: BoxFit.cover,
+                          )
+                        : null,
+                  ),
+                  child: noticia.imagenURL.isEmpty
+                      ? Icon(
+                          Icons.image,
+                          size: 100,
+                          color: Colors.grey,
                         )
                       : null,
                 ),
-                child: noticia.imagenURL.isEmpty
-                    ? Icon(
-                        Icons.image,
-                        size: 100,
-                        color: Colors.grey,
-                      )
-                    : null,
               ),
-            ),
-            SizedBox(height: 16),
-            Text(
-              'Categoría: ${noticia.categoria}',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text(
-              noticia.descripcion,
-              style: TextStyle(fontSize: 16),
-            ),
-          ],
+              SizedBox(height: 16),
+              Text(
+                'Categoría: ${noticia.categoria}',
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.teal.shade700),
+              ),
+              SizedBox(height: 8),
+              Divider(color: Colors.teal.shade200),
+              Text(
+                noticia.descripcion,
+                style: TextStyle(fontSize: 16, height: 1.5),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -204,15 +204,34 @@ class _MemoriceGameScreenState extends State<MemoriceGameScreen>
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('¡Juego completado!'),
-        content: Text('Puntuación: $score'),
+        title: Row(
+          children: [
+            Icon(Icons.emoji_events, color: Colors.amber, size: 40),
+            SizedBox(width: 10),
+            Text(
+              '¡Juego completado!',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.teal,
+              ),
+            ),
+          ],
+        ),
+        content: Text(
+          'Puntuación: $score',
+          style: TextStyle(fontSize: 20),
+        ),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
               Navigator.of(context).pop();
             },
-            child: Text('OK'),
+            child: Text(
+              'OK',
+              style: TextStyle(fontSize: 18, color: Colors.teal),
+            ),
           ),
         ],
       ),

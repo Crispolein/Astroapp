@@ -90,7 +90,7 @@ class _PerfiladministradorPageState extends State<PerfiladministradorPage> {
                 : const Color.fromARGB(255, 3, 2, 2);
         final Color iconColor = Theme.of(context).brightness == Brightness.dark
             ? Colors.amber
-            : Colors.black;
+            : Colors.purple;
 
         return Scaffold(
           backgroundColor: themeNotifier.value == ThemeMode.dark
