@@ -160,13 +160,36 @@ class _MemoriceGameScreenState extends State<MemoriceGameScreen>
 
     String username = await _getCurrentUsername();
 
-    await FirebaseFirestore.instance.collection('rankings').add({
-      'username': username,
-      'score': score,
-      'game': 'memorice',
-      'level': widget.difficulty,
-      'timeElapsed': _timeElapsed,
-    });
+    final rankingRef = FirebaseFirestore.instance.collection('rankings');
+    final querySnapshot = await rankingRef
+        .where('username', isEqualTo: username)
+        .where('game', isEqualTo: 'memorice')
+        .where('level', isEqualTo: widget.difficulty)
+        .limit(1)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      // Ya existe un ranking para este usuario y nivel
+      final existingRanking = querySnapshot.docs.first;
+      int existingScore = existingRanking['score'];
+
+      if (score > existingScore) {
+        // Actualizar el puntaje si es mayor
+        await rankingRef.doc(existingRanking.id).update({
+          'score': score,
+          'timeElapsed': _timeElapsed,
+        });
+      }
+    } else {
+      // Crear un nuevo documento de ranking
+      await rankingRef.add({
+        'username': username,
+        'score': score,
+        'game': 'memorice',
+        'level': widget.difficulty,
+        'timeElapsed': _timeElapsed,
+      });
+    }
 
     _showGameCompletedDialog(score);
   }
