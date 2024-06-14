@@ -81,20 +81,39 @@ class _TerminosPareadosJuegoScreenState
     _mostrarAlertaError(); // Mostrar alerta de error
   }
 
-  void _guardarPuntaje() async {
+  Future<void> _guardarPuntaje() async {
     if (_currentUser != null) {
-      final newRanking = Ranking(
-        id: FirebaseFirestore.instance.collection('rankings').doc().id,
-        userId: _currentUser!.uid,
-        score: _score,
-        game: 'Terms',
-        level: widget.categoria,
-      );
+      final rankingRef = FirebaseFirestore.instance.collection('rankings');
+      final querySnapshot = await rankingRef
+          .where('userId', isEqualTo: _currentUser!.uid)
+          .where('game', isEqualTo: 'Terms')
+          .where('level', isEqualTo: widget.categoria)
+          .limit(1)
+          .get();
 
-      await FirebaseFirestore.instance
-          .collection('rankings')
-          .doc(newRanking.id)
-          .set(newRanking.toMap());
+      if (querySnapshot.docs.isNotEmpty) {
+        // Ya existe un ranking para este usuario y nivel
+        final existingRanking = querySnapshot.docs.first;
+        int existingScore = existingRanking['score'];
+
+        if (_score > existingScore) {
+          // Actualizar el puntaje si es mayor
+          await rankingRef.doc(existingRanking.id).update({
+            'score': _score,
+          });
+        }
+      } else {
+        // Crear un nuevo documento de ranking
+        final newRanking = Ranking(
+          id: rankingRef.doc().id,
+          userId: _currentUser!.uid,
+          score: _score,
+          game: 'Terms',
+          level: widget.categoria,
+        );
+
+        await rankingRef.doc(newRanking.id).set(newRanking.toMap());
+      }
     }
   }
 

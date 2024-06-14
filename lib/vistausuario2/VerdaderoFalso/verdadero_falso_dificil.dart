@@ -119,18 +119,37 @@ class _VerdaderoFalsoDificilScreenState
 
   Future<void> _recordScore() async {
     if (_currentUser != null) {
-      final ranking = Ranking(
-        id: FirebaseFirestore.instance.collection('rankings').doc().id,
-        userId: _currentUser!.uid,
-        score: _score,
-        game: 'TrueFalse', // Puedes cambiarlo según el tipo de juego
-        level: 'Dificil', // Cambiar según el nivel de dificultad actual
-      );
+      final rankingRef = FirebaseFirestore.instance.collection('rankings');
+      final querySnapshot = await rankingRef
+          .where('userId', isEqualTo: _currentUser!.uid)
+          .where('game', isEqualTo: 'TrueFalse')
+          .where('level', isEqualTo: 'Dificil')
+          .limit(1)
+          .get();
 
-      await FirebaseFirestore.instance
-          .collection('rankings')
-          .doc(ranking.id)
-          .set(ranking.toMap());
+      if (querySnapshot.docs.isNotEmpty) {
+        // Ya existe un ranking para este usuario y nivel
+        final existingRanking = querySnapshot.docs.first;
+        int existingScore = existingRanking['score'];
+
+        if (_score > existingScore) {
+          // Actualizar el puntaje si es mayor
+          await rankingRef.doc(existingRanking.id).update({
+            'score': _score,
+          });
+        }
+      } else {
+        // Crear un nuevo documento de ranking
+        final ranking = Ranking(
+          id: rankingRef.doc().id,
+          userId: _currentUser!.uid,
+          score: _score,
+          game: 'TrueFalse', // Puedes cambiarlo según el tipo de juego
+          level: 'Dificil', // Cambiar según el nivel de dificultad actual
+        );
+
+        await rankingRef.doc(ranking.id).set(ranking.toMap());
+      }
     }
   }
 
