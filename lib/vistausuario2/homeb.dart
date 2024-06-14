@@ -26,7 +26,7 @@ class _HomebPageState extends State<HomebPage> {
   void _vibrate() {
     if (Vibration.hasVibrator() != null) {
       Vibration.vibrate(
-          duration: 50); // Duración de la vibración en milisegundos
+          duration: 50); 
     }
   }
 
@@ -34,7 +34,7 @@ class _HomebPageState extends State<HomebPage> {
     setState(() {
       _selectedIndex = index;
     });
-    _vibrate(); // Activar vibración al tocar el botón
+    _vibrate(); 
   }
 
   @override

@@ -3,27 +3,6 @@ import 'package:astro_app/vistausuario2/admin/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' as rootBundle;
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: themeNotifier,
-      builder: (context, _) {
-        return MaterialApp(
-          theme: ThemeData.light(),
-          darkTheme: ThemeData.dark(),
-          themeMode: themeNotifier.value,
-          title: 'Fases Lunares',
-          home: FaselunaradminPage(),
-        );
-      },
-    );
-  }
-}
 
 class FaselunaradminPage extends StatefulWidget {
   @override

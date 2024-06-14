@@ -37,8 +37,6 @@ dependencies:
   go_router: ^13.0.1
   flutter_svg: ^2.0.9
   lottie: ^2.7.0
-  pinput: ^3.0.1
-  fluttertoast: ^8.2.4
   curved_navigation_bar: ^1.0.3
   firebase_core: ^2.30.0
   cloud_firestore:
@@ -48,14 +46,8 @@ dependencies:
   intl: ^0.18.1
   http: ^1.2.1
   flutter_animate: ^4.5.0
-  motion: ^2.0.0
-  animated_text_kit: ^4.2.2
-  quiver: ^3.2.1
-  simple_animated_button: ^0.0.9
-  gradiant_button_animations: ^0.0.1
   google_fonts: ^5.1.0
   flashy_tab_bar2: ^0.0.10
-  fluentui_system_icons: ^1.1.238
   font_awesome_flutter: ^10.7.0    
   firebase_storage: any
   translator: ^1.0.0

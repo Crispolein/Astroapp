@@ -20,12 +20,14 @@ class MyApp extends StatelessWidget {
 }
 
 class NoticiasadminPage extends StatelessWidget {
+  const NoticiasadminPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false, // Para quitar la flecha de retroceso
-        title: Text(
+        title: const Text(
           'Últimas Noticias',
           style: TextStyle(
             fontSize: 26.0,
@@ -56,15 +58,15 @@ class NoticiasadminPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.add,
                   size: 120,
                   color: Colors.purple,
                 ),
               ),
             ),
-            SizedBox(height: 10),
-            Text(
+            const SizedBox(height: 10),
+            const Text(
               'Agregar Noticia',
               style: TextStyle(
                 fontSize: 22,
@@ -72,7 +74,7 @@ class NoticiasadminPage extends StatelessWidget {
                 color: Colors.purple,
               ),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             SizedBox(
               width: double.infinity,
               height: 200,
@@ -81,7 +83,7 @@ class NoticiasadminPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ListarNoticia(
+                        builder: (context) => const ListarNoticia(
                               elemento: '',
                             )),
                   );
@@ -92,7 +94,7 @@ class NoticiasadminPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.edit,
                   size: 120,
                   color: Colors.purple,
@@ -100,7 +102,7 @@ class NoticiasadminPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
-            Text(
+            const Text(
               'Editar Noticia',
               style: TextStyle(
                 fontSize: 22,

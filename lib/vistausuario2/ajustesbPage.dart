@@ -21,20 +21,20 @@ class _AjustesbPageState extends State<AjustesbPage> {
       themeNotifier.toggleTheme();
       _updateAppBarColor();
       SettingsManager.setModoNocturnoEnabled(
-          _modoNocturnoEnabled); // Save setting
+          _modoNocturnoEnabled); 
     });
   }
 
   void _updateAppBarColor() {
     _appBarColor = themeNotifier.value == ThemeMode.dark
-        ? Color(0xFF1C1C1E) // Dark theme color
-        : Color.fromARGB(255, 255, 255, 255); // Light theme color
+        ? Color(0xFF1C1C1E) 
+        : Color.fromARGB(255, 255, 255, 255); 
   }
 
   void _vibrate() {
     if (_vibracionEnabled && Vibration.hasVibrator() != null) {
       Vibration.vibrate(
-          duration: 50); // Duración de la vibración en milisegundos
+          duration: 50);
     }
   }
 
@@ -42,7 +42,7 @@ class _AjustesbPageState extends State<AjustesbPage> {
   void initState() {
     super.initState();
     _loadSettings();
-    _updateAppBarColor(); // Update AppBar color on initial load
+    _updateAppBarColor(); 
   }
 
   Future<void> _loadSettings() async {
@@ -50,22 +50,22 @@ class _AjustesbPageState extends State<AjustesbPage> {
     _sonidoEnabled = await SettingsManager.getSonidoEnabled();
     _modoNocturnoEnabled = await SettingsManager.getModoNocturnoEnabled();
     _recordatorioEnabled = await SettingsManager.getRecordatorioEnabled();
-    setState(() {}); // Update UI with loaded settings
+    setState(() {}); 
   }
 
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
-      duration: Duration(milliseconds: 1500), // Slower transition
+      duration: Duration(milliseconds: 1500), 
       child: Scaffold(
         key: ValueKey<bool>(
-            _modoNocturnoEnabled), // Key to trigger the animation
+            _modoNocturnoEnabled),
         backgroundColor: themeNotifier.value == ThemeMode.dark
             ? Color(0xFF1C1C1E)
             : Color.fromARGB(255, 255, 255, 255),
         appBar: AppBar(
           title: Text('Ajustes'),
-          backgroundColor: _appBarColor, // Set dynamic AppBar color
+          backgroundColor: _appBarColor,
         ),
         body: SingleChildScrollView(
           padding: EdgeInsets.all(16.0),
@@ -82,9 +82,9 @@ class _AjustesbPageState extends State<AjustesbPage> {
                       setState(() {
                         _vibracionEnabled = !_vibracionEnabled;
                         SettingsManager.setVibracionEnabled(
-                            _vibracionEnabled); // Save setting
+                            _vibracionEnabled); 
                       });
-                      _vibrate(); // Activar vibración al tocar el botón
+                      _vibrate(); 
                     },
                     hasSwitch: true,
                     isEnabled: _vibracionEnabled,
@@ -97,9 +97,9 @@ class _AjustesbPageState extends State<AjustesbPage> {
                       setState(() {
                         _sonidoEnabled = !_sonidoEnabled;
                         SettingsManager.setSonidoEnabled(
-                            _sonidoEnabled); // Save setting
+                            _sonidoEnabled); 
                       });
-                      _vibrate(); // Activar vibración al tocar el botón
+                      _vibrate(); 
                     },
                     hasSwitch: true,
                     isEnabled: _sonidoEnabled,
@@ -110,7 +110,7 @@ class _AjustesbPageState extends State<AjustesbPage> {
                     text: 'Modo Nocturno',
                     onTap: () {
                       _toggleTheme();
-                      _vibrate(); // Activar vibración al tocar el botón
+                      _vibrate(); 
                     },
                     hasSwitch: true,
                     isEnabled: _modoNocturnoEnabled,
@@ -123,9 +123,9 @@ class _AjustesbPageState extends State<AjustesbPage> {
                       setState(() {
                         _recordatorioEnabled = !_recordatorioEnabled;
                         SettingsManager.setRecordatorioEnabled(
-                            _recordatorioEnabled); // Save setting
+                            _recordatorioEnabled); 
                       });
-                      _vibrate(); // Activar vibración al tocar el botón
+                      _vibrate();
                     },
                     hasSwitch: true,
                     isEnabled: _recordatorioEnabled,
@@ -152,7 +152,6 @@ class ProfileSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Determinar el color del contenedor basado en el modo de tema
     final Color containerColor = Theme.of(context).brightness == Brightness.dark
         ? Color(0xFF2C2C2E)
         : Color(0xFFFFFFFF);
@@ -212,7 +211,6 @@ class ProfileItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Determinar el color del icono y la flecha basado en el modo de tema
     final Color iconColor = Theme.of(context).brightness == Brightness.dark
         ? Colors.orange
         : Color(0xFFF8E24AA);

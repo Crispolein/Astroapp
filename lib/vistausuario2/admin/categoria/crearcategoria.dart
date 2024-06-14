@@ -86,7 +86,6 @@ class NuevaCategoria extends StatelessWidget {
                                 id: document.id,
                                 categoria: nuevoCategoria.categoria,
                               );
-                              // ignore: use_build_context_synchronously
                               Navigator.pop(context, nuevoCategoriaConId);
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -111,7 +110,7 @@ class NuevaCategoria extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 16,
                             color:
-                                Colors.white, // Cambia el color del texto aquí
+                                Colors.white, 
                           ),
                         ),
                       ),
