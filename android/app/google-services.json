@@ -7,18 +7,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1074500372330:android:a550c1ad3b5646ced1c713",
+        "mobilesdk_app_id": "1:1074500372330:android:eaed0034cb229c78d1c713",
         "android_client_info": {
-          "package_name": "com.example.astroapp"
+          "package_name": "com.Matias.NocheAustral"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1074500372330-gd3mvb69jqk9vmjcntapbvl6iorjphdo.apps.googleusercontent.com",
+          "client_id": "1074500372330-fcsirs2g94c7bp5oq0d0ftm0lpbf759c.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.astroapp",
-            "certificate_hash": "42660c10c6ca32689edec4b6778256a43d854f96"
+            "package_name": "com.Matias.NocheAustral",
+            "certificate_hash": "da92002cb0ffde9e7ef6b32f7c35a86d9e824870"
           }
         },
         {
