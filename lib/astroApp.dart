@@ -68,7 +68,7 @@ class _AstroAppState extends State<AstroApp> {
 
   Widget _title() {
     return const Text(
-      "AstroApp",
+      "Noche Austral",
       style: TextStyle(
         color: Colors.white,
         fontSize: 36,
