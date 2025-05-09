@@ -23,6 +23,7 @@ class _EditarQuizPageState extends State<EditarQuizPage> {
   late TextEditingController _respuesta2Controller;
   late TextEditingController _respuesta3Controller;
   late TextEditingController _respuesta4Controller;
+  late TextEditingController _retroalimentacionController;
   String? _respuestaCorrecta;
   String? _dificultad;
   File? _imagenFile;
@@ -39,6 +40,7 @@ class _EditarQuizPageState extends State<EditarQuizPage> {
     _respuesta2Controller = TextEditingController(text: widget.quiz.respuesta2);
     _respuesta3Controller = TextEditingController(text: widget.quiz.respuesta3);
     _respuesta4Controller = TextEditingController(text: widget.quiz.respuesta4);
+    _retroalimentacionController = TextEditingController(text: widget.quiz.retroalimentacion ?? '');
     _respuestaCorrecta = widget.quiz.respuestaCorrecta;
     _dificultad = widget.quiz.dificultad;
     _categoriaSeleccionada = widget.quiz.categoria ?? '';
@@ -93,6 +95,7 @@ class _EditarQuizPageState extends State<EditarQuizPage> {
         categoria: _categoriaSeleccionada,
         dificultad: _dificultad!,
         imagenURL: imagenURL,
+        retroalimentacion: _retroalimentacionController.text,
       );
 
       await FirebaseFirestore.instance
@@ -152,6 +155,32 @@ class _EditarQuizPageState extends State<EditarQuizPage> {
                     ),
                     const SizedBox(height: 20),
                     const Text(
+                      'Retroalimentación',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.teal,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: _retroalimentacionController,
+                      decoration: InputDecoration(
+                        hintText: 'Agrega retroalimentación...',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      maxLines: null,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, introduce retroalimentación';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
                       'Agregar Imagen',
                       style: TextStyle(
                         fontSize: 18,
@@ -186,13 +215,6 @@ class _EditarQuizPageState extends State<EditarQuizPage> {
                       const SizedBox(height: 10),
                       Image.network(widget.quiz.imagenURL!),
                     ],
-                    const SizedBox(height: 20),
-                    const Text(
-                      'Opcional',
-                      style: TextStyle(
-                        fontSize: 12,
-                      ),
-                    ),
                     const SizedBox(height: 20),
                     const Text(
                       'Opciones',

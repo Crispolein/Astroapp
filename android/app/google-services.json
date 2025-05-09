@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "1074500372330-fcsirs2g94c7bp5oq0d0ftm0lpbf759c.apps.googleusercontent.com",
+          "client_id": "1074500372330-vqkqmm98j3tdkbt583a9ma9p6vdd1uc6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.Matias.NocheAustral",
-            "certificate_hash": "da92002cb0ffde9e7ef6b32f7c35a86d9e824870"
+            "certificate_hash": "9bdb180548f763fdc6145948809d02b3092fb63b"
           }
         },
         {
