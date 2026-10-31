@@ -29,6 +29,8 @@ flutter pub get
 flutter run
 ```
 
+La clave de la API de NASA no va en el código. Sin ella la app usa `DEMO_KEY`, que tiene límite bajo. Para usar la tuya: `flutter run --dart-define=NASA_API_KEY=tu_clave`.
+
 Para elegir plataforma, usa `flutter run -d chrome`, `-d macos` o el id de un dispositivo Android.
 
 ## Estructura

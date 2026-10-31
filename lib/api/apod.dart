@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
+// Clave de NASA por --dart-define=NASA_API_KEY=...; DEMO_KEY es la pública y limitada de NASA.
+const _apiKey = String.fromEnvironment('NASA_API_KEY', defaultValue: 'DEMO_KEY');
+
 class ApodApi {
   final String? title;
   final String? explanation;
@@ -31,7 +34,7 @@ class ApodApi {
 Future<ApodApi> fetchApod({required String date}) async {
   try {
     var response = await http.get(Uri.parse(
-        "https://api.nasa.gov/planetary/apod?api_key=rgjdbcX24SLIQ6IO9eup4x3tezKgecjxa514kH7Y&date=$date"));
+        "https://api.nasa.gov/planetary/apod?api_key=$_apiKey&date=$date"));
 
     if (response.statusCode == 200) {
       return ApodApi.fromJson(json.decode(response.body));
