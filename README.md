@@ -1,16 +1,49 @@
-# astroapp
+# Astroapp
 
-A new Flutter project.
+Astroapp es una aplicación Flutter de divulgación astronómica con noticias, juegos de preguntas y datos del cielo. Tiene dos tipos de cuenta, usuario y administrador. El administrador publica noticias y crea el contenido de los juegos.
 
-## Getting Started
+## Qué incluye
 
-This project is a starting point for a Flutter application.
+- Noticias por categoría, con vista completa.
+- Cuatro juegos: quiz, verdadero o falso, términos pareados y memorice, con ranking. Quiz y verdadero o falso tienen tres niveles.
+- Imagen astronómica del día de la API APOD de la NASA.
+- Posición de la Estación Espacial Internacional en un mapa.
+- Fase lunar y calendario lunar.
+- Registro, login con correo o Google, recuperación de contraseña y edición de perfil.
+- Tema claro y oscuro.
+- Panel de administración para noticias, categorías y juegos.
 
-A few resources to get you started if this is your first Flutter project:
+## Stack
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Flutter y Dart (SDK `>=3.3.2 <4.0.0`)
+- Firebase: Auth, Cloud Firestore y Storage
+- `go_router` para la navegación
+- `provider`, `flutter_map`, `lottie`, `table_calendar`
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Cómo correrlo
+
+Requiere Flutter instalado. El archivo `lib/firebase_options.dart` ya viene en el repo.
+
+```bash
+flutter pub get
+flutter run
+```
+
+Para elegir plataforma, usa `flutter run -d chrome`, `-d macos` o el id de un dispositivo Android.
+
+## Estructura
+
+```
+lib/
+  main.dart           inicio y tema
+  router/             rutas con go_router
+  Login/              registro, login y contraseña
+  api/                APOD de la NASA y posición de la ISS
+  pagina/             home y perfil
+  vistausuario2/      vistas de usuario, juegos y panel admin
+assets/               imágenes y animaciones
+```
+
+## Estado
+
+Desarrollo principal entre junio y diciembre de 2024. Último commit en mayo de 2025.
